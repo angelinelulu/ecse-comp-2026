@@ -1,0 +1,34 @@
+Added Component: Designator=J1(CON3_1X3_TU_TSW)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2026 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Samtec Inc"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "TSW-103-22-G-S"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Added Component: Designator=SW1(SW_B3F-1050_OMR)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2025 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Omron"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "B3F-1055"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Added Component: Designator=SW2(SW_B3F-1050_OMR)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2025 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Omron"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "B3F-1055"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin H0-1
+Add Pin To Net: Unknown Pin: Pin H0-2
+Add Pin To Net: Unknown Pin: Pin H0-3
+Added Pin To Net: NetName=A Pin=J1-1
+Added Pin To Net: NetName=B Pin=J1-2
+Added Pin To Net: NetName=GND Pin=J1-3
+Added Pin To Net: NetName=A Pin=SW1-1
+Added Pin To Net: NetName=A Pin=SW1-2
+Added Pin To Net: NetName=GND Pin=SW1-3
+Added Pin To Net: NetName=GND Pin=SW1-4
+Added Pin To Net: NetName=B Pin=SW2-1
+Added Pin To Net: NetName=B Pin=SW2-2
+Added Pin To Net: NetName=GND Pin=SW2-3
+Added Pin To Net: NetName=GND Pin=SW2-4
+Added Class: Name=TriggerPadSchematic
+Added Room: Name=TriggerPad
