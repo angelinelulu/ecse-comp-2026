@@ -1,0 +1,52 @@
+Change Component Footprint: Designator=SW2 Old Footprint=FP-B3F-1055-MFG New Footprint=ESWI-TL1105SPF_V
+Change Component Footprint: Designator=SW3 Old Footprint=FP-B3F-1055-MFG New Footprint=ESWI-TL1105SPF_V
+Change Component Footprint: Designator=SW4 Old Footprint=FP-B3F-1055-MFG New Footprint=ESWI-TL1105SPF_V
+Change Component Comment : Designator=SW2 Old Comment=B3F-1055 New Comment=TL1105SPF160Q
+Change Component Comment : Designator=SW3 Old Comment=B3F-1055 New Comment=TL1105SPF160Q
+Change Component Comment : Designator=SW4 Old Comment=B3F-1055 New Comment=TL1105SPF160Q
+Change Component Designator: OldDesignator=H? NewDesignator=H1
+Change Managed Component Library Link : Designator=SW2 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=DA990762-57F4-40E2-BFDF-C559DC09DFFB New ItemGUID=9EB062E9-2E3A-4C63-942E-AD70841B74D2 Old RevisionGUID=F6DA909C-8526-43B6-B205-3E8D658F06A3 New RevisionGUID=115F61A8-FE3E-4610-8501-8BC7D3B3027F
+Change Managed Component Library Link : Designator=SW3 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=DA990762-57F4-40E2-BFDF-C559DC09DFFB New ItemGUID=9EB062E9-2E3A-4C63-942E-AD70841B74D2 Old RevisionGUID=F6DA909C-8526-43B6-B205-3E8D658F06A3 New RevisionGUID=115F61A8-FE3E-4610-8501-8BC7D3B3027F
+Change Managed Component Library Link : Designator=SW4 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=DA990762-57F4-40E2-BFDF-C559DC09DFFB New ItemGUID=9EB062E9-2E3A-4C63-942E-AD70841B74D2 Old RevisionGUID=F6DA909C-8526-43B6-B205-3E8D658F06A3 New RevisionGUID=115F61A8-FE3E-4610-8501-8BC7D3B3027F
+Change component parameters: Designator = "SW2" ("SW2"); Footprint = "FP-B3F-1055-MFG"; UniqueID = "\YCSBDRIS" ("\YCSBDRIS")
+Change component parameters (AddParameter): Name = "Actuation Force"; Value = "1.6N"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Actuator Style"; Value = "RoundButton"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Material"; Value = "Silver"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "https://www.e-switch.com/system/asset/product_line/data_sheet/140/TL1105.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "12/2013"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "E-Switch"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer URL"; Value = "http://www.e-switch.ch/en/"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mounting Technology"; Value = "ThroughHole"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Description"; Value = "4-Pin Through Hole Device, Body 6 x 6 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Reference"; Value = "TL1105SPF"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package URL"; Value = "http://spec_sheets.e-switch.com/specs/P010201.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Size"; Value = "6x6mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Termination Style"; Value = "RightAngle"; VariantName = "[No Variations]"
+Change component parameters: Designator = "SW3" ("SW3"); Footprint = "FP-B3F-1055-MFG"; UniqueID = "\FFRDTSIB" ("\FFRDTSIB")
+Change component parameters (AddParameter): Name = "Actuation Force"; Value = "1.6N"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Actuator Style"; Value = "RoundButton"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Material"; Value = "Silver"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "https://www.e-switch.com/system/asset/product_line/data_sheet/140/TL1105.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "12/2013"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "E-Switch"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer URL"; Value = "http://www.e-switch.ch/en/"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mounting Technology"; Value = "ThroughHole"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Description"; Value = "4-Pin Through Hole Device, Body 6 x 6 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Reference"; Value = "TL1105SPF"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package URL"; Value = "http://spec_sheets.e-switch.com/specs/P010201.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Size"; Value = "6x6mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Termination Style"; Value = "RightAngle"; VariantName = "[No Variations]"
+Change component parameters: Designator = "SW4" ("SW4"); Footprint = "FP-B3F-1055-MFG"; UniqueID = "\NDHQNHNY" ("\NDHQNHNY")
+Change component parameters (AddParameter): Name = "Actuation Force"; Value = "1.6N"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Actuator Style"; Value = "RoundButton"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Material"; Value = "Silver"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "https://www.e-switch.com/system/asset/product_line/data_sheet/140/TL1105.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "12/2013"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "E-Switch"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer URL"; Value = "http://www.e-switch.ch/en/"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mounting Technology"; Value = "ThroughHole"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Description"; Value = "4-Pin Through Hole Device, Body 6 x 6 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Reference"; Value = "TL1105SPF"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package URL"; Value = "http://spec_sheets.e-switch.com/specs/P010201.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Size"; Value = "6x6mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Termination Style"; Value = "RightAngle"; VariantName = "[No Variations]"

@@ -1,0 +1,13 @@
+Removed Pin From Net: NetName=A Pin=SW1-1
+Removed Pin From Net: NetName=C Pin=SW3-1
+Removed Pin From Net: NetName=D Pin=SW4-1
+Added Component: Designator=H1(HEADER_2.54MM_1x5PIN)
+Added Pin To Net: NetName=A Pin=H1-1
+Added Pin To Net: NetName=B Pin=H1-2
+Added Pin To Net: NetName=C Pin=H1-3
+Added Pin To Net: NetName=D Pin=H1-4
+Added Pin To Net: NetName=GND Pin=H1-5
+Added Pin To Net: NetName=D Pin=SW1-1
+Added Pin To Net: NetName=A Pin=SW3-1
+Added Pin To Net: NetName=C Pin=SW4-1
+Added Member To Class: ClassName=DPAD Member=Component H1 HDR,2.54mm,1x5
