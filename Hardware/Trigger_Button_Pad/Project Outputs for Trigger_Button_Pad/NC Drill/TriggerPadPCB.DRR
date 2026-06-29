@@ -1,16 +1,15 @@
 ----------------------------------------------------------------------------------------------------------------------------------
-NCDrill File Report For: PCB1.PcbDoc   29/06/2026  8:18:06 pm
+NCDrill File Report For: TriggerPadPCB.PcbDoc   29/06/2026  8:49:03 pm
 ----------------------------------------------------------------------------------------------------------------------------------
 
 Layer Pair : Top Layer to Bottom Layer
-ASCII RoundHoles File : PCB1.TXT
+ASCII RoundHoles File : TriggerPadPCB.TXT
 
 Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
 ----------------------------------------------------------------------------------------------------------------------------------
-T1      1mm (39mil)                                               Round             16        PTH        100.08mm (3.94inch)
-T2      1.02mm (40mil)                                            Round             5         PTH        9.00mm (0.35inch)
-T3      3mm (118mil)                                              Round             4         NPTH       60.00mm (2.36inch)
+T1      0.89mm (35mil)                                            Round             3         PTH        5.08mm (0.20inch)
+T2      1mm (39mil)                                               Round             8         PTH        39.40mm (1.55inch)
 ----------------------------------------------------------------------------------------------------------------------------------
-Totals                                                                              25
+Totals                                                                              11
 
 Total Processing Time (hh:mm:ss) : 00:00:00

@@ -1,43 +1,99 @@
 *************************************************************
-FileName = PCB1.GBR
+FileName = TriggerPadPCB.GBR
 AutoAperture = True
 *************************************************************
 Generating : Mechanical 15
-      File : PCB1.GM15
+      File : TriggerPadPCB.GM15
 
     Adding Layer      : Mechanical 15
 
 
 Used DCodes :
-    D23
-    D24
+    D12
 *************************************************************
 
 *************************************************************
-Generating : Top 3D Body
-      File : PCB1.GM13
+Generating : Bottom Pad Master
+      File : TriggerPadPCB.GPB
 
-    Adding Layer      : Top 3D Body
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
 
 
 Used DCodes :
-    D23
+    D13
+    D14
+*************************************************************
+
+*************************************************************
+Generating : Top Pad Master
+      File : TriggerPadPCB.GPT
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+*************************************************************
+
+*************************************************************
+Generating : Top Overlay
+      File : TriggerPadPCB.GTO
+
+    Adding Layer      : Top Overlay
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : TriggerPadPCB.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+    D10
+    D11
 *************************************************************
 
 *************************************************************
 Generating : Mechanical 1
-      File : PCB1.GM1
+      File : TriggerPadPCB.GM1
 
     Adding Layer      : Mechanical 1
 
 
 Used DCodes :
-    D22
+*************************************************************
+
+*************************************************************
+Generating : Top Solder
+      File : TriggerPadPCB.GTS
+
+    Adding Layer      : Top Solder
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
 *************************************************************
 
 *************************************************************
 Generating : Bottom Paste
-      File : PCB1.GBP
+      File : TriggerPadPCB.GBP
 
     Adding Layer      : Bottom Paste
 
@@ -50,8 +106,66 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
+Generating : Mechanical 13
+      File : TriggerPadPCB.GM13
+
+    Adding Layer      : Mechanical 13
+
+
+Used DCodes :
+    D10
+    D16
+    D17
+*************************************************************
+
+*************************************************************
+Generating : Bottom Layer
+      File : TriggerPadPCB.GBL
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+*************************************************************
+
+*************************************************************
+Generating : Top Layer
+      File : TriggerPadPCB.GTL
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+    D15
+*************************************************************
+
+*************************************************************
+Generating : Bottom Solder
+      File : TriggerPadPCB.GBS
+
+    Adding Layer      : Bottom Solder
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+*************************************************************
+
+*************************************************************
 Generating : Top Paste
-      File : PCB1.GTP
+      File : TriggerPadPCB.GTP
 
     Adding Layer      : Top Paste
 
@@ -64,125 +178,11 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
-Generating : Bottom Solder
-      File : PCB1.GBS
-
-    Adding Layer      : Bottom Solder
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D13
-    D14
-    D15
-    D16
-*************************************************************
-
-*************************************************************
-Generating : Top Solder
-      File : PCB1.GTS
-
-    Adding Layer      : Top Solder
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D13
-    D14
-    D15
-    D16
-*************************************************************
-
-*************************************************************
-Generating : Top Overlay
-      File : PCB1.GTO
-
-    Adding Layer      : Top Overlay
-
-
-Used DCodes :
-    D10
-    D11
-    D12
-*************************************************************
-
-*************************************************************
-Generating : Top Pad Master
-      File : PCB1.GPT
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D18
-    D19
-    D20
-    D21
-*************************************************************
-
-*************************************************************
-Generating : Bottom Pad Master
-      File : PCB1.GPB
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D18
-    D19
-    D20
-    D21
-*************************************************************
-
-*************************************************************
-Generating : Bottom Layer
-      File : PCB1.GBL
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D18
-    D19
-    D20
-    D21
-*************************************************************
-
-*************************************************************
-Generating : Top Layer
-      File : PCB1.GTL
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D17
-    D18
-    D19
-    D20
-    D21
-*************************************************************
-
-*************************************************************
 Generating : Profile
-      File : PCB1.GM
+      File : TriggerPadPCB.GM
 
 
 Used DCodes :
-    D25
+    D18
 *************************************************************
 
