@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=A Pin=B-1
+Removed Pin From Net: NetName=B Pin=B-2
+Added Pin To Net: NetName=E Pin=B-1
+Added Pin To Net: NetName=F Pin=B-2
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component SW3 TL1105SPF160Q
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component SW4 TL1105SPF160Q

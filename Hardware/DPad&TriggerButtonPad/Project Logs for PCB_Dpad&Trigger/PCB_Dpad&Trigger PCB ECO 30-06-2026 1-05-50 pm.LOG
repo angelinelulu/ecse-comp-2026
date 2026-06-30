@@ -1,0 +1,56 @@
+Add component: Footprint Not Found HEADER_2.54MM_1x5PIN
+Added Component: Designator=J1(CON3_1X3_TU_TSW)
+Add component (AddParameter): Name = "Copyright"; Value = "Copyright (C) 2026 Ultra Librarian. All rights reserved."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Samtec Inc"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "TSW-103-22-G-S"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RefDes"; Value = "RefDes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Added Component: Designator=SW5(ESWI-TL1105SPF_V)
+Add component (AddParameter): Name = "Actuation Force"; Value = "1.6N"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Actuator Style"; Value = "RoundButton"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Material"; Value = "Silver"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet URL"; Value = "https://www.e-switch.com/system/asset/product_line/data_sheet/140/TL1105.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Version"; Value = "12/2013"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "E-Switch"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer URL"; Value = "http://www.e-switch.ch/en/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "ThroughHole"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Description"; Value = "4-Pin Through Hole Device, Body 6 x 6 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Reference"; Value = "TL1105SPF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package URL"; Value = "http://spec_sheets.e-switch.com/specs/P010201.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Size"; Value = "6x6mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Termination Style"; Value = "RightAngle"; VariantName = "[No Variations]"
+Added Component: Designator=SW6(ESWI-TL1105SPF_V)
+Add component (AddParameter): Name = "Actuation Force"; Value = "1.6N"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Actuator Style"; Value = "RoundButton"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Material"; Value = "Silver"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet URL"; Value = "https://www.e-switch.com/system/asset/product_line/data_sheet/140/TL1105.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Version"; Value = "12/2013"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "E-Switch"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer URL"; Value = "http://www.e-switch.ch/en/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "ThroughHole"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Description"; Value = "4-Pin Through Hole Device, Body 6 x 6 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Reference"; Value = "TL1105SPF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package URL"; Value = "http://spec_sheets.e-switch.com/specs/P010201.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Size"; Value = "6x6mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Termination Style"; Value = "RightAngle"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin H1-1
+Add Pin To Net: Unknown Pin: Pin H1-2
+Add Pin To Net: Unknown Pin: Pin H1-3
+Add Pin To Net: Unknown Pin: Pin H1-4
+Add Pin To Net: Unknown Pin: Pin H1-5
+Added Pin To Net: NetName=A Pin=J1-1
+Added Pin To Net: NetName=B Pin=J1-2
+Added Pin To Net: NetName=GND Pin=J1-3
+Added Pin To Net: NetName=A Pin=SW5-1
+Added Pin To Net: NetName=A Pin=SW5-2
+Added Pin To Net: NetName=GND Pin=SW5-3
+Added Pin To Net: NetName=GND Pin=SW5-4
+Added Pin To Net: NetName=B Pin=SW6-1
+Added Pin To Net: NetName=B Pin=SW6-2
+Added Pin To Net: NetName=GND Pin=SW6-3
+Added Pin To Net: NetName=GND Pin=SW6-4
+Change Class Name : Old Net Name=DPAD New Net Name=PCB_Dpad&Trigger
+Add Class Member: Failed to add class member : Component H1 HDR,2.54mm,1x5
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component J1 TSW-103-22-G-S
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component SW5 TL1105SPF160Q
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component SW6 TL1105SPF160Q

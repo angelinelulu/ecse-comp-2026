@@ -1,0 +1,21 @@
+Removed Pin From Net: NetName=D Pin=H1-4
+Removed Pin From Net: NetName=GND Pin=H1-5
+Removed Pin From Net: NetName=E Pin=J1-1
+Removed Pin From Net: NetName=F Pin=J1-2
+Removed Pin From Net: NetName=GND Pin=J1-3
+Removed Member From Class: ClassName=PCB_Dpad&Trigger Member=J1
+Change Component Footprint: Designator=H1 Old Footprint=HEADER_2.54MM_1x5PIN New Footprint=HEADER_2.54MM_1x3PIN
+Change Component Comment : Designator=H1 Old Comment=HDR,2.54mm,1x5 New Comment=HDR,2.54mm,1x3
+Change Component Designator: OldDesignator=SW3 NewDesignator=SW5
+Change Component Designator: OldDesignator=SW4 NewDesignator=SW6
+Change Component Designator: OldDesignator=SW5 NewDesignator=SW3
+Change Component Designator: OldDesignator=SW6 NewDesignator=SW4
+Added Component: Designator=B(HEADER_2.54MM_1x3PIN)
+Added Component: Designator=H2(HEADER_2.54MM_1x3PIN)
+Added Pin To Net: NetName=A Pin=B-1
+Added Pin To Net: NetName=B Pin=B-2
+Added Pin To Net: NetName=GND Pin=B-3
+Added Pin To Net: NetName=D Pin=H2-2
+Added Pin To Net: NetName=GND Pin=H2-3
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component B HDR,2.54mm,1x3
+Added Member To Class: ClassName=PCB_Dpad&Trigger Member=Component H2 HDR,2.54mm,1x3
