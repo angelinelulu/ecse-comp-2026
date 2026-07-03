@@ -13,15 +13,9 @@
             <Image url="@../images/start.png" />
          </image>
       </ImageView>
-      <Button id="start_button" fx:id="start_button" alignment="CENTER" layoutX="616.0" layoutY="304.0" mnemonicParsing="false" onAction="#StartGame" style="-fx-border-color: black; -fx-background-color: pink;" text="Start" textAlignment="CENTER">
-         <font>
-            <Font name="Arial Black" size="20.0" />
-         </font>
+      <Button id="start_button" fx:id="start_button" alignment="CENTER" layoutX="616.0" layoutY="304.0" mnemonicParsing="false" onAction="#StartGame" text="Start" textAlignment="CENTER">
       </Button>
-      <Button id="start_button" fx:id="settings_button" alignment="CENTER" layoutX="1146.0" layoutY="661.0" mnemonicParsing="false" onAction="#GameSettingsClicked" style="-fx-border-color: white; -fx-background-color: darkgreen;" text="Settings" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Arial Black" size="20.0" />
-         </font>
+      <Button id="settings_button" fx:id="settings_button" alignment="CENTER" layoutX="1146.0" layoutY="661.0" mnemonicParsing="false" onAction="#GameSettingsClicked" text="Settings" textAlignment="CENTER">
       </Button>
    </children>
 </Pane>
