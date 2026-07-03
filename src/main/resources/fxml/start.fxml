@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:controller="com.kirbken.controllers.StartController" stylesheets="@../css/start.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/start.png" />
+         </image>
+      </ImageView>
+      <Button id="start_button" fx:id="start_button" alignment="CENTER" layoutX="616.0" layoutY="304.0" mnemonicParsing="false" onAction="#StartGame" text="Start" textAlignment="CENTER">
+      </Button>
+      <Button id="settings_button" fx:id="settings_button" alignment="CENTER" layoutX="1146.0" layoutY="661.0" mnemonicParsing="false" onAction="#GameSettingsClicked" text="Settings" textAlignment="CENTER">
+      </Button>
+   </children>
+</Pane>
