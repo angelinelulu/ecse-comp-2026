@@ -1,0 +1,11 @@
+@font-face {
+    src: url("../fonts/GeistPixelRegular.ttf");
+}
+
+#start_button {
+    -fx-font-family: "Geist Pixel Regular";
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}

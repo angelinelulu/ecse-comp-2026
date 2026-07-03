@@ -1,0 +1,7 @@
+com\kirbken\controllers\StartController.class
+com\kirbken\controllers\WinController.class
+com\kirbken\Main.class
+com\kirbken\controllers\FxController.class
+com\kirbken\SceneManager.class
+com\kirbken\controllers\LoseController.class
+com\kirbken\controllers\StoryController.class
