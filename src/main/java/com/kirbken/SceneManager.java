@@ -54,8 +54,16 @@ public class SceneManager {
     }
 
     public void goToStory() {
-        StoryController controller = new StoryController(this);
-        setRoot(controller.build());
+        loadFXML("/fxml/story.fxml");
+    }
+
+    public void useDefaultCharacter() {
+        GameState.lockCharacter("Kirby");
+        // TODO: navigate to whatever comes after character selection
+    }
+
+    public void goToCardScan() {
+        // TODO: build a card-scan screen once you decide what that flow looks like
     }
 
     private void loadFXML(String path) {
