@@ -25,6 +25,8 @@ public class StartController implements FxController {
 
     @FXML
     private void GameSettingsClicked() {
-        // TODO: implement settings screen
+        manager.goToSettings();
     }
+
+
 }

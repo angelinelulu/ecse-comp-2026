@@ -32,6 +32,10 @@ public class SceneManager {
         setScene(controller.build());
     }
 
+    public void goToSettings() {
+    loadFXML("/fxml/settings.fxml");
+    }
+
     private void loadFXML(String path) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));

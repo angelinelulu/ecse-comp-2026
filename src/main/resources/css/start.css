@@ -21,7 +21,7 @@
 }
 
 #start_button:hover {
-    -fx-background-color: derive(rgb(200, 143, 249), -10%);
+    -fx-background-color: derive(rgb(180, 94, 255), -10%);
     -fx-text-fill: white;
     -fx-background-radius: 50px;
     -fx-border-radius: 50px;

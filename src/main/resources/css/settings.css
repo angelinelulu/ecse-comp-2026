@@ -1,0 +1,33 @@
+@font-face {
+    font-family: "Geist Pixel";
+    src: url("../fonts/GeistPixelRegular.ttf");
+}
+
+#settings_panel {
+    -fx-background-color: rgba(20, 20, 30, 0.9);
+    -fx-background-radius: 20px;
+    -fx-padding: 40px;
+}
+
+#settings_title {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 32px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+#settings_label {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+#back_button {
+    -fx-font-family: "Geist Pixel";
+    -fx-background-color: rgb(255, 0, 166);
+    -fx-text-fill: white;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
