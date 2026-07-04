@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -26,29 +25,12 @@ public class SceneManager {
         container.setMinSize(DESIGN_WIDTH, DESIGN_HEIGHT);
         container.setMaxSize(DESIGN_WIDTH, DESIGN_HEIGHT);
 
-        Scale scale = new Scale(1, 1, 0, 0);
-        container.getTransforms().add(scale);
-
         scene = new Scene(container, DESIGN_WIDTH, DESIGN_HEIGHT);
         stage.setScene(scene);
         stage.show();
 
-        // Recalculate scale + centering whenever the window size changes
-        scene.widthProperty().addListener((obs, oldVal, newVal) -> rescale(scale));
-        scene.heightProperty().addListener((obs, oldVal, newVal) -> rescale(scale));
-    }
-
-    private void rescale(Scale scale) {
-        double scaleX = scene.getWidth() / DESIGN_WIDTH;
-        double scaleY = scene.getHeight() / DESIGN_HEIGHT;
-        double finalScale = Math.min(scaleX, scaleY);
-
-        scale.setX(finalScale);
-        scale.setY(finalScale);
-
-        // center the scaled content within the window
-        container.setLayoutX((scene.getWidth() - DESIGN_WIDTH * finalScale) / 2);
-        container.setLayoutY((scene.getHeight() - DESIGN_HEIGHT * finalScale) / 2);
+        ViewportScaler scaler = new ViewportScaler(container, DESIGN_WIDTH, DESIGN_HEIGHT);
+        scaler.attach(scene, stage);
     }
 
     public void setFullscreen(boolean fullscreen) {
