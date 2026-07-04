@@ -2,16 +2,19 @@ package com.kirbken;
 
 public class GameState {
     private static boolean characterLocked = false;
-    private static String selectedCharacter = "Kirby";
+    private static CharacterProfile selectedCharacter = CharacterRegistry.getDefault();
 
-    public static void lockCharacter(String character) {
+    public static void setPendingCharacter(CharacterProfile profile) {
         if (!characterLocked) {
-            selectedCharacter = character;
-            characterLocked = true;
+            selectedCharacter = profile;
         }
     }
 
-    public static String getSelectedCharacter() {
+    public static void confirmCharacter() {
+        characterLocked = true;
+    }
+
+    public static CharacterProfile getSelectedCharacter() {
         return selectedCharacter;
     }
 

@@ -1,5 +1,6 @@
 package com.kirbken.controllers;
 
+import com.kirbken.CharacterRegistry;
 import com.kirbken.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -24,12 +25,12 @@ public class StoryController implements FxController {
     }
 
     @FXML
-    private void onYesClicked() {
-        manager.goToCardScan(); // placeholder
+    private void onNoClicked() {
+        manager.goToConfirmation(CharacterRegistry.getDefault());
     }
 
     @FXML
-    private void onNoClicked() {
-        manager.useDefaultCharacter();
+    private void onYesClicked() {
+        manager.goToCardScan();
     }
 }
