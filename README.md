@@ -29,6 +29,9 @@ The Tekken fighting game series
 Kirby's creativity and adaptability
 The fighting game community
 Open-source game development projects
+
 🌟 Vision
 
-KIRBKEN aims to create a unique fusion of technical fighting-game depth and playful character-driven mechanics. Whether you're practicing advanced combos, experimenting with copied abilities, or battling friends, the goal is to make every match feel expressive, creative, and f
+KIRBKEN aims to create a unique fusion of technical fighting-game depth and playful character-driven mechanics. Whether you're practicing advanced combos, experimenting with copied abilities, or battling friends, the goal is to make every match feel expressive, creative, and fun!
+
+🎮 To jumpstart the game, run:  mvn clean javafx:run 

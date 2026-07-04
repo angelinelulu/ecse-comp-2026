@@ -3,6 +3,13 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
+#start_pane {
+    -fx-background-image: url("../images/start.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
 #start_button, #settings_button {
     -fx-font-family: "Geist Pixel";
     -fx-font-weight: bold;
@@ -21,7 +28,7 @@
 }
 
 #start_button:hover {
-    -fx-background-color: derive(rgb(200, 143, 249), -10%);
+    -fx-background-color: derive(rgb(180, 94, 255), -10%);
     -fx-text-fill: white;
     -fx-background-radius: 50px;
     -fx-border-radius: 50px;
