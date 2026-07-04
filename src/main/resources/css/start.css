@@ -3,6 +3,13 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
+#start_pane {
+    -fx-background-image: url("../images/start.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
 #start_button, #settings_button {
     -fx-font-family: "Geist Pixel";
     -fx-font-weight: bold;

@@ -2,7 +2,6 @@ package com.kirbken.controllers;
 
 import com.kirbken.SceneManager;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -15,7 +14,7 @@ public class StoryController {
         this.manager = manager;
     }
 
-    public Scene build() {
+    public VBox build() {
         Label storyText = new Label(
             // TODO: replace with real storyline text
             "A challenger has appeared...\n\nWill you rise to the fight?"
@@ -32,6 +31,6 @@ public class StoryController {
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-padding: 40;");
 
-        return new Scene(root, 800, 600);
+        return root;
     }
 }

@@ -47,8 +47,7 @@ public class SettingsController implements FxController {
         });
 
         fullscreenCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            // TODO: apply to your Stage, e.g. manager.setFullscreen(newVal)
-            System.out.println("Fullscreen: " + newVal);
+            manager.setFullscreen(newVal);
         });
     }
 
