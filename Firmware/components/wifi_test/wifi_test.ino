@@ -1,7 +1,7 @@
 /*WiFiAccessPoint.ino creates a wifi hotspot and provides a web service
   Steps:
   1. Connect to the wifi "yourAp"
-  2. Access https://192.168.4.1/H to turn on the LED, or access https://192.168.4.1/L to turn off the LED*/
+  2. Access http://192.168.4.1/H to turn on the LED, or access http://192.168.4.1/L to turn off the LED*/
 
 #include <WiFi.h>
 #include <WiFiClient.h>
@@ -15,7 +15,6 @@ WiFiServer server(80);
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT); //Set the LED pin as output
-  Serial.begin(115200);
   Serial.begin(115200);
   Serial.println();
   Serial.println("Configuring access point...");
