@@ -7,12 +7,10 @@ const char *ssid = "esp32";
 const char *password = "123456789";
 WiFiServer server(80);
 
-// --- Button & LED Configuration ---
-const int NUM_BUTTONS = 4; 
-// Reassigned to safe FireBeetle 2 pins (Avoiding GPIO 2 [onboard LED] and GPIO 3 [RX])
-const int BUTTON_PINS[NUM_BUTTONS] = {4, 12, 13, 14};
-const int LED_PINS[NUM_BUTTONS]    = {25, 26, 27, 9};
-int BUTTON_STATES[NUM_BUTTONS]     = {0, 0, 0, 0}; 
+// --- Single Button & LED Configuration ---
+const int BUTTON_PIN = 4;  // Your single switch pin
+const int LED_PIN    = 25; // Your single external LED pin
+int buttonState      = 0; 
 
 // --- Joystick Configuration ---
 #define ANALOG_X_PIN A2
@@ -46,11 +44,9 @@ void setup() {
   // Initialize Web Server Built-in LED
   pinMode(LED_BUILTIN, OUTPUT); 
 
-  // Initialize Digital Buttons & LEDs
-  for (int i = 0; i < NUM_BUTTONS; i++) { 
-    pinMode(BUTTON_PINS[i], INPUT_PULLUP);
-    pinMode(LED_PINS[i], OUTPUT); 
-  }
+  // Initialize the single Button and external LED
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT); 
 
   // Initialize Joystick Button
   pinMode(ANALOG_BUTTON_PIN, INPUT_PULLUP);
@@ -68,20 +64,20 @@ void setup() {
 
 void loop() {
   // ----------------------------------------------------
-  // 1. DIGITAL BUTTONS & LEDS LOGIC
+  // 1. SINGLE DIGITAL BUTTON & LED LOGIC
   // ----------------------------------------------------
-  for (int i = 0; i < NUM_BUTTONS; i++) { 
-    BUTTON_STATES[i] = digitalRead(BUTTON_PINS[i]);
+  buttonState = digitalRead(BUTTON_PIN);
 
-    // INPUT_PULLUP means LOW = Pressed
-    if (BUTTON_STATES[i] == LOW) {
-      digitalWrite(LED_PINS[i], HIGH); // Turn LED on
-      Serial.print("Button : "); 
-      Serial.print(i); 
-      Serial.println(" has been pressed");
-    } else {
-      digitalWrite(LED_PINS[i], LOW);  // Turn LED off
-    }
+  // INPUT_PULLUP means LOW = Physical button is pressed
+  if (buttonState == LOW) {
+    digitalWrite(LED_PIN, HIGH); // Turn LED on
+  } else {
+    digitalWrite(LED_PIN, LOW);  // Turn LED off
+  }
+
+  // Check the state of the LED pin directly rather than the button 
+  if (digitalRead(LED_PIN) == HIGH) {
+    Serial.println("The LED is currently ON!");
   }
 
   // ----------------------------------------------------
