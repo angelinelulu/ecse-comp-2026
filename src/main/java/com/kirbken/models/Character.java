@@ -5,16 +5,19 @@ import javafx.scene.image.ImageView;
 public class Character {
     private ImageView sprite;
     private double x, y;
-    private boolean facingRight = true;
+    private boolean facingRight;
     private int health = 100;
     private boolean isAttacking = false;
 
-    public Character(ImageView sprite, double startX, double startY) {
+    // vvv constructor now takes a 4th parameter vvv
+    public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight) {
         this.sprite = sprite;
         this.x = startX;
         this.y = startY;
+        this.facingRight = startsFacingRight;
         sprite.setLayoutX(startX);
         sprite.setLayoutY(startY);
+        updatePosition(); // applies the correct flip immediately on creation
     }
 
     public void moveLeft() { x -= 5; facingRight = false; updatePosition(); }
