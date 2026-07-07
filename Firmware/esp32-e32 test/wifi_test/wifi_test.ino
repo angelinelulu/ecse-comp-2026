@@ -8,7 +8,7 @@
 #include <WiFiAP.h>
 
 // Set your wifi name and password
-const char *ssid = "esp32";
+const char *ssid = "fran";
 const char *password = "123456789";
 
 WiFiServer server(80);
