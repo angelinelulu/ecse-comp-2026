@@ -17,7 +17,7 @@
 
 #story_text, #prompt_text {
     -fx-font-family: "Geist Pixel";
-    -fx-font-size: 18px;
+    -fx-font-size: 15.5px;
     -fx-text-fill: black;
     -fx-text-alignment: left;
     -fx-wrap-text: true;
