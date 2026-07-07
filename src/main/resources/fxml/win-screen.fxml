@@ -19,12 +19,12 @@
             <Font size="48.0" />
          </font>
       </Label>
-      <Button fx:id="btnPlayAgain" layoutX="405.0" layoutY="292.0" mnemonicParsing="false" text="Play Again">
+      <Button fx:id="btnPlayAgain" layoutX="405.0" layoutY="292.0" mnemonicParsing="false" onAction="#onPlayAgain" text="Play Again">
          <font>
             <Font size="26.0" />
          </font>
       </Button>
-      <Button fx:id="btnHome" layoutX="780.0" layoutY="288.0" mnemonicParsing="false" text="Home">
+      <Button fx:id="btnHome" layoutX="780.0" layoutY="288.0" mnemonicParsing="false" onAction="#onHome" text="Home">
          <font>
             <Font size="26.0" />
          </font>
