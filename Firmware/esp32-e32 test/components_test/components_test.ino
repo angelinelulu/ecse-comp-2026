@@ -8,8 +8,8 @@ const char *password = "123456789";
 WiFiServer server(80);
 
 // --- Single Button & LED Configuration ---
-const int BUTTON_PIN = 4;  // Your single switch pin
-const int LED_PIN    = 25; // Your single external LED pin
+#define BUTTON_PIN D12 // Your single switch pin
+#define LED_PIN D2 // Your single external LED pin
 int buttonState      = 0; 
 
 // --- Joystick Configuration ---
