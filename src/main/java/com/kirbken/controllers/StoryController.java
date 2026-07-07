@@ -1,36 +1,47 @@
 package com.kirbken.controllers;
 
+import com.kirbken.CharacterRegistry;
 import com.kirbken.SceneManager;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
-public class StoryController {
-    private final SceneManager manager;
+public class StoryController implements FxController {
+    private SceneManager manager;
 
-    public StoryController(SceneManager manager) {
+    @FXML private Label storyText;
+    @FXML private VBox storyBox;
+    @FXML private VBox cardPromptBox;
+
+    @Override
+    public void setSceneManager(SceneManager manager) {
         this.manager = manager;
     }
 
-    public VBox build() {
-        Label storyText = new Label(
-            // TODO: replace with real storyline text
-            "A challenger has appeared...\n\nWill you rise to the fight?"
+    @FXML
+    public void initialize() {
+        storyText.setText(
+            "The world once shimmered with pastel light and laughter — until Vexthorn cracked open beneath the Starwell. Now, the balance of light and darkness teeters on the edge. You are Luma (cousin of Kirby), a brave puffling born from the glow of the Starwell itself.\n" +
+            "Your mission: restore the light, defeat Vexthorn, and bring harmony back to Dream Springs.\n" +
+            "But beware — every step you take ripples through the realms. The shadows whisper, the skies tremble, and the fate of every Puffling rests in your tiny, glowing hands."
         );
-        storyText.setStyle("-fx-font-size: 20px;");
-        storyText.setTextAlignment(TextAlignment.CENTER);
-        storyText.setWrapText(true);
+    }
 
-        Button continueButton = new Button("Continue");
-        // Do this after implementing the arena scene
-        //  continueButton.setOnAction(e -> manager.goToArena());
+    @FXML
+    private void onEnterClicked() {
+        storyBox.setVisible(false);
+        storyBox.setManaged(false);
+        cardPromptBox.setVisible(true);
+        cardPromptBox.setManaged(true);
+    }
 
-        VBox root = new VBox(30, storyText, continueButton);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-padding: 40;");
+    @FXML
+    private void onNoClicked() {
+        manager.goToConfirmation(CharacterRegistry.getDefault());
+    }
 
-        return root;
+    @FXML
+    private void onYesClicked() {
+        manager.goToCardScan();
     }
 }

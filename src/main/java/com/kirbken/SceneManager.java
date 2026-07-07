@@ -1,5 +1,6 @@
 package com.kirbken;
 
+import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
 import com.kirbken.controllers.StoryController;
 import javafx.fxml.FXMLLoader;
@@ -54,8 +55,34 @@ public class SceneManager {
     }
 
     public void goToStory() {
-        StoryController controller = new StoryController(this);
-        setRoot(controller.build());
+        loadFXML("/fxml/story.fxml");
+    }
+
+    public void goToCardScan() {
+        loadFXML("/fxml/card_scan.fxml");
+    }
+
+    public void goToConfirmation(CharacterProfile profile) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/confirmation.fxml"));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof FxController fxController) {
+                fxController.setSceneManager(this);
+            }
+            if (controller instanceof ConfirmationController confirmationController) {
+                confirmationController.setProfile(profile);
+            }
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToArena() {
+        // TODO: build your arena/battle scene
     }
 
     private void loadFXML(String path) {
