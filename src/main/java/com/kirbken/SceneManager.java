@@ -52,6 +52,10 @@ public class SceneManager {
     public void goToSettings() {
         loadFXML("/fxml/settings.fxml");
     }
+    
+    public void goToArena() {
+        loadFXML("/fxml/arena.fxml");
+    }
 
     public void goToStory() {
         StoryController controller = new StoryController(this);
