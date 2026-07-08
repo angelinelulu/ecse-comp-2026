@@ -13,6 +13,14 @@ public class FirebaseCharacterService {
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
 
+    private static final java.util.Map<String, String> SPRITE_FILES = java.util.Map.of(
+        "kirby_base", "basic.png",
+        "kirby_ninja", "ninja.png",
+        "kirby_storm", "thunder.png",
+        "kirby_angelic", "sailor.png",   
+        "kirby_buff", "boss.png"        
+    );
+
     public static CharacterProfile fetchCharacter(String key) {
         try {
             String url = BASE_URL + key + ".json";
@@ -30,10 +38,12 @@ public class FirebaseCharacterService {
             FirebaseCharacterDTO dto = gson.fromJson(response.body(), FirebaseCharacterDTO.class);
             if (dto == null || dto.stats == null) return null;
 
+            String spriteFile = SPRITE_FILES.getOrDefault(key, "basic.png");
+
             return new CharacterProfile(
                 key,
                 dto.name,
-                "/images/characters/" + key + ".png",
+                "/images/" + spriteFile,
                 dto.stats.health_points,
                 dto.stats.attack_power,
                 dto.stats.defense_rating,
@@ -46,7 +56,7 @@ public class FirebaseCharacterService {
             );
 
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // restore the interrupt flag
+            Thread.currentThread().interrupt();
             e.printStackTrace();
             return null;
         } catch (IOException e) {

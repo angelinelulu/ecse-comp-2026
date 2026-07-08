@@ -11,14 +11,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
-
+import com.kirbken.CharacterProfile;
+import com.kirbken.CharacterRegistry;
+import com.kirbken.GameState;
 import com.kirbken.utils.MusicManager;
 import com.kirbken.models.Character;
 import com.kirbken.models.Fight;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
-
 
 import java.util.Set;
 import java.util.HashSet;
@@ -59,14 +59,23 @@ public class ArenaController {
             Media media = new Media(audioUrl.toExternalForm());
             arenaAudio = new MediaPlayer(media);
             arenaAudio.setCycleCount(MediaPlayer.INDEFINITE);
-            arenaAudio.setVolume(0.3); // Set volume to 30%
+            arenaAudio.setVolume(0.3);
             arenaAudio.play();
         } else {
             System.out.println("Audio file not found!");
         }
 
-        p1 = new Character(p1Sprite, 200, 450, true);   // P1 starts facing right (toward P2)
-        p2 = new Character(p2Sprite, 900, 450, false);  // P2 starts facing left (toward P1)
+        CharacterProfile p1Profile = GameState.getSelectedCharacter();
+        CharacterProfile p2Profile = CharacterRegistry.getVexthorn();
+
+        setSpriteImage(p1Sprite, p1Profile);
+        setSpriteImage(p2Sprite, p2Profile);
+
+        p1 = new Character(p1Sprite, 200, 450, true,
+            p1Profile.getHp(), p1Profile.getAttackPower(), p1Profile.getDefensePower(), p1Profile.getSpeed());
+        p2 = new Character(p2Sprite, 900, 450, false,
+            p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
+
         fight = new Fight(p1, p2);
 
         p1Segments = new Region[]{p1Seg0, p1Seg1, p1Seg2, p1Seg3, p1Seg4, p1Seg5, p1Seg6, p1Seg7};
@@ -77,11 +86,19 @@ public class ArenaController {
         startGameLoop();
     }
 
+    private void setSpriteImage(ImageView view, CharacterProfile profile) {
+        var url = getClass().getResource(profile.getSpriteSheetPath());
+        if (url != null) {
+            view.setImage(new javafx.scene.image.Image(url.toExternalForm()));
+        } else {
+            System.out.println("No sprite found for " + profile.getDisplayName() + " at " + profile.getSpriteSheetPath());
+        }
+    }
+
     public void setupInput(Scene scene) {
         scene.setOnKeyPressed(e -> activeKeys.add(e.getCode()));
         scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
     }
-
 
     private void startGameLoop() {
         timer = new AnimationTimer() {
@@ -118,17 +135,17 @@ public class ArenaController {
     }
 
     private void updateHealthBars() {
-        int p1Lit = (int) Math.ceil((p1.getHealth() / 100.0) * 8);
-        int p2Lit = (int) Math.ceil((p2.getHealth() / 100.0) * 8);
+        int p1Lit = (int) Math.ceil((p1.getHealth() / (double) p1.getMaxHealth()) * 8);
+        int p2Lit = (int) Math.ceil((p2.getHealth() / (double) p2.getMaxHealth()) * 8);
 
         for (int i = 0; i < p1Segments.length; i++) {
             p1Segments[i].setStyle(i < p1Lit
-                ? "-fx-background-color: #ff4444; -fx-background-radius: 2;"
+                ? "-fx-background-color: #00d0ff; -fx-background-radius: 2;"
                 : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
         }
         for (int i = 0; i < p2Segments.length; i++) {
             p2Segments[i].setStyle(i < p2Lit
-                ? "-fx-background-color: #4488ff; -fx-background-radius: 2;"
+                ? "-fx-background-color: #8400ff; -fx-background-radius: 2;"
                 : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
         }
     }
@@ -164,7 +181,6 @@ public class ArenaController {
     }
 
     private void handleTimeUp() {
-        // Round timed out — decide winner by remaining health
         Character winner = (p1.getHealth() >= p2.getHealth()) ? p1 : p2;
         showWinner(winner);
     }
