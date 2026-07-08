@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
+
+import com.kirbken.utils.MusicManager;
 import com.kirbken.models.Character;
 import com.kirbken.models.Fight;
 import javafx.scene.media.Media;
@@ -49,6 +51,8 @@ public class ArenaController {
         if (fontUrl != null) {
             Font.loadFont(fontUrl.toExternalForm(), 28);
         }
+
+        MusicManager.getInstance().pause();
 
         java.net.URL audioUrl = getClass().getResource("/sounds/arenaaudio.mp3");
         if (audioUrl != null) {
@@ -166,6 +170,7 @@ public class ArenaController {
     }
 
     private void showWinner(Character winner) {
+        // MusicManager.getInstance().play();
         String name = (winner == p1) ? "Player 1" : "Player 2";
         System.out.println(name + " wins!");
         // TODO: show a label/overlay, disable further input, add a rematch button
