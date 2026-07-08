@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Arc?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 
 <Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/arena.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.ArenaController">
    <children>
@@ -74,23 +73,23 @@
     <Label fx:id="p2Label" alignment="CENTER_RIGHT" layoutX="1093.0" layoutY="31.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-family: 'Geist Pixel'; -fx-font-size: 18px; -fx-text-fill: #4488ff; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.6, 1, 1);" text="PLAYER 2" />
 
     <!-- Timer Label -->
-    <StackPane fx:id="timerContainer" layoutX="595.0" layoutY="8.0" prefHeight="100" prefWidth="130">
-        <!-- Outer glowing ring -->
-        <Circle fx:id="timerRingBackground" centerX="65" centerY="50" fill="TRANSPARENT" radius="45" stroke="#3a2a6b" strokeWidth="6" />
+    <StackPane fx:id="timerContainer" layoutX="583.0" layoutY="8.0" prefHeight="100" prefWidth="130">
+    <!-- Outer glowing ring -->
+    <Circle fx:id="timerRingBackground" centerX="65" centerY="50" fill="TRANSPARENT" managed="false" radius="37" stroke="#3a2a6b" strokeWidth="6" />
 
-        <!-- Progress ring that depletes as time runs out -->
-        <Arc fx:id="timerArc" centerX="65" centerY="50" fill="TRANSPARENT" length="360" radiusX="40.0" radiusY="40.0" startAngle="90" stroke="#00e5ff" strokeLineCap="ROUND" strokeWidth="6" type="OPEN">
-            <effect>
-                <Glow level="0.8" />
-            </effect>
-        </Arc>
+    <!-- Progress ring that depletes as time runs out -->
+    <Arc fx:id="timerArc" centerX="65" centerY="50" fill="TRANSPARENT" length="360" managed="false" radiusX="37" radiusY="37" startAngle="90" stroke="#00e5ff" strokeLineCap="ROUND" strokeWidth="6" type="OPEN">
+        <effect>
+            <Glow level="0.8" />
+        </effect>
+    </Arc>
 
-        <!-- The number -->
-        <Label fx:id="timerLabel" prefHeight="34.0" prefWidth="57.0" style="-fx-font-family: 'Tekken'; -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="3:00">
-            <effect>
-                <Glow level="0.6" />
-            </effect>
-        </Label>
-    </StackPane>
+    <!-- The number -->
+    <Label fx:id="timerLabel" style="-fx-font-family: 'Tekken'; -fx-font-size: 23px; -fx-font-weight: bold; -fx-text-fill: white;" text="3:00">
+        <effect>
+            <Glow level="0.6" />
+        </effect>
+    </Label>
+</StackPane>
    </children>
 </Pane>
