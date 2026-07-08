@@ -13,7 +13,7 @@ public class Main extends Application {
         ).getName());
         SceneManager manager = new SceneManager(primaryStage);
         primaryStage.setTitle("Puff Daddy");
-        manager.goToStart();
+        manager.goToArena();
     }
 
     public static void main(String[] args) {

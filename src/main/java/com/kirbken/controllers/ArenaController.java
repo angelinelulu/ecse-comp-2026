@@ -13,6 +13,10 @@ import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
 import com.kirbken.models.Character;
 import com.kirbken.models.Fight;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+
 
 import java.util.Set;
 import java.util.HashSet;
@@ -33,6 +37,8 @@ public class ArenaController {
     private final Set<KeyCode> activeKeys = new HashSet<>();
     private AnimationTimer timer;
 
+    private MediaPlayer arenaAudio;
+
     private static final int ROUND_DURATION_SECONDS = 180; // 3:00
     private int timeRemaining = ROUND_DURATION_SECONDS;
     private long lastSecondTick = 0;
@@ -42,6 +48,17 @@ public class ArenaController {
         java.net.URL fontUrl = getClass().getResource("/fonts/TekkenReg.ttf");
         if (fontUrl != null) {
             Font.loadFont(fontUrl.toExternalForm(), 28);
+        }
+
+        java.net.URL audioUrl = getClass().getResource("/sounds/arenaaudio.mp3");
+        if (audioUrl != null) {
+            Media media = new Media(audioUrl.toExternalForm());
+            arenaAudio = new MediaPlayer(media);
+            arenaAudio.setCycleCount(MediaPlayer.INDEFINITE);
+            arenaAudio.setVolume(0.3); // Set volume to 30%
+            arenaAudio.play();
+        } else {
+            System.out.println("Audio file not found!");
         }
 
         p1 = new Character(p1Sprite, 200, 450, true);   // P1 starts facing right (toward P2)
@@ -60,6 +77,7 @@ public class ArenaController {
         scene.setOnKeyPressed(e -> activeKeys.add(e.getCode()));
         scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
     }
+
 
     private void startGameLoop() {
         timer = new AnimationTimer() {
