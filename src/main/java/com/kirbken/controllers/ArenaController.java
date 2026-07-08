@@ -4,6 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
+import javafx.scene.shape.Arc;
+import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.animation.AnimationTimer;
@@ -19,6 +23,8 @@ public class ArenaController {
     @FXML private Region p1Seg0, p1Seg1, p1Seg2, p1Seg3, p1Seg4, p1Seg5, p1Seg6, p1Seg7;
     @FXML private Region p2Seg0, p2Seg1, p2Seg2, p2Seg3, p2Seg4, p2Seg5, p2Seg6, p2Seg7;
     @FXML private Pane rootPane;
+    @FXML private Label timerLabel;
+    @FXML private Arc timerArc;
 
     private Character p1, p2;
     private Fight fight;
@@ -27,14 +33,22 @@ public class ArenaController {
     private final Set<KeyCode> activeKeys = new HashSet<>();
     private AnimationTimer timer;
 
+    private static final int ROUND_DURATION_SECONDS = 180; // 3:00
+    private int timeRemaining = ROUND_DURATION_SECONDS;
+    private long lastSecondTick = 0;
+
     @FXML
     public void initialize() {
+        Font.loadFont(getClass().getResourceAsStream("/fonts/TekkenReg.ttf"), 28);
+
         p1 = new Character(p1Sprite, 200, 450, true);   // P1 starts facing right (toward P2)
         p2 = new Character(p2Sprite, 900, 450, false);  // P2 starts facing left (toward P1)
         fight = new Fight(p1, p2);
 
         p1Segments = new Region[]{p1Seg0, p1Seg1, p1Seg2, p1Seg3, p1Seg4, p1Seg5, p1Seg6, p1Seg7};
         p2Segments = new Region[]{p2Seg0, p2Seg1, p2Seg2, p2Seg3, p2Seg4, p2Seg5, p2Seg6, p2Seg7};
+
+        timerLabel.setText(formatTime(timeRemaining));
 
         startGameLoop();
     }
@@ -51,10 +65,17 @@ public class ArenaController {
                 handleInput();
                 fight.update();
                 updateHealthBars();
+                updateTimer(now);
 
                 if (fight.isOver()) {
                     stop();
                     showWinner(fight.getWinner());
+                    return;
+                }
+
+                if (timeRemaining <= 0) {
+                    stop();
+                    handleTimeUp();
                 }
             }
         };
@@ -85,6 +106,38 @@ public class ArenaController {
                 ? "-fx-background-color: #4488ff; -fx-background-radius: 2;"
                 : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
         }
+    }
+
+    private String formatTime(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%d:%02d", minutes, seconds);
+    }
+
+    private void updateTimer(long now) {
+        if (lastSecondTick == 0) {
+            lastSecondTick = now;
+            return;
+        }
+    
+        if (now - lastSecondTick >= 1_000_000_000L) {
+            lastSecondTick = now;
+            timeRemaining--;
+            timerLabel.setText(formatTime(Math.max(timeRemaining, 0)));
+    
+            double progress = (double) timeRemaining / ROUND_DURATION_SECONDS;
+            timerArc.setLength(360 * progress);
+    
+            if (timeRemaining <= 10) {
+                timerArc.setStroke(Color.RED);
+            }
+        }
+    }
+
+    private void handleTimeUp() {
+        // Round timed out — decide winner by remaining health
+        Character winner = (p1.getHealth() >= p2.getHealth()) ? p1 : p2;
+        showWinner(winner);
     }
 
     private void showWinner(Character winner) {
