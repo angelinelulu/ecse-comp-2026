@@ -1,10 +1,17 @@
 @font-face {
-    font-family: 'TekkenReg';
-    src: url('fonts/TekkenReg.ttf');
+    font-family: 'Tarrget Regular';
+    src: url('../fonts/TekkenReg.ttf');
 }
 
 .tekken-regular {
-    -fx-font-family: 'TekkenReg';
+    -fx-font-family: 'Tarrget Regular';
+}
+
+.victory.text {
+    -fx-font-family: 'Tarrget Regular';
+    -fx-font-size: 25px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.85), 16, 0.4, 0, 0);
 }
 
 .kirby-tekken-btn {
@@ -19,8 +26,8 @@
     
     /* Typography - Bold, Angled, and Loud */
     -fx-text-fill: #ffffff;
-    -fx-font-family: "TekkenReg"; 
-    -fx-font-size: 16px;
+    -fx-font-family: "Tarrget Regular"; 
+    -fx-font-size: 34px;
     -fx-font-weight: bold;
     -fx-font-style: italic; /* Keeps the fighting game slant */
     
@@ -50,7 +57,7 @@
 }
 
 .win-text {
-    -fx-font-family: 'TekkenReg';
+    -fx-font-family: 'Tarrget Regular';
     -fx-font-size: 48px;
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.85), 16, 0.4, 0, 0);

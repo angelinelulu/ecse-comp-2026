@@ -11,9 +11,12 @@ public class Main extends Application {
         System.out.println(Font.loadFont(
             getClass().getResourceAsStream("/fonts/GeistPixelRegular.ttf"), 20
         ).getName());
+        System.out.println(Font.loadFont(
+            getClass().getResourceAsStream("/fonts/TekkenReg.ttf"), 20
+        ).getName());
         SceneManager manager = new SceneManager(primaryStage);
         primaryStage.setTitle("Puff Daddy");
-        manager.goToStart();
+        manager.goToWin();
     }
 
     public static void main(String[] args) {

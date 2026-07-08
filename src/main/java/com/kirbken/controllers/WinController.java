@@ -46,6 +46,14 @@ public class WinController implements FxController {
         }
     }
 
+    public void setRankLabel(String text) {
+        lblRank.setText(text == null || text.isBlank() ? "Rank: N/A" : text);
+    }
+
+    public void setScoreLabel(String text) {
+        lblScore.setText(text == null || text.isBlank() ? "Score: 0" : text);
+    }
+
     // Convenience method for arena to report a winner by name.
     public void setWinnerName(String name) {
         setWinLabel((name == null || name.isBlank()) ? "You Win!" : name + " wins!");
