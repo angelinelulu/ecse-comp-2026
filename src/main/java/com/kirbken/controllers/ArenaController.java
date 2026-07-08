@@ -1,5 +1,5 @@
 package com.kirbken.controllers;
-
+import com.kirbken.models.SpriteAnimator;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.Pane;
@@ -19,6 +19,7 @@ import com.kirbken.models.Character;
 import com.kirbken.models.Fight;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 
 import java.util.Set;
 import java.util.HashSet;
@@ -76,6 +77,12 @@ public class ArenaController {
         p2 = new Character(p2Sprite, 750, 300, false,
             p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
 
+        p1.getAnimator().addFrames(SpriteAnimator.State.IDLE, "/images/basic.png");
+        p1.getAnimator().addFrames(SpriteAnimator.State.WALK, "/images/basic_kirby/run.png");
+        p1.getAnimator().addFrames(SpriteAnimator.State.ATTACK, "/images/basic_kirby/punch.png");
+        p1.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, "/images/basic_kirby/throw1.png");
+        p1.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, "/images/basic_kirby/throw2.png");
+
         fight = new Fight(p1, p2);
 
         p1Segments = new Region[]{p1Seg0, p1Seg1, p1Seg2, p1Seg3, p1Seg4, p1Seg5, p1Seg6, p1Seg7};
@@ -107,9 +114,13 @@ public class ArenaController {
                 handleInput();
                 p1.updatePhysics();
                 p2.updatePhysics();
+                p1.updateSpecial();
+                p2.updateSpecial();
+                p1.getAnimator().update(now);
+                p2.getAnimator().update(now);
                 fight.update();
                 updateHealthBars();
-                updateTimer(now);
+                updateTimer(now); 
 
                 if (fight.isOver()) {
                     stop();
@@ -129,13 +140,29 @@ public class ArenaController {
     private void handleInput() {
         if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
         if (activeKeys.contains(KeyCode.D)) p1.moveRight();
-        if (activeKeys.contains(KeyCode.W)) p1.jump();
-        p1.setAttacking(activeKeys.contains(KeyCode.F));
+
+        boolean p1Attacking = activeKeys.contains(KeyCode.F);
+        p1.setAttacking(p1Attacking);
+        if (p1Attacking) {
+            p1.getAnimator().setState(SpriteAnimator.State.ATTACK);
+        } else if (activeKeys.contains(KeyCode.G)) {
+            p1.triggerSpecial();
+        } else if (!activeKeys.contains(KeyCode.A) && !activeKeys.contains(KeyCode.D)) {
+            p1.getAnimator().setState(SpriteAnimator.State.IDLE);
+        }
 
         if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
         if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
-        if (activeKeys.contains(KeyCode.UP)) p2.jump();
-        p2.setAttacking(activeKeys.contains(KeyCode.L));
+
+        boolean p2Attacking = activeKeys.contains(KeyCode.L);
+        p2.setAttacking(p2Attacking);
+        if (p2Attacking) {
+            p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+        } else if (activeKeys.contains(KeyCode.SEMICOLON)) {
+            p2.triggerSpecial();
+        } else if (!activeKeys.contains(KeyCode.LEFT) && !activeKeys.contains(KeyCode.RIGHT)) {
+            p2.getAnimator().setState(SpriteAnimator.State.IDLE);
+        }
     }
 
     private void updateHealthBars() {

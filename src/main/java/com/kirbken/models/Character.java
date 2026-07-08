@@ -4,8 +4,9 @@ import javafx.scene.image.ImageView;
 
 public class Character {
     private ImageView sprite;
+    private SpriteAnimator animator;
     private double x, y;
-    private final double groundY; // the Y position where the character stands normally
+    private final double groundY;
     private boolean facingRight;
 
     private final int maxHealth;
@@ -15,23 +16,25 @@ public class Character {
     private final int speed;
 
     private boolean isAttacking = false;
-    
 
-    // Jump physics
     private double velocityY = 0;
     private boolean isJumping = false;
     private static final double GRAVITY = 0.8;
     private static final double JUMP_STRENGTH = -18;
 
-    // Arena boundaries (adjust to match your arena.png's visible floor width)
-    private static final double SPRITE_WIDTH = 350; // matches new fitWidth
+    private static final double SPRITE_WIDTH = 350;
     private static final double MARGIN = 10;
     private static final double MIN_X = -350;
-    private static final double MAX_X = 1280 - SPRITE_WIDTH - MARGIN; // symmetric allowance matching p2's start
+    private static final double MAX_X = 1280 - SPRITE_WIDTH - MARGIN;
+
+    private long specialStartTime = 0;
+    private boolean specialActive = false;
+    private static final long SPECIAL_WINDUP_DURATION_NS = 400_000_000L;
 
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
         this.sprite = sprite;
+        this.animator = new SpriteAnimator(sprite);
         this.x = startX;
         this.y = startY;
         this.groundY = startY;
@@ -46,15 +49,21 @@ public class Character {
         updatePosition();
     }
 
+    public SpriteAnimator getAnimator() {
+        return animator;
+    }
+
     public void moveLeft() {
         x = Math.max(MIN_X, x - speed);
         facingRight = false;
+        animator.setState(SpriteAnimator.State.WALK);
         updatePosition();
     }
 
     public void moveRight() {
         x = Math.min(MAX_X, x + speed);
         facingRight = true;
+        animator.setState(SpriteAnimator.State.WALK);
         updatePosition();
     }
 
@@ -65,7 +74,6 @@ public class Character {
         }
     }
 
-    /** Call this every frame from the game loop to apply gravity/jump physics. */
     public void updatePhysics() {
         if (isJumping) {
             velocityY += GRAVITY;
@@ -78,6 +86,29 @@ public class Character {
             }
             sprite.setLayoutY(y);
         }
+    }
+
+    public void triggerSpecial() {
+        if (!specialActive) {
+            specialActive = true;
+            specialStartTime = System.nanoTime();
+            animator.setState(SpriteAnimator.State.SPECIAL_WINDUP);
+        }
+    }
+
+    public void updateSpecial() {
+        if (specialActive) {
+            long elapsed = System.nanoTime() - specialStartTime;
+            if (elapsed >= SPECIAL_WINDUP_DURATION_NS) {
+                animator.setState(SpriteAnimator.State.SPECIAL_THROW);
+                specialActive = false;
+                // TODO: spawn actual wood projectile here
+            }
+        }
+    }
+
+    public boolean isSpecialActive() {
+        return specialActive;
     }
 
     private void updatePosition() {
