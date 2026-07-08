@@ -14,6 +14,8 @@ public class WinController implements FxController {
     @FXML private Button btnPlayAgain;
     @FXML private Button btnHome;
 
+    private String outcomeText = "";
+
     @Override
     public void setSceneManager(SceneManager manager) {
         this.manager = manager;
@@ -24,6 +26,7 @@ public class WinController implements FxController {
     // if player clicks play again, go to story
     @FXML
     public void onPlayAgain(ActionEvent event) {
+        // Play again should return to the arena to rematch
         manager.goToStory();
     }
 
@@ -36,10 +39,24 @@ public class WinController implements FxController {
     // Method to set the win/lose text based on the game outcome
     @FXML
     public void setWinLoseText(String text) {
-        if (text.equals("You Win!")) {
-            lblWinLose.setText("You Win!");
+        // normalize and store outcome
+        outcomeText = text == null ? "" : text;
+        lblWinLose.setText(outcomeText);
+        // simple visual cue: add style class based on outcome
+        lblWinLose.getStyleClass().removeAll("win-text", "lose-text");
+        if (outcomeText.toLowerCase().contains("win")) {
+            lblWinLose.getStyleClass().add("win-text");
+        } else if (outcomeText.toLowerCase().contains("lose")) {
+            lblWinLose.getStyleClass().add("lose-text");
+        }
+    }
+
+    // Convenience method for arena to report a winner by name
+    public void setWinnerName(String name) {
+        if (name == null || name.isBlank()) {
+            setWinLoseText("You Lose!");
         } else {
-            lblWinLose.setText("You Lose!");
+            setWinLoseText(name + " wins!");
         }
     }
 }
