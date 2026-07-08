@@ -140,6 +140,7 @@ public class ArenaController {
     private void handleInput() {
         if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
         if (activeKeys.contains(KeyCode.D)) p1.moveRight();
+        if (activeKeys.contains(KeyCode.W)) p1.jump();
 
         boolean p1Attacking = activeKeys.contains(KeyCode.F);
         p1.setAttacking(p1Attacking);
@@ -153,6 +154,7 @@ public class ArenaController {
 
         if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
         if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
+        if (activeKeys.contains(KeyCode.UP)) p2.jump();
 
         boolean p2Attacking = activeKeys.contains(KeyCode.L);
         p2.setAttacking(p2Attacking);
