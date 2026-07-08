@@ -8,7 +8,18 @@ public class CharacterRegistry {
         "Standard pink spherical protagonist, unequipped base variant"
     );
 
+    private static final CharacterProfile VEXTHORN = new CharacterProfile(
+        "vexthorn_basic", "Vexthorn", "/images/vexthorn_basic.png",
+        120, 16, 10, 8,
+        "S", "Shadow Claw", "Dark Pulse", "Abyssal Ruin",
+        "Menacing horned entity born from the crack beneath the Starwell"
+    );
+
     public static CharacterProfile getDefault() {
         return DEFAULT;
+    }
+
+    public static CharacterProfile getVexthorn() {
+        return VEXTHORN;
     }
 }

@@ -59,14 +59,14 @@ public class ArenaController {
             Media media = new Media(audioUrl.toExternalForm());
             arenaAudio = new MediaPlayer(media);
             arenaAudio.setCycleCount(MediaPlayer.INDEFINITE);
-            arenaAudio.setVolume(0.3); // Set volume to 30%
+            arenaAudio.setVolume(0.3);
             arenaAudio.play();
         } else {
             System.out.println("Audio file not found!");
         }
 
         CharacterProfile p1Profile = GameState.getSelectedCharacter();
-        CharacterProfile p2Profile = CharacterRegistry.getDefault(); // TODO: swap for a real opponent/villain profile
+        CharacterProfile p2Profile = CharacterRegistry.getVexthorn();
 
         setSpriteImage(p1Sprite, p1Profile);
         setSpriteImage(p2Sprite, p2Profile);
