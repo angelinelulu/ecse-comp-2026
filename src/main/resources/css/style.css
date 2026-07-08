@@ -48,3 +48,10 @@
     /* Flashes Kirby-star yellow on impact instead of red */
     -fx-effect: dropshadow(three-pass-box, #ffd700, 20, 0.8, 0, 0); 
 }
+
+.win-text {
+    -fx-font-family: 'TekkenReg';
+    -fx-font-size: 48px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.85), 16, 0.4, 0, 0);
+}

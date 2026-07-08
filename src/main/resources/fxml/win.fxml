@@ -19,12 +19,12 @@
             <Point3D />
          </rotationAxis>
       </ImageView>
-      <Label fx:id="lblWinLose" layoutX="571.0" layoutY="63.0" styleClass="tekken-regular" text="Win/Lose" textFill="WHITE">
+      <Label fx:id="lblVictory" layoutX="574.0" layoutY="128.0" styleClass="tekken-regular" text="Victory!" textFill="WHITE">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <Button fx:id="btnPlayAgain" layoutX="405.0" layoutY="292.0" mnemonicParsing="false" onAction="#onPlayAgain" text="Play Again">
+      <Button fx:id="btnPlayAgain" layoutX="397.0" layoutY="517.0" mnemonicParsing="false" onAction="#onPlayAgain" text="Play Again">
          <font>
             <Font size="26.0" />
          </font>
@@ -33,7 +33,7 @@
             <String fx:value="tekken-regular" />
          </styleClass>
       </Button>
-      <Button fx:id="btnHome" layoutX="780.0" layoutY="288.0" mnemonicParsing="false" onAction="#onHome" text="Home">
+      <Button fx:id="btnHome" layoutX="780.0" layoutY="517.0" mnemonicParsing="false" onAction="#onHome" text="Home">
          <font>
             <Font size="26.0" />
          </font>
@@ -42,5 +42,15 @@
             <String fx:value="tekken-regular" />
          </styleClass>
       </Button>
+      <Label fx:id="lblRank" layoutX="390.0" layoutY="195.0" styleClass="tekken-regular" text="New Rank Achieved: Tier D" textFill="WHITE">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCard" layoutX="234.0" layoutY="301.0" styleClass="tekken-regular" text="Unlocked Card Preview: Shadow Shinobi" textFill="WHITE">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
