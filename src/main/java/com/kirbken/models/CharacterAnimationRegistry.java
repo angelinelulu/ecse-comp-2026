@@ -44,6 +44,13 @@ public class CharacterAnimationRegistry {
             "/images/ninja_kirby/throw1.png",
             "/images/ninja_kirby/throw2.png"
         ));
+        REGISTRY.put("kirby_angelic", new AnimationSet(
+            "/images/sailor.png",
+            "/images/sailor_kirby/run.png",
+            "/images/sailor_kirby/punch.png",
+            "/images/sailor_kirby/special.png",
+            "/images/sailor_kirby/special.png"
+        ));
     }
 
     public static AnimationSet get(String characterId) {
