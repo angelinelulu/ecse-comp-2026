@@ -1,8 +1,8 @@
 package com.kirbken;
 
+import com.kirbken.controllers.ArenaController;
 import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
-import com.kirbken.controllers.StoryController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -55,7 +55,17 @@ public class SceneManager {
     }
     
     public void goToArena() {
-        loadFXML("/fxml/arena.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/arena.fxml"));
+            Parent root = loader.load();
+
+            ArenaController controller = loader.getController();
+            controller.setupInput(scene);
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void goToStory() {

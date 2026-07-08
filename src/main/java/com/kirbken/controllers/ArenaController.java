@@ -1,5 +1,5 @@
 package com.kirbken.controllers;
-
+import com.kirbken.models.SpriteAnimator;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.Pane;
@@ -16,9 +16,11 @@ import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.utils.MusicManager;
 import com.kirbken.models.Character;
+import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 
 import java.util.Set;
 import java.util.HashSet;
@@ -71,10 +73,13 @@ public class ArenaController {
         setSpriteImage(p1Sprite, p1Profile);
         setSpriteImage(p2Sprite, p2Profile);
 
-        p1 = new Character(p1Sprite, 200, 450, true,
+        p1 = new Character(p1Sprite, -230, 300, true,
             p1Profile.getHp(), p1Profile.getAttackPower(), p1Profile.getDefensePower(), p1Profile.getSpeed());
-        p2 = new Character(p2Sprite, 900, 450, false,
+        p2 = new Character(p2Sprite, 750, 300, false,
             p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
+
+        applyAnimations(p1, p1Profile.getId());
+        applyAnimations(p2, p2Profile.getId());
 
         fight = new Fight(p1, p2);
 
@@ -105,9 +110,15 @@ public class ArenaController {
             @Override
             public void handle(long now) {
                 handleInput();
+                p1.updatePhysics();
+                p2.updatePhysics();
+                p1.updateSpecial();
+                p2.updateSpecial();
+                p1.getAnimator().update(now);
+                p2.getAnimator().update(now);
                 fight.update();
                 updateHealthBars();
-                updateTimer(now);
+                updateTimer(now); 
 
                 if (fight.isOver()) {
                     stop();
@@ -127,11 +138,31 @@ public class ArenaController {
     private void handleInput() {
         if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
         if (activeKeys.contains(KeyCode.D)) p1.moveRight();
-        p1.setAttacking(activeKeys.contains(KeyCode.F));
+        if (activeKeys.contains(KeyCode.W)) p1.jump();
+
+        boolean p1Attacking = activeKeys.contains(KeyCode.F);
+        p1.setAttacking(p1Attacking);
+        if (p1Attacking) {
+            p1.getAnimator().setState(SpriteAnimator.State.ATTACK);
+        } else if (activeKeys.contains(KeyCode.G)) {
+            p1.triggerSpecial();
+        } else if (!activeKeys.contains(KeyCode.A) && !activeKeys.contains(KeyCode.D)) {
+            p1.getAnimator().setState(SpriteAnimator.State.IDLE);
+        }
 
         if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
         if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
-        p2.setAttacking(activeKeys.contains(KeyCode.L));
+        if (activeKeys.contains(KeyCode.UP)) p2.jump();
+
+        boolean p2Attacking = activeKeys.contains(KeyCode.L);
+        p2.setAttacking(p2Attacking);
+        if (p2Attacking) {
+            p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+        } else if (activeKeys.contains(KeyCode.SEMICOLON)) {
+            p2.triggerSpecial();
+        } else if (!activeKeys.contains(KeyCode.LEFT) && !activeKeys.contains(KeyCode.RIGHT)) {
+            p2.getAnimator().setState(SpriteAnimator.State.IDLE);
+        }
     }
 
     private void updateHealthBars() {
@@ -178,6 +209,19 @@ public class ArenaController {
         if (timeRemaining <= 10) {
             timerArc.setStroke(Color.RED);
         }
+    }
+
+    private void applyAnimations(Character character, String characterId) {
+        var set = CharacterAnimationRegistry.get(characterId);
+        if (set == null) {
+            System.out.println("No animation set found for: " + characterId + " — using static sprite only.");
+            return;
+        }
+        character.getAnimator().addFrames(SpriteAnimator.State.IDLE, set.idle);
+        character.getAnimator().addFrames(SpriteAnimator.State.WALK, set.walk);
+        character.getAnimator().addFrames(SpriteAnimator.State.ATTACK, set.attack);
+        character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
+        character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
     }
 
     private void handleTimeUp() {
