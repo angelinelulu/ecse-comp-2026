@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'TekkenReg';
+    src: url('fonts/TekkenReg.ttf');
+}
+
+.tekken-regular {
+    -fx-font-family: 'TekkenReg';
+}
+
+.kirby-tekken-btn {
+    /* Background & Geometry - Fierce magenta to deep purple gradient */
+    -fx-background-color: linear-gradient(to bottom, #d87093 0%, #c71585 50%, #8a2be2 100%);
+    -fx-background-radius: 0; /* Pure sharp edges, arcade cabinet style */
+    
+    /* Heavy Borders - Light pink top/left, Dark violet bottom/right */
+    -fx-border-color: #ffb6c1 #4b0082 #4b0082 #ffb6c1; 
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    
+    /* Typography - Bold, Angled, and Loud */
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "TekkenReg"; 
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-style: italic; /* Keeps the fighting game slant */
+    
+    /* Spacing & Base Aura */
+    -fx-padding: 10px 25px 10px 25px;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 105, 180, 0.4), 10, 0, 0, 0);
+}
+
+/* HOVER STATE: Ready to fight (Activates hot pink neon aura) */
+.kirby-tekken-btn:hover {
+    -fx-cursor: hand;
+    /* Lighter, high-energy gradient */
+    -fx-background-color: linear-gradient(to bottom, #ff69b4 0%, #db7093 50%, #9932cc 100%);
+    -fx-text-fill: #ffe4e1; 
+    -fx-border-color: #ffb6c1 #8a2be2 #8a2be2 #ffb6c1;
+    /* Intense hot pink glow */
+    -fx-effect: dropshadow(three-pass-box, #ff1493, 15, 0.6, 0, 0); 
+}
+
+/* ARMED / PRESSED STATE: Impact! */
+.kirby-tekken-btn:armed {
+    -fx-background-color: #ff1493; /* Flashes solid, aggressive hot pink on hit */
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #ffffff;
+    /* Flashes Kirby-star yellow on impact instead of red */
+    -fx-effect: dropshadow(three-pass-box, #ffd700, 20, 0.8, 0, 0); 
+}
