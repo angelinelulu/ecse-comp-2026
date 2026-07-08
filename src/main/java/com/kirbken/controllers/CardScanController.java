@@ -6,6 +6,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
+import com.kirbken.FirebaseCharacterService;
 import com.kirbken.SceneManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -63,7 +64,8 @@ public class CardScanController implements FxController {
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             Result result = new MultiFormatReader().decode(bitmap);
 
-            String qrText = result.getText();
+            String qrText = result.getText().trim();
+            System.out.println("SCANNED RAW TEXT: [" + qrText + "]");
             scanned = true;
             onCodeScanned(qrText);
         } catch (NotFoundException e) {
@@ -72,17 +74,23 @@ public class CardScanController implements FxController {
     }
 
     private void onCodeScanned(String qrCodeId) {
-        Platform.runLater(() -> {
-            stopCamera();
+        stopCamera();
+        statusLabel.setText("Loading character data...");
 
-            CharacterProfile profile = CharacterRegistry.lookup(qrCodeId);
-            if (profile == null) {
-                profile = CharacterRegistry.getDefault();
-                statusLabel.setText("Card not recognized — using default character.");
-            }
+        new Thread(() -> {
+            System.out.println("Attempting Firebase fetch for key: [" + qrCodeId + "]");
+            CharacterProfile profile = FirebaseCharacterService.fetchCharacter(qrCodeId);
+            System.out.println("Fetch result: " + (profile != null ? profile.getDisplayName() : "NULL (not found)"));
 
-            manager.goToConfirmation(profile);
-        });
+            Platform.runLater(() -> {
+                if (profile == null) {
+                    statusLabel.setText("Card not recognized — using default character.");
+                    manager.goToConfirmation(CharacterRegistry.getDefault());
+                } else {
+                    manager.goToConfirmation(profile);
+                }
+            });
+        }).start();
     }
 
     @FXML
