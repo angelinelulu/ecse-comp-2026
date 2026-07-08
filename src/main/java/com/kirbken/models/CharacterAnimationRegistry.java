@@ -23,7 +23,20 @@ public class CharacterAnimationRegistry {
             "/images/basic_kirby/throw1.png",
             "/images/basic_kirby/throw2.png"
         ));
-        // TODO: add kirby_ninja, kirby_storm, kirby_angelic, kirby_buff, vexthorn_basic once filenames are confirmed
+        REGISTRY.put("kirby_buff", new AnimationSet(
+            "/images/boss.png",
+            "/images/boss_kirby/run.png",
+            "/images/boss_kirby/punch.png",
+            "/images/boss_kirby/special_punch.png",
+            "/images/boss_kirby/special_punch.png"
+        ));
+        REGISTRY.put("kirby_storm", new AnimationSet(
+            "/images/thunder.png",
+            "/images/storm_kirby/run.png",
+            "/images/storm_kirby/throw1.png",   // normal attack, frame 1
+            "/images/storm_kirby/special.png",
+            "/images/storm_kirby/special.png"
+        ));
     }
 
     public static AnimationSet get(String characterId) {
