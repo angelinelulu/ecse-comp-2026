@@ -39,7 +39,10 @@ public class ArenaController {
 
     @FXML
     public void initialize() {
-        Font.loadFont(getClass().getResourceAsStream("/fonts/TekkenReg.ttf"), 28);
+        java.net.URL fontUrl = getClass().getResource("/fonts/TekkenReg.ttf");
+        if (fontUrl != null) {
+            Font.loadFont(fontUrl.toExternalForm(), 28);
+        }
 
         p1 = new Character(p1Sprite, 200, 450, true);   // P1 starts facing right (toward P2)
         p2 = new Character(p2Sprite, 900, 450, false);  // P2 starts facing left (toward P1)
