@@ -1,31 +1,24 @@
 package com.kirbken.utils;
 
+import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class MusicManager {
 
     private static MusicManager instance;
-    
-    // Core storage for active audio tracks
     private final Map<String, MediaPlayer> soundCache = new HashMap<>();
     private boolean backgroundMuted = false;
 
     private MusicManager() {
-        try {
-            String musicFile = getClass().getResource("/sounds/maingameaudio.mp3").toExternalForm();
-            Media media = new Media(musicFile);
-            MediaPlayer backgroundPlayer = new MediaPlayer(media);
-            backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            backgroundPlayer.setVolume(0.5);
-            
-            // Register the main track into the cache so your functions can find it via its key
-            soundCache.put("background", backgroundPlayer);
-        } catch (Exception e) {
-            System.err.println("Could not initialize background music asset: " + e.getMessage());
-        }
+        // Load the background stream track
+        loadSound("background", "/sounds/maingameaudio.mp3");
+        // FIX: Pre-load your missing sound effect asset so playSound() can find it!
+        loadSound("buttonClick", "/sounds/buttonClick.mp3"); 
     }
 
     public static MusicManager getInstance() {
@@ -33,6 +26,25 @@ public class MusicManager {
             instance = new MusicManager();
         }
         return instance;
+    }
+
+    /** Helper method to cleanly register audio assets into the global cache */
+    public void loadSound(String soundKey, String resourcePath) {
+        try {
+            var resource = getClass().getResource(resourcePath);
+            if (resource != null) {
+                Media media = new Media(resource.toExternalForm());
+                MediaPlayer player = new MediaPlayer(media);
+                if (soundKey.equals("background") || soundKey.equals("arena")) {
+                    player.setCycleCount(MediaPlayer.INDEFINITE);
+                }
+                soundCache.put(soundKey, player);
+            } else {
+                System.err.println("Audio resource path missing: " + resourcePath);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed loading asset [" + soundKey + "]: " + e.getMessage());
+        }
     }
 
     public void play() {
@@ -49,86 +61,80 @@ public class MusicManager {
         }
     }
 
-    /** Stops all currently playing sounds. */
+    public void playSound(String soundKey, double volume) {
+        if (Platform.isFxApplicationThread()) {
+            playSoundInternal(soundKey, volume);
+        } else {
+            Platform.runLater(() -> playSoundInternal(soundKey, volume));
+        }
+    }
+
+    private void playSoundInternal(String soundKey, double volume) {
+        MediaPlayer player = soundCache.get(soundKey);
+        if (player != null) {
+            try {
+                player.seek(Duration.ZERO);
+                // If the master mute toggle is active, force volume to silence
+                player.setVolume(backgroundMuted ? 0.0 : volume);
+
+                if (player.getStatus() == MediaPlayer.Status.READY
+                    || player.getStatus() == MediaPlayer.Status.PAUSED
+                    || player.getStatus() == MediaPlayer.Status.STOPPED) {
+                    player.play();
+                }
+            } catch (Exception e) {
+                System.err.println("Error playing sound: " + soundKey + " - " + e.getMessage());
+            }
+        } else {
+            System.err.println("Sound not found in cache: " + soundKey);
+        }
+    }
+
     public void stopAllSounds() {
-        // Stop any ongoing audio transitions
         for (MediaPlayer player : soundCache.values()) {
             if (player != null) {
-                try {
-                    player.stop();
-                } catch (Exception e) {
-                    System.err.println("Error stopping sound: " + e.getMessage());
-                }
+                try { player.stop(); } catch (Exception e) { /* Ignore */ }
             }
         }
     }
 
-    /** Disposes of all MediaPlayer resources. */
     public void dispose() {
-        // Dispose all MediaPlayers to free resources
         for (MediaPlayer player : soundCache.values()) {
             if (player != null) {
-                try {
-                    player.dispose();
-                } catch (Exception e) {
-                    System.err.println("Error disposing sound: " + e.getMessage());
-                }
+                try { player.dispose(); } catch (Exception e) { /* Ignore */ }
             }
         }
         soundCache.clear();
     }
 
-    /**
-     * Sets the volume for a specific sound.
-     *
-     * @param soundKey the key identifying the sound
-     * @param volume the volume level (0.0 to 1.0)
-     */
     public void setVolume(String soundKey, double volume) {
         MediaPlayer player = soundCache.get(soundKey);
         if (player != null) {
-            try {
-                player.setVolume(volume);
-            } catch (Exception e) {
-                System.err.println("Error setting volume for " + soundKey + ": " + e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Sets the playback rate for a specific sound.
-     *
-     * @param soundKey the key identifying the sound
-     * @param rate the playback rate (1.0 is normal speed)
-     */
-    public void setRate(String soundKey, double rate) {
-        MediaPlayer player = soundCache.get(soundKey);
-        if (player != null) {
-            try {
-                player.setRate(rate);
-            } catch (Exception e) {
-                System.err.println("Error setting rate for " + soundKey + ": " + e.getMessage());
-            }
+            try { player.setVolume(volume); } catch (Exception e) { /* Ignore */ }
         }
     }
 
     public boolean toggleBackgroundMuted() {
         backgroundMuted = !backgroundMuted;
+        
+        // Mute or restore both potential master track environments
+        double bgVol = backgroundMuted ? 0.0 : 0.25;
+        double arenaVol = backgroundMuted ? 0.0 : 0.3;
+        
+        setVolume("background", bgVol);
+        setVolume("arena", arenaVol);
 
-        // Set background music volume using the unified key tracking
-        setVolume("background", backgroundMuted ? 0.0 : 0.25);
+        return backgroundMuted;
+    }
 
+    public boolean isMuted() {
         return backgroundMuted;
     }
 
     public void stopSound(String soundKey) {
         MediaPlayer player = soundCache.get(soundKey);
         if (player != null) {
-            try {
-                player.stop();
-            } catch (Exception e) {
-                System.err.println("Error stopping sound " + soundKey + ": " + e.getMessage());
-            }
+            try { player.stop(); } catch (Exception e) { /* Ignore */ }
         }
     }
 }
