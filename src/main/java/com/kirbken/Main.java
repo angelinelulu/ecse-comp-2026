@@ -16,7 +16,7 @@ public class Main extends Application {
         ).getName());
         SceneManager manager = new SceneManager(primaryStage);
         primaryStage.setTitle("Puff Daddy");
-        manager.goToWin();
+        manager.goToStart();
     }
 
     public static void main(String[] args) {
