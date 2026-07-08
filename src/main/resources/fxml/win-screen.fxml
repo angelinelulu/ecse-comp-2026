@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +15,7 @@
             <Image url="@../images/background-end.png" />
          </image>
       </ImageView>
-      <Label fx:id="lblWinLose" layoutX="571.0" layoutY="63.0" style="-fx-font-family: TekkenReg;" text="Win/Lose" textFill="WHITE">
+      <Label fx:id="lblWinLose" layoutX="571.0" layoutY="63.0" styleClass="tekken-regular" text="Win/Lose" textFill="WHITE">
          <font>
             <Font size="48.0" />
          </font>
@@ -23,11 +24,19 @@
          <font>
             <Font size="26.0" />
          </font>
+         <styleClass>
+            <String fx:value="kirby-tekken-btn" />
+            <String fx:value="tekken-regular" />
+         </styleClass>
       </Button>
       <Button fx:id="btnHome" layoutX="780.0" layoutY="288.0" mnemonicParsing="false" onAction="#onHome" text="Home">
          <font>
             <Font size="26.0" />
          </font>
+         <styleClass>
+            <String fx:value="kirby-tekken-btn" />
+            <String fx:value="tekken-regular" />
+         </styleClass>
       </Button>
    </children>
 </Pane>

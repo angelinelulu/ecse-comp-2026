@@ -32,4 +32,14 @@ public class WinController implements FxController {
     public void onHome(ActionEvent event) {
         manager.goToStart();
     }
+    
+    // Method to set the win/lose text based on the game outcome
+    @FXML
+    public void setWinLoseText(String text) {
+        if (text.equals("You Win!")) {
+            lblWinLose.setText("You Win!");
+        } else {
+            lblWinLose.setText("You Lose!");
+        }
+    }
 }
