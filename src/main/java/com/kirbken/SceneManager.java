@@ -85,10 +85,6 @@ public class SceneManager {
         }
     }
 
-    public void goToArena() {
-        // TODO: build your arena/battle scene
-    }
-
     private void loadFXML(String path) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));

@@ -25,7 +25,14 @@ public class ConfirmationController implements FxController {
         GameState.setPendingCharacter(profile);
 
         characterNameLabel.setText(profile.getDisplayName());
-        previewImage.setImage(new Image(getClass().getResourceAsStream(profile.getSpriteSheetPath())));
+
+        var spriteUrl = getClass().getResource(profile.getSpriteSheetPath());
+        if (spriteUrl != null) {
+            previewImage.setImage(new Image(spriteUrl.toExternalForm()));
+        } else {
+            System.out.println("No sprite found at: " + profile.getSpriteSheetPath() + " - skipping image.");
+            previewImage.setImage(null);
+        }
     }
 
     @FXML

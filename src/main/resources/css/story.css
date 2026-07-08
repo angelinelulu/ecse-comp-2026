@@ -45,3 +45,12 @@
     -fx-border-width: 1.5px;
     -fx-text-fill: white;
 }
+
+#yes_button:hover {
+    -fx-background-color: derive(rgb(203, 118, 134), -15%);
+    -fx-text-fill: white;
+}
+
+#no_button:hover {
+    -fx-background-color: derive(rgb(90, 30, 120), -15%);
+}
