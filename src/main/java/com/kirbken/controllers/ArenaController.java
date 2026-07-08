@@ -71,9 +71,9 @@ public class ArenaController {
         setSpriteImage(p1Sprite, p1Profile);
         setSpriteImage(p2Sprite, p2Profile);
 
-        p1 = new Character(p1Sprite, 200, 450, true,
+        p1 = new Character(p1Sprite, -230, 300, true,
             p1Profile.getHp(), p1Profile.getAttackPower(), p1Profile.getDefensePower(), p1Profile.getSpeed());
-        p2 = new Character(p2Sprite, 900, 450, false,
+        p2 = new Character(p2Sprite, 750, 300, false,
             p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
 
         fight = new Fight(p1, p2);
@@ -105,6 +105,8 @@ public class ArenaController {
             @Override
             public void handle(long now) {
                 handleInput();
+                p1.updatePhysics();
+                p2.updatePhysics();
                 fight.update();
                 updateHealthBars();
                 updateTimer(now);
@@ -127,10 +129,12 @@ public class ArenaController {
     private void handleInput() {
         if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
         if (activeKeys.contains(KeyCode.D)) p1.moveRight();
+        if (activeKeys.contains(KeyCode.W)) p1.jump();
         p1.setAttacking(activeKeys.contains(KeyCode.F));
 
         if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
         if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
+        if (activeKeys.contains(KeyCode.UP)) p2.jump();
         p2.setAttacking(activeKeys.contains(KeyCode.L));
     }
 
