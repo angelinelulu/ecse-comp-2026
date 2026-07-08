@@ -3,7 +3,6 @@ package com.kirbken.models;
 public class Fight {
 
     private static final double ATTACK_RANGE = 120;
-    private static final int ATTACK_DAMAGE = 1;
 
     private final Character p1;
     private final Character p2;
@@ -25,8 +24,8 @@ public class Fight {
         double distance = Math.abs(p1.getX() - p2.getX());
 
         if (distance < ATTACK_RANGE) {
-            if (p1.isAttacking()) p2.takeDamage(ATTACK_DAMAGE);
-            if (p2.isAttacking()) p1.takeDamage(ATTACK_DAMAGE);
+            if (p1.isAttacking()) p2.takeDamage(p1.getAttackPower());
+            if (p2.isAttacking()) p1.takeDamage(p2.getAttackPower());
         }
     }
 

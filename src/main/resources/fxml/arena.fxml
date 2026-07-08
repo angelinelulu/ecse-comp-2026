@@ -20,17 +20,8 @@
       </ImageView>
 
       <!-- Character sprites -->
-      <ImageView fx:id="p1Sprite" fitHeight="200" fitWidth="150" layoutX="200" layoutY="330">
-          <image>
-              <Image url="@../images/sailor.png" />
-          </image>
-      </ImageView>
-
-      <ImageView fx:id="p2Sprite" fitHeight="200" fitWidth="150" layoutX="900" layoutY="330">
-          <image>
-              <Image url="@../images/ninja.png" />
-          </image>
-      </ImageView>
+      <ImageView fx:id="p1Sprite" fitHeight="400" fitWidth="300" layoutX="200" layoutY="330" preserveRatio="true" />
+      <ImageView fx:id="p2Sprite" fitHeight="400" fitWidth="300" layoutX="900" layoutY="330" preserveRatio="true" />
 
       <!-- Health bars overlay -->
       <HBox layoutX="70" layoutY="60" prefWidth="1200" spacing="550">
