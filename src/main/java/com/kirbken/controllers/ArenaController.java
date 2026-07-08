@@ -122,18 +122,22 @@ public class ArenaController {
             lastSecondTick = now;
             return;
         }
-    
-        if (now - lastSecondTick >= 1_000_000_000L) {
-            lastSecondTick = now;
-            timeRemaining--;
-            timerLabel.setText(formatTime(Math.max(timeRemaining, 0)));
-    
-            double progress = (double) timeRemaining / ROUND_DURATION_SECONDS;
-            timerArc.setLength(360 * progress);
-    
-            if (timeRemaining <= 10) {
-                timerArc.setStroke(Color.RED);
-            }
+
+        long elapsedSeconds = (now - lastSecondTick) / 1_000_000_000L;
+        if (elapsedSeconds <= 0) {
+            return;
+        }
+
+        lastSecondTick += elapsedSeconds * 1_000_000_000L;
+
+        timeRemaining = Math.max(0, timeRemaining - (int) elapsedSeconds);
+        timerLabel.setText(formatTime(timeRemaining));
+
+        double progress = (double) timeRemaining / ROUND_DURATION_SECONDS;
+        timerArc.setLength(360 * progress);
+
+        if (timeRemaining <= 10) {
+            timerArc.setStroke(Color.RED);
         }
     }
 
