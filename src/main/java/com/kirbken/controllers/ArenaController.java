@@ -16,6 +16,7 @@ import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.utils.MusicManager;
 import com.kirbken.models.Character;
+import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -77,11 +78,8 @@ public class ArenaController {
         p2 = new Character(p2Sprite, 750, 300, false,
             p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
 
-        p1.getAnimator().addFrames(SpriteAnimator.State.IDLE, "/images/basic.png");
-        p1.getAnimator().addFrames(SpriteAnimator.State.WALK, "/images/basic_kirby/run.png");
-        p1.getAnimator().addFrames(SpriteAnimator.State.ATTACK, "/images/basic_kirby/punch.png");
-        p1.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, "/images/basic_kirby/throw1.png");
-        p1.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, "/images/basic_kirby/throw2.png");
+        applyAnimations(p1, p1Profile.getId());
+        applyAnimations(p2, p2Profile.getId());
 
         fight = new Fight(p1, p2);
 
@@ -211,6 +209,19 @@ public class ArenaController {
         if (timeRemaining <= 10) {
             timerArc.setStroke(Color.RED);
         }
+    }
+
+    private void applyAnimations(Character character, String characterId) {
+        var set = CharacterAnimationRegistry.get(characterId);
+        if (set == null) {
+            System.out.println("No animation set found for: " + characterId + " — using static sprite only.");
+            return;
+        }
+        character.getAnimator().addFrames(SpriteAnimator.State.IDLE, set.idle);
+        character.getAnimator().addFrames(SpriteAnimator.State.WALK, set.walk);
+        character.getAnimator().addFrames(SpriteAnimator.State.ATTACK, set.attack);
+        character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
+        character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
     }
 
     private void handleTimeUp() {
