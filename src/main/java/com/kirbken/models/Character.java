@@ -29,7 +29,10 @@ public class Character {
 
     private long specialStartTime = 0;
     private boolean specialActive = false;
+    private boolean specialThrowing = false;
+    private long throwStartTime = 0;
     private static final long SPECIAL_WINDUP_DURATION_NS = 400_000_000L;
+    private static final long SPECIAL_THROW_DURATION_NS = 300_000_000L;
 
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
@@ -89,7 +92,7 @@ public class Character {
     }
 
     public void triggerSpecial() {
-        if (!specialActive) {
+        if (!specialActive && !specialThrowing) {
             specialActive = true;
             specialStartTime = System.nanoTime();
             animator.setState(SpriteAnimator.State.SPECIAL_WINDUP);
@@ -102,13 +105,21 @@ public class Character {
             if (elapsed >= SPECIAL_WINDUP_DURATION_NS) {
                 animator.setState(SpriteAnimator.State.SPECIAL_THROW);
                 specialActive = false;
+                specialThrowing = true;
+                throwStartTime = System.nanoTime();
                 // TODO: spawn actual wood projectile here
+            }
+        } else if (specialThrowing) {
+            long elapsed = System.nanoTime() - throwStartTime;
+            if (elapsed >= SPECIAL_THROW_DURATION_NS) {
+                specialThrowing = false;
+                animator.setState(SpriteAnimator.State.IDLE);
             }
         }
     }
 
     public boolean isSpecialActive() {
-        return specialActive;
+        return specialActive || specialThrowing;
     }
 
     private void updatePosition() {
