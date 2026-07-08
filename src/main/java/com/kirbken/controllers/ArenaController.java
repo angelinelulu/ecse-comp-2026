@@ -14,8 +14,11 @@ import javafx.animation.AnimationTimer;
 import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
+import com.kirbken.utils.MusicManager;
 import com.kirbken.models.Character;
 import com.kirbken.models.Fight;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -36,6 +39,8 @@ public class ArenaController {
     private final Set<KeyCode> activeKeys = new HashSet<>();
     private AnimationTimer timer;
 
+    private MediaPlayer arenaAudio;
+
     private static final int ROUND_DURATION_SECONDS = 180; // 3:00
     private int timeRemaining = ROUND_DURATION_SECONDS;
     private long lastSecondTick = 0;
@@ -45,6 +50,19 @@ public class ArenaController {
         java.net.URL fontUrl = getClass().getResource("/fonts/TekkenReg.ttf");
         if (fontUrl != null) {
             Font.loadFont(fontUrl.toExternalForm(), 28);
+        }
+
+        MusicManager.getInstance().pause();
+
+        java.net.URL audioUrl = getClass().getResource("/sounds/arenaaudio.mp3");
+        if (audioUrl != null) {
+            Media media = new Media(audioUrl.toExternalForm());
+            arenaAudio = new MediaPlayer(media);
+            arenaAudio.setCycleCount(MediaPlayer.INDEFINITE);
+            arenaAudio.setVolume(0.3); // Set volume to 30%
+            arenaAudio.play();
+        } else {
+            System.out.println("Audio file not found!");
         }
 
         CharacterProfile p1Profile = GameState.getSelectedCharacter();
@@ -163,12 +181,12 @@ public class ArenaController {
     }
 
     private void handleTimeUp() {
-        // Round timed out — decide winner by remaining health
         Character winner = (p1.getHealth() >= p2.getHealth()) ? p1 : p2;
         showWinner(winner);
     }
 
     private void showWinner(Character winner) {
+        // MusicManager.getInstance().play();
         String name = (winner == p1) ? "Player 1" : "Player 2";
         System.out.println(name + " wins!");
         // TODO: show a label/overlay, disable further input, add a rematch button
