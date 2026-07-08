@@ -26,11 +26,12 @@ public class ConfirmationController implements FxController {
 
         characterNameLabel.setText(profile.getDisplayName());
 
-        var imageStream = getClass().getResourceAsStream(profile.getSpriteSheetPath());
-        if (imageStream != null) {
-            previewImage.setImage(new Image(imageStream));
+        var spriteUrl = getClass().getResource(profile.getSpriteSheetPath());
+        if (spriteUrl != null) {
+            previewImage.setImage(new Image(spriteUrl.toExternalForm()));
         } else {
-            System.out.println("No sprite found at: " + profile.getSpriteSheetPath() + " — skipping image.");
+            System.out.println("No sprite found at: " + profile.getSpriteSheetPath() + " - skipping image.");
+            previewImage.setImage(null);
         }
     }
 

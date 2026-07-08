@@ -45,7 +45,11 @@ public class FirebaseCharacterService {
                 dto.visual_description
             );
 
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // restore the interrupt flag
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
