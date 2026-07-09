@@ -10,6 +10,7 @@ public class Projectile {
     private final boolean movingRight;
     private final int damage;
     private boolean active = true;
+    public static final double VERTICAL_HIT_TOLERANCE = 50;
 
     public Projectile(String imagePath, double startX, double startY, boolean movingRight,
                       double speed, int damage, javafx.scene.layout.Pane parent) {
@@ -51,11 +52,16 @@ public class Projectile {
         return true;
     }
 
-    /** Simple bounding-box overlap check against a Character's current position. */
     public boolean checkHit(Character target, double targetWidth) {
         if (!active) return false;
+
         double targetCenterX = target.getCenterX();
-        return Math.abs(x - targetCenterX) < (targetWidth / 2);
+        boolean horizontalHit = Math.abs(x - targetCenterX) < (targetWidth / 2);
+
+        double targetCenterY = target.getCenterY();
+        boolean verticalHit = Math.abs(y - targetCenterY) < VERTICAL_HIT_TOLERANCE;
+
+        return horizontalHit && verticalHit;
     }
 
     public void deactivate() {

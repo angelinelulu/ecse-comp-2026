@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.shape.Rectangle;
 
 public class ArenaController implements FxController {
 
@@ -45,6 +46,9 @@ public class ArenaController implements FxController {
   private Character p1, p2;
   private Fight fight;
   private Region[] p1Segments, p2Segments;
+  private Rectangle p1HitboxDebug;
+  private Rectangle p2HitboxDebug; 
+  private static final boolean SHOW_HITBOX_DEBUG = false; // flip to false to hide once tuned / delete
 
   private final Set<KeyCode> activeKeys = new HashSet<>();
   private AnimationTimer timer;
@@ -81,6 +85,7 @@ public class ArenaController implements FxController {
         });
 
     CharacterProfile p1Profile = GameState.getSelectedCharacter();
+    System.out.println("ARENA LOADED CHARACTER: " + p1Profile.getId()); //debug
     CharacterProfile p2Profile = CharacterRegistry.getVexthorn();
 
     setSpriteImage(p1Sprite, p1Profile);
@@ -93,7 +98,7 @@ public class ArenaController implements FxController {
 
     applyAnimations(p1, p1Profile.getId());
     applyAnimations(p2, p2Profile.getId());
-
+    
     fight = new Fight(p1, p2);
 
     p1Segments = new Region[] {p1Seg0, p1Seg1, p1Seg2, p1Seg3, p1Seg4, p1Seg5, p1Seg6, p1Seg7};
@@ -145,6 +150,11 @@ public class ArenaController implements FxController {
         }
 
         updateProjectiles();
+
+        if (SHOW_HITBOX_DEBUG) {
+            updateDebugRect(p1HitboxDebug, p1);
+            updateDebugRect(p2HitboxDebug, p2);
+        }
 
         fight.update();
         updateHealthBars();
@@ -257,6 +267,12 @@ public class ArenaController implements FxController {
       character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
       character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
       projectileImages.put(character, set.projectilePath);
+
+      if (SHOW_HITBOX_DEBUG) {
+          p1HitboxDebug = createDebugRect();
+          p2HitboxDebug = createDebugRect();
+          rootPane.getChildren().addAll(p1HitboxDebug, p2HitboxDebug);
+      }
   }
 
   private void spawnProjectile(Character thrower) {
@@ -297,6 +313,21 @@ public class ArenaController implements FxController {
               it.remove();
           }
       }
+  }
+
+  private void updateDebugRect(Rectangle rect, Character character) {
+      double centerX = character.getCenterX();
+      double centerY = character.getCenterY();
+      rect.setX(centerX - CHARACTER_WIDTH / 2);
+      rect.setY(centerY - Projectile.VERTICAL_HIT_TOLERANCE);
+  }
+
+  private Rectangle createDebugRect() {
+      Rectangle rect = new Rectangle(CHARACTER_WIDTH, Projectile.VERTICAL_HIT_TOLERANCE * 2);
+      rect.setFill(javafx.scene.paint.Color.TRANSPARENT);
+      rect.setStroke(javafx.scene.paint.Color.RED);
+      rect.setStrokeWidth(2);
+      return rect;
   }
 
   private void handleTimeUp() {

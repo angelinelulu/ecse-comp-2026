@@ -26,7 +26,8 @@ public class Character {
     private static final double MARGIN = 10;
     private static final double MIN_X = -350;
     private static final double MAX_X = 1280 - SPRITE_WIDTH - MARGIN;
-    private static final double VISUAL_CENTER_OFFSET = 275;
+    private static final double VISUAL_CENTER_OFFSET = 375;
+    private static final double VISUAL_CENTER_Y_OFFSET = 200;
 
     private long specialStartTime = 0;
     private boolean specialActive = false;
@@ -149,6 +150,10 @@ public class Character {
 
     public double getCenterX() {
         return x + VISUAL_CENTER_OFFSET;
+    }
+
+    public double getCenterY() {
+        return y + VISUAL_CENTER_Y_OFFSET;
     }
 
     public int getHealth() { return health; }
