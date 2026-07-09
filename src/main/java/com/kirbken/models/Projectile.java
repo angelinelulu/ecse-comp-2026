@@ -54,8 +54,8 @@ public class Projectile {
     /** Simple bounding-box overlap check against a Character's current position. */
     public boolean checkHit(Character target, double targetWidth) {
         if (!active) return false;
-        double targetX = target.getX();
-        return Math.abs(x - targetX) < (targetWidth / 2);
+        double targetCenterX = target.getCenterX();
+        return Math.abs(x - targetCenterX) < (targetWidth / 2);
     }
 
     public void deactivate() {

@@ -26,6 +26,7 @@ public class Character {
     private static final double MARGIN = 10;
     private static final double MIN_X = -350;
     private static final double MAX_X = 1280 - SPRITE_WIDTH - MARGIN;
+    private static final double VISUAL_CENTER_OFFSET = 275;
 
     private long specialStartTime = 0;
     private boolean specialActive = false;
@@ -144,6 +145,10 @@ public class Character {
     public void takeDamage(int rawAmount) {
         int mitigated = Math.max(1, rawAmount - defensePower / 2);
         health = Math.max(0, health - mitigated);
+    }
+
+    public double getCenterX() {
+        return x + VISUAL_CENTER_OFFSET;
     }
 
     public int getHealth() { return health; }
