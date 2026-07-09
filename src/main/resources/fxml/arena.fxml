@@ -82,5 +82,15 @@
         </effect>
     </Label>
 </StackPane>
+      <ImageView fx:id="imgMute" fitHeight="44.0" fitWidth="45.0" layoutX="1227.0" layoutY="620.0" onMouseClicked="#onMute" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/muteOff.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnSetting" fitHeight="44.0" fitWidth="45.0" layoutX="1227.0" layoutY="672.0" onMouseClicked="#onSetting" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/setting.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
