@@ -6,10 +6,21 @@ import java.util.Map;
 public class CharacterAnimationRegistry {
 
     public static class AnimationSet {
-        public String idle, walk, attack, specialWindup, specialThrow;
-        public AnimationSet(String idle, String walk, String attack, String specialWindup, String specialThrow) {
-            this.idle = idle; this.walk = walk; this.attack = attack;
-            this.specialWindup = specialWindup; this.specialThrow = specialThrow;
+        public String idle;
+        public String[] walk;
+        public String attack;
+        public String specialWindup;
+        public String specialThrow;
+        public String projectilePath; // null if the special has no thrown object (e.g. melee-only specials)
+
+        public AnimationSet(String idle, String[] walk, String attack, String specialWindup,
+                             String specialThrow, String projectilePath) {
+            this.idle = idle;
+            this.walk = walk;
+            this.attack = attack;
+            this.specialWindup = specialWindup;
+            this.specialThrow = specialThrow;
+            this.projectilePath = projectilePath;
         }
     }
 
@@ -18,38 +29,47 @@ public class CharacterAnimationRegistry {
     static {
         REGISTRY.put("kirby_base", new AnimationSet(
             "/images/basic.png",
-            "/images/basic_kirby/run.png",
+            new String[]{"/images/basic_kirby/run.png", "/images/basic_kirby/run2.png"},
             "/images/basic_kirby/punch.png",
             "/images/basic_kirby/throw1.png",
-            "/images/basic_kirby/throw2.png"
+            "/images/basic_kirby/throw2.png",
+            "/images/basic_kirby/stick.png"
         ));
+
         REGISTRY.put("kirby_buff", new AnimationSet(
             "/images/boss.png",
-            "/images/boss_kirby/run.png",
+            new String[]{"/images/boss_kirby/run.png"},
             "/images/boss_kirby/punch.png",
             "/images/boss_kirby/special_punch.png",
-            "/images/boss_kirby/special_punch.png"
+            "/images/boss_kirby/special_punch.png",
+            null // melee-only special, no projectile
         ));
+
         REGISTRY.put("kirby_storm", new AnimationSet(
             "/images/thunder.png",
-            "/images/storm_kirby/run.png",
-            "/images/storm_kirby/throw1.png",   // normal attack, frame 1
+            new String[]{"/images/storm_kirby/run.png"},
+            "/images/storm_kirby/throw2.png",
+            "/images/storm_kirby/throw1.png",
             "/images/storm_kirby/special.png",
-            "/images/storm_kirby/special.png"
+            "/images/storm_kirby/power.png"
         ));
+
         REGISTRY.put("kirby_ninja", new AnimationSet(
             "/images/ninja.png",
-            "/images/ninja_kirby/run.png",
+            new String[]{"/images/ninja_kirby/run.png"},
             "/images/ninja_kirby/punch.png",
             "/images/ninja_kirby/throw1.png",
-            "/images/ninja_kirby/throw2.png"
+            "/images/ninja_kirby/throw2.png",
+            "/images/ninja_kirby/weapon.png"
         ));
+
         REGISTRY.put("kirby_angelic", new AnimationSet(
             "/images/sailor.png",
-            "/images/sailor_kirby/run.png",
+            new String[]{"/images/sailor_kirby/run.png"},
             "/images/sailor_kirby/punch.png",
+            "/images/sailor_kirby/point.png",
             "/images/sailor_kirby/special.png",
-            "/images/sailor_kirby/special.png"
+            "/images/sailor_kirby/sparkle.png"
         ));
     }
 

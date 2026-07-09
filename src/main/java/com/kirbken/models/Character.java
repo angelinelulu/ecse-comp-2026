@@ -26,10 +26,15 @@ public class Character {
     private static final double MARGIN = 10;
     private static final double MIN_X = -350;
     private static final double MAX_X = 1280 - SPRITE_WIDTH - MARGIN;
+    private static final double VISUAL_CENTER_OFFSET = 375;
+    private static final double VISUAL_CENTER_Y_OFFSET = 200;
 
     private long specialStartTime = 0;
     private boolean specialActive = false;
+    private boolean specialThrowing = false;
+    private long throwStartTime = 0;
     private static final long SPECIAL_WINDUP_DURATION_NS = 400_000_000L;
+    private static final long SPECIAL_THROW_DURATION_NS = 300_000_000L;
 
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
@@ -89,26 +94,48 @@ public class Character {
     }
 
     public void triggerSpecial() {
-        if (!specialActive) {
+        if (!specialActive && !specialThrowing) {
             specialActive = true;
             specialStartTime = System.nanoTime();
             animator.setState(SpriteAnimator.State.SPECIAL_WINDUP);
         }
     }
 
+    private boolean justThrew = false;
     public void updateSpecial() {
         if (specialActive) {
             long elapsed = System.nanoTime() - specialStartTime;
             if (elapsed >= SPECIAL_WINDUP_DURATION_NS) {
                 animator.setState(SpriteAnimator.State.SPECIAL_THROW);
                 specialActive = false;
-                // TODO: spawn actual wood projectile here
+                specialThrowing = true;
+                throwStartTime = System.nanoTime();
+                justThrew = true; // signal to ArenaController: spawn a projectile now
+            }
+        } else if (specialThrowing) {
+            long elapsed = System.nanoTime() - throwStartTime;
+            if (elapsed >= SPECIAL_THROW_DURATION_NS) {
+                specialThrowing = false;
+                animator.setState(SpriteAnimator.State.IDLE);
             }
         }
     }
 
+    /** Call once per frame from ArenaController; returns true exactly once per throw. */
+    public boolean consumeJustThrew() {
+        if (justThrew) {
+            justThrew = false;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFacingRight() {
+        return facingRight;
+    }
+
     public boolean isSpecialActive() {
-        return specialActive;
+        return specialActive || specialThrowing;
     }
 
     private void updatePosition() {
@@ -119,6 +146,14 @@ public class Character {
     public void takeDamage(int rawAmount) {
         int mitigated = Math.max(1, rawAmount - defensePower / 2);
         health = Math.max(0, health - mitigated);
+    }
+
+    public double getCenterX() {
+        return x + VISUAL_CENTER_OFFSET;
+    }
+
+    public double getCenterY() {
+        return y + VISUAL_CENTER_Y_OFFSET;
     }
 
     public int getHealth() { return health; }

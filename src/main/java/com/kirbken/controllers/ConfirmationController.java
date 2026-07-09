@@ -37,6 +37,7 @@ public class ConfirmationController implements FxController {
 
     @FXML
     private void onConfirmClicked() {
+        System.out.println("CONFIRMING CHARACTER: " + pendingProfile.getId()); //debug
         GameState.confirmCharacter();
         manager.goToArena();
     }

@@ -5,7 +5,9 @@ import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 import com.kirbken.models.Character;
+import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
+import com.kirbken.models.SpriteAnimator;
 import com.kirbken.utils.MusicManager;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +24,13 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.text.Font;
+import com.kirbken.models.Projectile;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
+import javafx.scene.shape.Rectangle;
 
 public class ArenaController implements FxController {
 
@@ -32,18 +41,24 @@ public class ArenaController implements FxController {
   @FXML private Label timerLabel;
   @FXML private Arc timerArc;
   @FXML private ImageView imgMute;
-  
+
   private SceneManager manager;
   private Character p1, p2;
   private Fight fight;
   private Region[] p1Segments, p2Segments;
+  private Rectangle p1HitboxDebug;
+  private Rectangle p2HitboxDebug; 
+  private static final boolean SHOW_HITBOX_DEBUG = false; // flip to false to hide once tuned / delete
 
   private final Set<KeyCode> activeKeys = new HashSet<>();
   private AnimationTimer timer;
 
-  // Direct instance retrieval
   private final MusicManager musicManager = MusicManager.getInstance();
-
+  private final List<Projectile> projectiles = new ArrayList<>();
+  private final Map<Character, String> projectileImages = new HashMap<>();
+  private static final double CHARACTER_WIDTH = 150; // approximate hit-box width
+  private static final int PROJECTILE_DAMAGE = 8;
+  private static final double PROJECTILE_SPEED = 4;
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
@@ -57,7 +72,6 @@ public class ArenaController implements FxController {
 
     musicManager.loadSound("arena", "/sounds/arenaaudio.mp3");
 
-    // FIX: Force JavaFX to wait until the engine layer settles before starting audio streams
     javafx.application.Platform.runLater(
         () -> {
           if (musicManager.isMuted()) {
@@ -66,37 +80,25 @@ public class ArenaController implements FxController {
           } else {
             imgMute.setImage(new Image(getClass().getResourceAsStream("/images/muteOff.png")));
             musicManager.setVolume("arena", 0.3);
-            musicManager.playSound("arena", 0.3); // Plays cleanly here!
+            musicManager.playSound("arena", 0.3);
           }
         });
 
     CharacterProfile p1Profile = GameState.getSelectedCharacter();
+    System.out.println("ARENA LOADED CHARACTER: " + p1Profile.getId()); //debug
     CharacterProfile p2Profile = CharacterRegistry.getVexthorn();
 
     setSpriteImage(p1Sprite, p1Profile);
     setSpriteImage(p2Sprite, p2Profile);
 
-    p1 =
-        new Character(
-            p1Sprite,
-            200,
-            450,
-            true,
-            p1Profile.getHp(),
-            p1Profile.getAttackPower(),
-            p1Profile.getDefensePower(),
-            p1Profile.getSpeed());
-    p2 =
-        new Character(
-            p2Sprite,
-            900,
-            450,
-            false,
-            p2Profile.getHp(),
-            p2Profile.getAttackPower(),
-            p2Profile.getDefensePower(),
-            p2Profile.getSpeed());
+    p1 = new Character(p1Sprite, -230, 300, true,
+        p1Profile.getHp(), p1Profile.getAttackPower(), p1Profile.getDefensePower(), p1Profile.getSpeed());
+    p2 = new Character(p2Sprite, 750, 300, false,
+        p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
 
+    applyAnimations(p1, p1Profile.getId());
+    applyAnimations(p2, p2Profile.getId());
+    
     fight = new Fight(p1, p2);
 
     p1Segments = new Region[] {p1Seg0, p1Seg1, p1Seg2, p1Seg3, p1Seg4, p1Seg5, p1Seg6, p1Seg7};
@@ -115,13 +117,10 @@ public class ArenaController implements FxController {
   private void setSpriteImage(ImageView view, CharacterProfile profile) {
     var url = getClass().getResource(profile.getSpriteSheetPath());
     if (url != null) {
-      view.setImage(new javafx.scene.image.Image(url.toExternalForm()));
+      view.setImage(new Image(url.toExternalForm()));
     } else {
       System.out.println(
-          "No sprite found for "
-              + profile.getDisplayName()
-              + " at "
-              + profile.getSpriteSheetPath());
+          "No sprite found for " + profile.getDisplayName() + " at " + profile.getSpriteSheetPath());
     }
   }
 
@@ -131,40 +130,81 @@ public class ArenaController implements FxController {
   }
 
   private void startGameLoop() {
-    timer =
-        new AnimationTimer() {
-          @Override
-          public void handle(long now) {
-            handleInput();
-            fight.update();
-            updateHealthBars();
-            updateTimer(now);
+    timer = new AnimationTimer() {
+    @Override
+    public void handle(long now) {
+        handleInput();
+        p1.updatePhysics();
+        p2.updatePhysics();
+        p1.updateSpecial();
+        p2.updateSpecial();
+        p1.getAnimator().update(now);
+        p2.getAnimator().update(now);
 
-            if (fight.isOver()) {
-              stop();
-              cleanupMatchAudio();
-              showWinner(fight.getWinner());
-              return;
-            }
+        // Spawn projectiles when a throw just happened
+        if (p1.consumeJustThrew()) {
+            spawnProjectile(p1);
+        }
+        if (p2.consumeJustThrew()) {
+            spawnProjectile(p2);
+        }
 
-            if (timeRemaining <= 0) {
-              stop();
-              cleanupMatchAudio();
-              handleTimeUp();
-            }
-          }
-        };
+        updateProjectiles();
+
+        if (SHOW_HITBOX_DEBUG) {
+            updateDebugRect(p1HitboxDebug, p1);
+            updateDebugRect(p2HitboxDebug, p2);
+        }
+
+        fight.update();
+        updateHealthBars();
+        updateTimer(now);
+
+        if (fight.isOver()) {
+            stop();
+            cleanupMatchAudio();
+            showWinner(fight.getWinner());
+            return;
+        }
+
+        if (timeRemaining <= 0) {
+            stop();
+            cleanupMatchAudio();
+            handleTimeUp();
+        }
+    }
+    };
     timer.start();
   }
 
   private void handleInput() {
     if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
     if (activeKeys.contains(KeyCode.D)) p1.moveRight();
-    p1.setAttacking(activeKeys.contains(KeyCode.F));
+    if (activeKeys.contains(KeyCode.W)) p1.jump();
+
+    boolean p1Attacking = activeKeys.contains(KeyCode.F);
+    p1.setAttacking(p1Attacking);
+    if (p1Attacking) {
+      p1.getAnimator().setState(SpriteAnimator.State.ATTACK);
+    } else if (activeKeys.contains(KeyCode.G)) {
+      p1.triggerSpecial();
+    } else if (!activeKeys.contains(KeyCode.A) && !activeKeys.contains(KeyCode.D)) {
+      p1.getAnimator().setState(SpriteAnimator.State.IDLE);
+    }
 
     if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
     if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
-    p2.setAttacking(activeKeys.contains(KeyCode.L));
+    if (activeKeys.contains(KeyCode.UP)) p2.jump();
+
+    boolean p2Attacking = activeKeys.contains(KeyCode.L);
+    p2.setAttacking(p2Attacking);
+    if (p2Attacking) {
+      p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+    } else if (activeKeys.contains(KeyCode.SEMICOLON)) {
+      p2.triggerSpecial();
+    } else if (!activeKeys.contains(KeyCode.LEFT) && !activeKeys.contains(KeyCode.RIGHT)) {
+      p2.getAnimator().setState(SpriteAnimator.State.IDLE);
+    }
   }
 
   private void updateHealthBars() {
@@ -215,6 +255,81 @@ public class ArenaController implements FxController {
     }
   }
 
+  private void applyAnimations(Character character, String characterId) {
+      var set = CharacterAnimationRegistry.get(characterId);
+      if (set == null) {
+          System.out.println("No animation set found for: " + characterId + " — using static sprite only.");
+          return;
+      }
+      character.getAnimator().addFrames(SpriteAnimator.State.IDLE, set.idle);
+      character.getAnimator().addFrames(SpriteAnimator.State.WALK, set.walk);
+      character.getAnimator().addFrames(SpriteAnimator.State.ATTACK, set.attack);
+      character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
+      character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
+      projectileImages.put(character, set.projectilePath);
+
+      if (SHOW_HITBOX_DEBUG) {
+          p1HitboxDebug = createDebugRect();
+          p2HitboxDebug = createDebugRect();
+          rootPane.getChildren().addAll(p1HitboxDebug, p2HitboxDebug);
+      }
+  }
+
+  private void spawnProjectile(Character thrower) {
+      String stickImage = projectileImages.get(thrower);
+      if (stickImage == null) {
+          return;
+      }
+
+      Projectile projectile = new Projectile(
+          stickImage,
+          thrower.getX() + 400,
+          500, // TODO: tune vertical spawn height
+          thrower.isFacingRight(),
+          PROJECTILE_SPEED,
+          PROJECTILE_DAMAGE,
+          rootPane
+      );
+      projectiles.add(projectile);
+  }
+
+  private void updateProjectiles() {
+      Iterator<Projectile> it = projectiles.iterator();
+      while (it.hasNext()) {
+          Projectile p = it.next();
+          boolean stillActive = p.update();
+
+          if (stillActive) {
+              Character target = p.isMovingRight() ? p2 : p1; // TODO: needs isMovingRight() getter — see below
+              if (p.checkHit(target, CHARACTER_WIDTH)) {
+                  target.takeDamage(p.getDamage());
+                  p.deactivate();
+                  stillActive = false;
+              }
+          }
+
+          if (!stillActive) {
+              rootPane.getChildren().remove(p.getView());
+              it.remove();
+          }
+      }
+  }
+
+  private void updateDebugRect(Rectangle rect, Character character) {
+      double centerX = character.getCenterX();
+      double centerY = character.getCenterY();
+      rect.setX(centerX - CHARACTER_WIDTH / 2);
+      rect.setY(centerY - Projectile.VERTICAL_HIT_TOLERANCE);
+  }
+
+  private Rectangle createDebugRect() {
+      Rectangle rect = new Rectangle(CHARACTER_WIDTH, Projectile.VERTICAL_HIT_TOLERANCE * 2);
+      rect.setFill(javafx.scene.paint.Color.TRANSPARENT);
+      rect.setStroke(javafx.scene.paint.Color.RED);
+      rect.setStrokeWidth(2);
+      return rect;
+  }
+
   private void handleTimeUp() {
     Character winner = (p1.getHealth() >= p2.getHealth()) ? p1 : p2;
     showWinner(winner);
@@ -225,14 +340,12 @@ public class ArenaController implements FxController {
     System.out.println(name + " wins!");
   }
 
-  // FIX: Cleans up background match threads before context frames jump
   private void cleanupMatchAudio() {
     musicManager.stopSound("arena");
   }
 
   @FXML
   private void onMute(MouseEvent event) {
-    // FIX: The layout now handles system-wide muting updates perfectly
     boolean muted = musicManager.toggleBackgroundMuted();
 
     if (muted) {
@@ -249,5 +362,4 @@ public class ArenaController implements FxController {
     musicManager.playSound("buttonClick", 0.5);
     manager.goToSettings();
   }
-
 }
