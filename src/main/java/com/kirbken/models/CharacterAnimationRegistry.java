@@ -48,10 +48,10 @@ public class CharacterAnimationRegistry {
         REGISTRY.put("kirby_storm", new AnimationSet(
             "/images/thunder.png",
             new String[]{"/images/storm_kirby/run.png"},
+            "/images/storm_kirby/throw2.png",
             "/images/storm_kirby/throw1.png",
             "/images/storm_kirby/special.png",
-            "/images/storm_kirby/special.png",
-            null // TODO: add the thunder image thrown
+            "/images/storm_kirby/power.png"
         ));
 
         REGISTRY.put("kirby_ninja", new AnimationSet(
@@ -67,7 +67,7 @@ public class CharacterAnimationRegistry {
             "/images/sailor.png",
             new String[]{"/images/sailor_kirby/run.png"},
             "/images/sailor_kirby/punch.png",
-            "/images/sailor_kirby/special.png",
+            "/images/sailor_kirby/point.png",
             "/images/sailor_kirby/special.png",
             "/images/sailor_kirby/sparkle.png"
         ));
