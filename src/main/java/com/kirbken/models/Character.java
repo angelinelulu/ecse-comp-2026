@@ -33,8 +33,11 @@ public class Character {
     private boolean specialActive = false;
     private boolean specialThrowing = false;
     private long throwStartTime = 0;
-    private static final long SPECIAL_WINDUP_DURATION_NS = 400_000_000L;
+    private int specialStage = 0;
+    private static final long SPECIAL_STAGE_DURATION_NS = 300_000_000L; // 0.3s per stage
     private static final long SPECIAL_THROW_DURATION_NS = 300_000_000L;
+
+    private boolean justThrew = false;
 
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
@@ -96,21 +99,30 @@ public class Character {
     public void triggerSpecial() {
         if (!specialActive && !specialThrowing) {
             specialActive = true;
+            specialStage = 1;
             specialStartTime = System.nanoTime();
             animator.setState(SpriteAnimator.State.SPECIAL_WINDUP);
         }
     }
 
-    private boolean justThrew = false;
     public void updateSpecial() {
         if (specialActive) {
             long elapsed = System.nanoTime() - specialStartTime;
-            if (elapsed >= SPECIAL_WINDUP_DURATION_NS) {
-                animator.setState(SpriteAnimator.State.SPECIAL_THROW);
-                specialActive = false;
-                specialThrowing = true;
-                throwStartTime = System.nanoTime();
-                justThrew = true; // signal to ArenaController: spawn a projectile now
+            if (elapsed >= SPECIAL_STAGE_DURATION_NS) {
+                specialStage++;
+                specialStartTime = System.nanoTime();
+
+                boolean hasSecondWindup = animator.hasFrames(SpriteAnimator.State.SPECIAL_WINDUP_2);
+
+                if (specialStage == 2 && hasSecondWindup) {
+                    animator.setState(SpriteAnimator.State.SPECIAL_WINDUP_2);
+                } else {
+                    animator.setState(SpriteAnimator.State.SPECIAL_THROW);
+                    specialActive = false;
+                    specialThrowing = true;
+                    throwStartTime = System.nanoTime();
+                    justThrew = true;
+                }
             }
         } else if (specialThrowing) {
             long elapsed = System.nanoTime() - throwStartTime;

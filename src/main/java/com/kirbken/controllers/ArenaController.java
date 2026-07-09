@@ -48,7 +48,7 @@ public class ArenaController implements FxController {
   private Region[] p1Segments, p2Segments;
   private Rectangle p1HitboxDebug;
   private Rectangle p2HitboxDebug; 
-  private static final boolean SHOW_HITBOX_DEBUG = false; // flip to false to hide once tuned / delete
+  private static final boolean SHOW_HITBOX_DEBUG = true; // flip to false to hide once tuned / delete
 
   private final Set<KeyCode> activeKeys = new HashSet<>();
   private AnimationTimer timer;
@@ -98,6 +98,12 @@ public class ArenaController implements FxController {
 
     applyAnimations(p1, p1Profile.getId());
     applyAnimations(p2, p2Profile.getId());
+    
+    if (SHOW_HITBOX_DEBUG) {
+        p1HitboxDebug = createDebugRect();
+        p2HitboxDebug = createDebugRect();
+        rootPane.getChildren().addAll(p1HitboxDebug, p2HitboxDebug);
+    }
     
     fight = new Fight(p1, p2);
 
@@ -265,14 +271,11 @@ public class ArenaController implements FxController {
       character.getAnimator().addFrames(SpriteAnimator.State.WALK, set.walk);
       character.getAnimator().addFrames(SpriteAnimator.State.ATTACK, set.attack);
       character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
+      if (set.specialWindup2 != null) {
+          character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP_2, set.specialWindup2);
+      }
       character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
       projectileImages.put(character, set.projectilePath);
-
-      if (SHOW_HITBOX_DEBUG) {
-          p1HitboxDebug = createDebugRect();
-          p2HitboxDebug = createDebugRect();
-          rootPane.getChildren().addAll(p1HitboxDebug, p2HitboxDebug);
-      }
   }
 
   private void spawnProjectile(Character thrower) {
