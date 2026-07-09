@@ -99,6 +99,7 @@ public class Character {
         }
     }
 
+    private boolean justThrew = false;
     public void updateSpecial() {
         if (specialActive) {
             long elapsed = System.nanoTime() - specialStartTime;
@@ -107,7 +108,7 @@ public class Character {
                 specialActive = false;
                 specialThrowing = true;
                 throwStartTime = System.nanoTime();
-                // TODO: spawn actual wood projectile here
+                justThrew = true; // signal to ArenaController: spawn a projectile now
             }
         } else if (specialThrowing) {
             long elapsed = System.nanoTime() - throwStartTime;
@@ -116,6 +117,19 @@ public class Character {
                 animator.setState(SpriteAnimator.State.IDLE);
             }
         }
+    }
+
+    /** Call once per frame from ArenaController; returns true exactly once per throw. */
+    public boolean consumeJustThrew() {
+        if (justThrew) {
+            justThrew = false;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFacingRight() {
+        return facingRight;
     }
 
     public boolean isSpecialActive() {

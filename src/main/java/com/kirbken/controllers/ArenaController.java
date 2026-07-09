@@ -24,6 +24,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.text.Font;
+import com.kirbken.models.Projectile;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArenaController implements FxController {
 
@@ -44,7 +50,11 @@ public class ArenaController implements FxController {
   private AnimationTimer timer;
 
   private final MusicManager musicManager = MusicManager.getInstance();
-
+  private final List<Projectile> projectiles = new ArrayList<>();
+  private final Map<Character, String> projectileImages = new HashMap<>();
+  private static final double CHARACTER_WIDTH = 150; // approximate hit-box width
+  private static final int PROJECTILE_DAMAGE = 8;
+  private static final double PROJECTILE_SPEED = 4;
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
@@ -116,8 +126,8 @@ public class ArenaController implements FxController {
 
   private void startGameLoop() {
     timer = new AnimationTimer() {
-      @Override
-      public void handle(long now) {
+    @Override
+    public void handle(long now) {
         handleInput();
         p1.updatePhysics();
         p2.updatePhysics();
@@ -125,23 +135,34 @@ public class ArenaController implements FxController {
         p2.updateSpecial();
         p1.getAnimator().update(now);
         p2.getAnimator().update(now);
+
+        // Spawn projectiles when a throw just happened
+        if (p1.consumeJustThrew()) {
+            spawnProjectile(p1);
+        }
+        if (p2.consumeJustThrew()) {
+            spawnProjectile(p2);
+        }
+
+        updateProjectiles();
+
         fight.update();
         updateHealthBars();
         updateTimer(now);
 
         if (fight.isOver()) {
-          stop();
-          cleanupMatchAudio();
-          showWinner(fight.getWinner());
-          return;
+            stop();
+            cleanupMatchAudio();
+            showWinner(fight.getWinner());
+            return;
         }
 
         if (timeRemaining <= 0) {
-          stop();
-          cleanupMatchAudio();
-          handleTimeUp();
+            stop();
+            cleanupMatchAudio();
+            handleTimeUp();
         }
-      }
+    }
     };
     timer.start();
   }
@@ -225,16 +246,57 @@ public class ArenaController implements FxController {
   }
 
   private void applyAnimations(Character character, String characterId) {
-    var set = CharacterAnimationRegistry.get(characterId);
-    if (set == null) {
-      System.out.println("No animation set found for: " + characterId + " — using static sprite only.");
-      return;
-    }
-    character.getAnimator().addFrames(SpriteAnimator.State.IDLE, set.idle);
-    character.getAnimator().addFrames(SpriteAnimator.State.WALK, set.walk);
-    character.getAnimator().addFrames(SpriteAnimator.State.ATTACK, set.attack);
-    character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
-    character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
+      var set = CharacterAnimationRegistry.get(characterId);
+      if (set == null) {
+          System.out.println("No animation set found for: " + characterId + " — using static sprite only.");
+          return;
+      }
+      character.getAnimator().addFrames(SpriteAnimator.State.IDLE, set.idle);
+      character.getAnimator().addFrames(SpriteAnimator.State.WALK, set.walk);
+      character.getAnimator().addFrames(SpriteAnimator.State.ATTACK, set.attack);
+      character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP, set.specialWindup);
+      character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
+      projectileImages.put(character, set.projectilePath);
+  }
+
+  private void spawnProjectile(Character thrower) {
+      String stickImage = projectileImages.get(thrower);
+      if (stickImage == null) {
+          return;
+      }
+
+      Projectile projectile = new Projectile(
+          stickImage,
+          thrower.getX() + 400,
+          500, // TODO: tune vertical spawn height
+          thrower.isFacingRight(),
+          PROJECTILE_SPEED,
+          PROJECTILE_DAMAGE,
+          rootPane
+      );
+      projectiles.add(projectile);
+  }
+
+  private void updateProjectiles() {
+      Iterator<Projectile> it = projectiles.iterator();
+      while (it.hasNext()) {
+          Projectile p = it.next();
+          boolean stillActive = p.update();
+
+          if (stillActive) {
+              Character target = p.isMovingRight() ? p2 : p1; // TODO: needs isMovingRight() getter — see below
+              if (p.checkHit(target, CHARACTER_WIDTH)) {
+                  target.takeDamage(p.getDamage());
+                  p.deactivate();
+                  stillActive = false;
+              }
+          }
+
+          if (!stillActive) {
+              rootPane.getChildren().remove(p.getView());
+              it.remove();
+          }
+      }
   }
 
   private void handleTimeUp() {
