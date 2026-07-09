@@ -1,5 +1,13 @@
 package com.kirbken.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
@@ -7,10 +15,10 @@ import com.kirbken.SceneManager;
 import com.kirbken.models.Character;
 import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
+import com.kirbken.models.Projectile;
 import com.kirbken.models.SpriteAnimator;
 import com.kirbken.utils.MusicManager;
-import java.util.HashSet;
-import java.util.Set;
+
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -23,14 +31,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
-import javafx.scene.text.Font;
-import com.kirbken.models.Projectile;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.Map;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 public class ArenaController implements FxController {
 
@@ -86,7 +88,9 @@ public class ArenaController implements FxController {
 
     CharacterProfile p1Profile = GameState.getSelectedCharacter();
     System.out.println("ARENA LOADED CHARACTER: " + p1Profile.getId()); //debug
-    CharacterProfile p2Profile = CharacterRegistry.getVexthorn();
+    CharacterProfile p2Profile = (GameState.getCurrentRound() == 1)
+        ? CharacterRegistry.getVexthorn()
+        : CharacterRegistry.getVexthornBoss();
 
     setSpriteImage(p1Sprite, p1Profile);
     setSpriteImage(p2Sprite, p2Profile);
@@ -339,8 +343,18 @@ public class ArenaController implements FxController {
   }
 
   private void showWinner(Character winner) {
-    String name = (winner == p1) ? "Player 1" : "Player 2";
-    System.out.println(name + " wins!");
+      if (winner == p2) {
+          // Player lost
+          manager.goToLose();
+          return;
+      }
+
+      // Player won
+      if (GameState.getCurrentRound() == 1) {
+          manager.goToRoundTransition();
+      } else {
+          manager.goToWin();
+      }
   }
 
   private void cleanupMatchAudio() {
