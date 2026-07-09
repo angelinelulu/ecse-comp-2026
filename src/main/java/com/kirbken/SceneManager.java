@@ -60,6 +60,7 @@ public class SceneManager {
             Parent root = loader.load();
 
             ArenaController controller = loader.getController();
+            controller.setSceneManager(this);
             controller.setupInput(scene);
 
             setRoot(root);
