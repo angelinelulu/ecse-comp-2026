@@ -1,54 +1,40 @@
 package com.kirbken.service;
 
 import com.kirbken.models.Question;
-import java.net.http.*;
-import java.net.URI;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * STUB VERSION — returns hardcoded questions instead of calling the Anthropic API.
+ * Use this to test the full quiz popup / pause / resume flow before setting up
+ * an ANTHROPIC_API_KEY. Once your key is ready, swap the body of generate()
+ * back to the real API call (see the version with HttpClient/JSONObject).
+ */
 public class QuestionGenerator {
-    private static final String API_KEY = System.getenv("ANTHROPIC_API_KEY"); // need to add API key to environment variables
-    private static final String API_URL = "https://api.anthropic.com/v1/messages";
 
-    public static List<Question> generate(String pdfText, int numQuestions) throws Exception {
-        String prompt = """
-            Based on the following text, generate %d multiple choice quiz questions.
-            Respond ONLY with valid JSON, no markdown, no preamble, in this exact format:
-            [{"prompt": "...", "options": ["...","...","...","..."], "correctIndex": 0}]
+  public static List<Question> generate(String pdfText, int numQuestions) throws Exception {
+    // Ignoring pdfText and numQuestions for now — always returns the same 3 test questions.
+    List<Question> questions = new ArrayList<>();
 
-            Text:
-            %s
-            """.formatted(numQuestions, pdfText);
+    questions.add(new Question(
+        "What data structure does a B+ tree primarily optimize for?",
+        List.of("Range queries", "Random access", "Recursion depth", "Hash collisions"),
+        0));
 
-        JSONObject body = new JSONObject()
-            .put("model", "claude-sonnet-4-5")
-            .put("max_tokens", 1500)
-            .put("messages", new JSONArray()
-                .put(new JSONObject().put("role", "user").put("content", prompt)));
+    questions.add(new Question(
+        "Which JavaFX class is used to run a repeating game loop?",
+        List.of("Timeline", "AnimationTimer", "ScheduledService", "PauseTransition"),
+        1));
 
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(API_URL))
-            .header("x-api-key", API_KEY)
-            .header("anthropic-version", "2023-06-01")
-            .header("content-type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
-            .build();
+    questions.add(new Question(
+        "In the Banker's Algorithm, what does 'safe state' mean?",
+        List.of(
+            "All processes have finished",
+            "No deadlock can occur under some execution order",
+            "Memory is fully allocated",
+            "All mutexes are unlocked"),
+        1));
 
-        HttpResponse<String> response = HttpClient.newHttpClient()
-            .send(request, HttpResponse.BodyHandlers.ofString());
-
-        String rawText = new JSONObject(response.body())
-            .getJSONArray("content").getJSONObject(0).getString("text");
-
-        JSONArray arr = new JSONArray(rawText);
-        List<Question> questions = new ArrayList<>();
-        for (int i = 0; i < arr.length(); i++) {
-            JSONObject q = arr.getJSONObject(i);
-            List<String> opts = new ArrayList<>();
-            q.getJSONArray("options").forEach(o -> opts.add((String) o));
-            questions.add(new Question(q.getString("prompt"), opts, q.getInt("correctIndex")));
-        }
-        return questions;
-    }
+    return questions;
+  }
 }

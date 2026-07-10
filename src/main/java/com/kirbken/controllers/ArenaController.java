@@ -67,8 +67,13 @@ public class ArenaController implements FxController {
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
-  private long quizTriggerNanos;
-  private boolean quizTriggered = false;
+
+  // --- Quiz mode fields ---
+  private static final int QUESTIONS_PER_MATCH = 2;
+  private static final int FALLBACK_TRIGGER_SECONDS_REMAINING = 15; // force a quiz if time is running out
+  private final List<Long> quizTriggerNanosList = new ArrayList<>();
+  private int nextQuizIndex = 0;
+  private int questionsAskedCount = 0;
 
   @FXML
   public void initialize() {
@@ -171,6 +176,15 @@ public class ArenaController implements FxController {
         updateHealthBars();
         updateTimer(now);
 
+        // Quiz mode: fallback — force any remaining questions before the match can end,
+        // so a fast KO or an about-to-expire clock can't skip the guaranteed question count.
+        if (QuizManager.getInstance().isQuizModeEnabled()
+            && questionsAskedCount < QUESTIONS_PER_MATCH
+            && (fight.isOver() || timeRemaining <= FALLBACK_TRIGGER_SECONDS_REMAINING)) {
+            triggerQuizPopup();
+            return; // skip the rest of this frame; match-over/time-up will be re-checked next frame
+        }
+
         if (fight.isOver()) {
             stop();
             cleanupMatchAudio();
@@ -185,10 +199,10 @@ public class ArenaController implements FxController {
             return;
         }
 
-        // Quiz mode: random mid-match trigger
+        // Quiz mode: scheduled mid-match trigger
         if (QuizManager.getInstance().isQuizModeEnabled()
-            && !quizTriggered && now >= quizTriggerNanos) {
-            quizTriggered = true;
+            && nextQuizIndex < quizTriggerNanosList.size()
+            && now >= quizTriggerNanosList.get(nextQuizIndex)) {
             triggerQuizPopup();
         }
     }
@@ -363,10 +377,21 @@ public class ArenaController implements FxController {
     musicManager.stopSound("arena");
   }
 
-  /** Picks a random point between 10s and 45s into the match to trigger the quiz popup. */
   private void initQuizTiming() {
-    int delaySeconds = 10 + new Random().nextInt(35);
-    quizTriggerNanos = System.nanoTime() + delaySeconds * 1_000_000_000L;
+    quizTriggerNanosList.clear();
+    Random random = new Random();
+    long startNanos = System.nanoTime();
+
+    int q1MinSeconds = 10;
+    int q1MaxSeconds = 90;  // 1:30
+    int q2MinSeconds = 100; // 1:40
+    int q2MaxSeconds = 165; // stays ahead of the 15s-remaining fallback trigger (180 - 15)
+
+    int q1DelaySeconds = q1MinSeconds + random.nextInt(q1MaxSeconds - q1MinSeconds + 1);
+    int q2DelaySeconds = q2MinSeconds + random.nextInt(q2MaxSeconds - q2MinSeconds + 1);
+
+    quizTriggerNanosList.add(startNanos + q1DelaySeconds * 1_000_000_000L);
+    quizTriggerNanosList.add(startNanos + q2DelaySeconds * 1_000_000_000L);
   }
 
   private void triggerQuizPopup() {
@@ -374,7 +399,10 @@ public class ArenaController implements FxController {
 
     Question q = QuizManager.getInstance().getRandomQuestion();
     if (q == null) {
-      // no questions available (e.g. PDF generation failed) — just resume the match
+      // no questions available (e.g. PDF generation failed) — just resume the match.
+      // Count it anyway so the fallback doesn't loop trying to force a quiz forever.
+      questionsAskedCount++;
+      nextQuizIndex++;
       timer.start();
       return;
     }
@@ -386,6 +414,9 @@ public class ArenaController implements FxController {
   private void onQuizAnswered(boolean wasCorrect) {
     rootPane.getChildren().removeIf(
         node -> node instanceof StackPane && "quizOverlay".equals(node.getId()));
+
+    questionsAskedCount++;
+    nextQuizIndex++;
 
     // optional: apply a reward/penalty for correct/incorrect answers here
     // e.g. if (wasCorrect) p1.heal(10); else p1.takeDamage(5);
