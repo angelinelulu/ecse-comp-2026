@@ -3,10 +3,27 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
-#chooseFileButton, #startMatchButton, #backButton, #generateButton {
-    -fx-background-color: #f1f1f286; /* 26 = 15% opacity in hex */
+#chooseFileButton, #storyButton, #backButton, #generateButton {
+    -fx-font-size: 20px;
+    -fx-background-color: pink;
     -fx-border-color: rgb(255, 255, 255);
-    -fx-font-family: "Geist Pixel";
-    -fx-font-size: 17px;
+    -fx-border-width: 1.25px;
+    -fx-background-radius: 50px;
     -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: null;
+}
+
+#quizmodetitle {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 36px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+#fileNameLabel {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 20px;
+    -fx-text-fill: rgb(255, 255, 255);
 }

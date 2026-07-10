@@ -13,7 +13,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -24,8 +23,7 @@ public class QuizSetupController implements FxController {
   @FXML private Label statusLabel;
   @FXML private Button chooseFileButton;
   @FXML private Button generateButton;
-  @FXML private Button startMatchButton;
-  @FXML private ProgressIndicator progressIndicator;
+  @FXML private Button storyButton;
 
   private SceneManager manager;
   private final MusicManager musicManager = MusicManager.getInstance();
@@ -34,9 +32,8 @@ public class QuizSetupController implements FxController {
 
   @FXML
   public void initialize() {
-    progressIndicator.setVisible(false);
     generateButton.setDisable(true);
-    startMatchButton.setDisable(true);
+    storyButton.setDisable(true);
     statusLabel.setText("Choose a PDF to generate quiz questions from.");
   }
 
@@ -61,7 +58,7 @@ public class QuizSetupController implements FxController {
       selectedPdf = file;
       fileNameLabel.setText(file.getName());
       generateButton.setDisable(false);
-      startMatchButton.setDisable(true);
+      storyButton.setDisable(true);
       statusLabel.setText("Ready to generate questions.");
     }
   }
@@ -90,7 +87,7 @@ public class QuizSetupController implements FxController {
           QuizManager.getInstance().setQuizModeEnabled(true);
 
           setBusy(false, questions.size() + " questions generated. Ready to fight!");
-          startMatchButton.setDisable(false);
+          storyButton.setDisable(false);
         });
 
     task.setOnFailed(
@@ -98,7 +95,7 @@ public class QuizSetupController implements FxController {
           Throwable ex = task.getException();
           System.out.println("Question generation failed: " + ex);
           setBusy(false, "Something went wrong generating questions. Try a different PDF.");
-          startMatchButton.setDisable(true);
+          storyButton.setDisable(true);
         });
 
     Thread thread = new Thread(task);
@@ -107,9 +104,9 @@ public class QuizSetupController implements FxController {
   }
 
   @FXML
-  private void onStartMatch(MouseEvent event) {
+  private void onStoryButtonClicked(MouseEvent event) {
     musicManager.playSound("buttonClick", 0.5);
-    manager.goToArena(); // 
+    manager.goToStory(); // 
   }
 
   @FXML
@@ -122,7 +119,6 @@ public class QuizSetupController implements FxController {
   private void setBusy(boolean busy, String message) {
     Platform.runLater(
         () -> {
-          progressIndicator.setVisible(busy);
           chooseFileButton.setDisable(busy);
           generateButton.setDisable(busy || selectedPdf == null);
           statusLabel.setText(message);
