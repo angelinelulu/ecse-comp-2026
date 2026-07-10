@@ -176,13 +176,15 @@ public class ArenaController implements FxController {
         updateHealthBars();
         updateTimer(now);
 
-        // Quiz mode: fallback — force any remaining questions before the match can end,
-        // so a fast KO or an about-to-expire clock can't skip the guaranteed question count.
+        // Quiz mode: fallback — force any remaining questions before time runs out.
+        // Does NOT fire on a KO (fight.isOver()) — if a character's health hits 0,
+        // the match ends immediately and no quiz pops up, even if questions are still owed.
         if (QuizManager.getInstance().isQuizModeEnabled()
+            && !fight.isOver()
             && questionsAskedCount < QUESTIONS_PER_MATCH
-            && (fight.isOver() || timeRemaining <= FALLBACK_TRIGGER_SECONDS_REMAINING)) {
+            && timeRemaining <= FALLBACK_TRIGGER_SECONDS_REMAINING) {
             triggerQuizPopup();
-            return; // skip the rest of this frame; match-over/time-up will be re-checked next frame
+            return; // skip the rest of this frame; time-up will be re-checked next frame
         }
 
         if (fight.isOver()) {
@@ -377,6 +379,13 @@ public class ArenaController implements FxController {
     musicManager.stopSound("arena");
   }
 
+  // --- Quiz mode methods ---
+
+  /**
+   * Schedules two quiz triggers at fixed points in the match:
+   *  - Question 1: random time between 0:10 and 1:30
+   *  - Question 2: random time between 1:40 and 3:00
+   */
   private void initQuizTiming() {
     quizTriggerNanosList.clear();
     Random random = new Random();
