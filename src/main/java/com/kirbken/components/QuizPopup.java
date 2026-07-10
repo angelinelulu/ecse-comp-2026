@@ -65,6 +65,7 @@ public class QuizPopup {
     card.setAlignment(Pos.CENTER);
     card.setPadding(new Insets(40));
     card.setMaxWidth(600);
+    card.setMaxHeight(500);
     card.setStyle(
         "-fx-background-color: #f2abe2;"
             + "-fx-background-radius: 12;"
@@ -75,7 +76,7 @@ public class QuizPopup {
     Label promptLabel = new Label(question.getPrompt());
     promptLabel.setWrapText(true);
     promptLabel.setTextFill(Color.BLACK);
-    promptLabel.setFont(Font.font("Geist Pixel", FontWeight.BOLD, 22));
+    promptLabel.setFont(Font.font("Geist Pixel", FontWeight.BOLD, 18));
     promptLabel.setMaxWidth(520);
     promptLabel.setAlignment(Pos.CENTER);
 
