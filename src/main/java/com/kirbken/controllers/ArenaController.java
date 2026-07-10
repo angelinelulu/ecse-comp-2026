@@ -384,8 +384,14 @@ public class ArenaController implements FxController {
 
   @FXML
   private void onSetting(MouseEvent event) {
-    musicManager.playSound("buttonClick", 0.5);
-    manager.goToSettings();
+      musicManager.playSound("buttonClick", 0.5);
+      timer.stop(); // freeze the game loop
+      manager.goToSettingsFrom(rootPane, this::resumeGame);
+  }
+
+  private void resumeGame() {
+      lastSecondTick = 0; // reset so the countdown doesn't jump when resuming
+      timer.start();
   }
 
   private void playHitShake(ImageView sprite) {

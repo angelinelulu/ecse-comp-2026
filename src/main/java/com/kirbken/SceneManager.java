@@ -17,6 +17,8 @@ public class SceneManager {
     private final Stage stage;
     private final Pane container = new Pane();
     private Scene scene;
+    private Parent previousRoot;
+    private Runnable onReturnFromSettings;
 
     public SceneManager(Stage stage) {
         this.stage = stage;
@@ -118,5 +120,24 @@ public class SceneManager {
 
     public void goToRoundTransition() {
         loadFXML("/fxml/round_transition.fxml");
+    }
+
+    public void goToSettingsFrom(Parent currentRoot, Runnable onReturn) {
+        this.previousRoot = currentRoot;
+        this.onReturnFromSettings = onReturn;
+        loadFXML("/fxml/settings.fxml");
+    }
+
+    public void returnFromSettings() {
+        if (previousRoot != null) {
+            setRoot(previousRoot);
+            if (onReturnFromSettings != null) {
+                onReturnFromSettings.run();
+                onReturnFromSettings = null;
+            }
+            previousRoot = null;
+        } else {
+            goToStart(); // fallback if Settings was opened with no stored return point
+        }
     }
 }

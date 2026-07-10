@@ -53,6 +53,6 @@ public class SettingsController implements FxController {
 
     @FXML
     private void BackToStart() {
-        manager.goToStart();
+        manager.returnFromSettings();
     }
 }
