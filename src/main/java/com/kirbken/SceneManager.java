@@ -119,4 +119,8 @@ public class SceneManager {
     private void setRoot(Parent root) {
         container.getChildren().setAll(root);
     }
+
+    public void goToRoundTransition() {
+        loadFXML("/fxml/round_transition.fxml");
+    }
 }

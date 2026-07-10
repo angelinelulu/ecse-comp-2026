@@ -32,9 +32,13 @@ public class Character {
     private long specialStartTime = 0;
     private boolean specialActive = false;
     private boolean specialThrowing = false;
+    private boolean justHit = false;
     private long throwStartTime = 0;
-    private static final long SPECIAL_WINDUP_DURATION_NS = 400_000_000L;
+    private int specialStage = 0;
+    private static final long SPECIAL_STAGE_DURATION_NS = 300_000_000L; // 0.3s per stage
     private static final long SPECIAL_THROW_DURATION_NS = 300_000_000L;
+
+    private boolean justThrew = false;
 
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
@@ -96,21 +100,30 @@ public class Character {
     public void triggerSpecial() {
         if (!specialActive && !specialThrowing) {
             specialActive = true;
+            specialStage = 1;
             specialStartTime = System.nanoTime();
             animator.setState(SpriteAnimator.State.SPECIAL_WINDUP);
         }
     }
 
-    private boolean justThrew = false;
     public void updateSpecial() {
         if (specialActive) {
             long elapsed = System.nanoTime() - specialStartTime;
-            if (elapsed >= SPECIAL_WINDUP_DURATION_NS) {
-                animator.setState(SpriteAnimator.State.SPECIAL_THROW);
-                specialActive = false;
-                specialThrowing = true;
-                throwStartTime = System.nanoTime();
-                justThrew = true; // signal to ArenaController: spawn a projectile now
+            if (elapsed >= SPECIAL_STAGE_DURATION_NS) {
+                specialStage++;
+                specialStartTime = System.nanoTime();
+
+                boolean hasSecondWindup = animator.hasFrames(SpriteAnimator.State.SPECIAL_WINDUP_2);
+
+                if (specialStage == 2 && hasSecondWindup) {
+                    animator.setState(SpriteAnimator.State.SPECIAL_WINDUP_2);
+                } else {
+                    animator.setState(SpriteAnimator.State.SPECIAL_THROW);
+                    specialActive = false;
+                    specialThrowing = true;
+                    throwStartTime = System.nanoTime();
+                    justThrew = true;
+                }
             }
         } else if (specialThrowing) {
             long elapsed = System.nanoTime() - throwStartTime;
@@ -143,17 +156,30 @@ public class Character {
         sprite.setScaleX(facingRight ? 1 : -1);
     }
 
-    public void takeDamage(int rawAmount) {
-        int mitigated = Math.max(1, rawAmount - defensePower / 2);
-        health = Math.max(0, health - mitigated);
-    }
-
     public double getCenterX() {
         return x + VISUAL_CENTER_OFFSET;
     }
 
     public double getCenterY() {
         return y + VISUAL_CENTER_Y_OFFSET;
+    }
+
+    public void takeDamage(int rawAmount) {
+        int mitigated = Math.max(1, rawAmount - defensePower / 2);
+        health = Math.max(0, health - mitigated);
+        justHit = true;
+
+        if (health <= 0) {
+            animator.setState(SpriteAnimator.State.DEATH);
+        }
+    }
+
+    public boolean consumeJustHit() {
+        if (justHit) {
+            justHit = false;
+            return true;
+        }
+        return false;
     }
 
     public int getHealth() { return health; }
