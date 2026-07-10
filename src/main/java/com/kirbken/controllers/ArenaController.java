@@ -4,12 +4,16 @@ import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.model.Question;
 import com.kirbken.models.Character;
 import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
 import com.kirbken.models.SpriteAnimator;
 import com.kirbken.utils.MusicManager;
+import com.kirbken.utils.QuizManager;
+import com.kirbken.utils.QuizPopup; // TODO: create this class (see next step)
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -21,6 +25,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.text.Font;
@@ -62,6 +67,10 @@ public class ArenaController implements FxController {
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
+
+  // --- Quiz mode fields ---
+  private long quizTriggerNanos;
+  private boolean quizTriggered = false;
 
   @FXML
   public void initialize() {
@@ -105,6 +114,10 @@ public class ArenaController implements FxController {
     p2Segments = new Region[] {p2Seg0, p2Seg1, p2Seg2, p2Seg3, p2Seg4, p2Seg5, p2Seg6, p2Seg7};
 
     timerLabel.setText(formatTime(timeRemaining));
+
+    if (QuizManager.getInstance().isQuizModeEnabled()) {
+      initQuizTiming();
+    }
 
     startGameLoop();
   }
@@ -171,6 +184,14 @@ public class ArenaController implements FxController {
             stop();
             cleanupMatchAudio();
             handleTimeUp();
+            return;
+        }
+
+        // Quiz mode: random mid-match trigger
+        if (QuizManager.getInstance().isQuizModeEnabled()
+            && !quizTriggered && now >= quizTriggerNanos) {
+            quizTriggered = true;
+            triggerQuizPopup();
         }
     }
     };
@@ -342,6 +363,39 @@ public class ArenaController implements FxController {
 
   private void cleanupMatchAudio() {
     musicManager.stopSound("arena");
+  }
+
+  // --- Quiz mode methods ---
+
+  /** Picks a random point between 10s and 45s into the match to trigger the quiz popup. */
+  private void initQuizTiming() {
+    int delaySeconds = 10 + new Random().nextInt(35);
+    quizTriggerNanos = System.nanoTime() + delaySeconds * 1_000_000_000L;
+  }
+
+  private void triggerQuizPopup() {
+    timer.stop(); // pauses movement, health, AND the countdown, since they all live in handle()
+
+    Question q = QuizManager.getInstance().getRandomQuestion();
+    if (q == null) {
+      // no questions available (e.g. PDF generation failed) — just resume the match
+      timer.start();
+      return;
+    }
+
+    QuizPopup popup = new QuizPopup(q, this::onQuizAnswered);
+    rootPane.getChildren().add(popup.getOverlay()); // StackPane overlay, id="quizOverlay"
+  }
+
+  private void onQuizAnswered(boolean wasCorrect) {
+    rootPane.getChildren().removeIf(
+        node -> node instanceof StackPane && "quizOverlay".equals(node.getId()));
+
+    // optional: apply a reward/penalty for correct/incorrect answers here
+    // e.g. if (wasCorrect) p1.heal(10); else p1.takeDamage(5);
+
+    lastSecondTick = 0; // recalibrate countdown baseline so paused time isn't counted
+    timer.start();
   }
 
   @FXML
