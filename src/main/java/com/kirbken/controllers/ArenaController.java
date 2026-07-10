@@ -141,56 +141,56 @@ public class ArenaController implements FxController {
 
   private void startGameLoop() {
     timer = new AnimationTimer() {
-    @Override
-    public void handle(long now) {
-        handleInput();
-        p1.updatePhysics();
-        p2.updatePhysics();
-        p1.updateSpecial();
-        p2.updateSpecial();
-        p1.getAnimator().update(now);
-        p2.getAnimator().update(now);
+      @Override
+      public void handle(long now) {
+          handleInput();
+          p1.updatePhysics();
+          p2.updatePhysics();
+          p1.updateSpecial();
+          p2.updateSpecial();
 
-        // Spawn projectiles when a throw just happened
-        if (p1.consumeJustThrew()) {
-            spawnProjectile(p1);
-        }
-        if (p2.consumeJustThrew()) {
-            spawnProjectile(p2);
-        }
+          if (p1.consumeJustThrew()) {
+              spawnProjectile(p1);
+          }
+          if (p2.consumeJustThrew()) {
+              spawnProjectile(p2);
+          }
 
-        updateProjectiles();
+          updateProjectiles();
 
-        if (SHOW_HITBOX_DEBUG) {
-            updateDebugRect(p1HitboxDebug, p1);
-            updateDebugRect(p2HitboxDebug, p2);
-        }
+          fight.update();
 
-        fight.update();
+          if (p1.consumeJustHit()) {
+              playHitShake(p1Sprite);
+          }
+          if (p2.consumeJustHit()) {
+              playHitShake(p2Sprite);
+          }
 
-        if (p1.consumeJustHit()) {
-            playHitShake(p1Sprite);
-        }
-        if (p2.consumeJustHit()) {
-            playHitShake(p2Sprite);
-        }
+          p1.getAnimator().update(now);
+          p2.getAnimator().update(now);
 
-        updateHealthBars();
-        updateTimer(now);
+          if (SHOW_HITBOX_DEBUG) {
+              updateDebugRect(p1HitboxDebug, p1);
+              updateDebugRect(p2HitboxDebug, p2);
+          }
 
-        if (fight.isOver()) {
-            stop();
-            cleanupMatchAudio();
-            showWinner(fight.getWinner());
-            return;
-        }
+          updateHealthBars();
+          updateTimer(now);
 
-        if (timeRemaining <= 0) {
-            stop();
-            cleanupMatchAudio();
-            handleTimeUp();
-        }
-    }
+          if (fight.isOver()) {
+              stop();
+              cleanupMatchAudio();
+              showWinner(fight.getWinner());
+              return;
+          }
+
+          if (timeRemaining <= 0) {
+              stop();
+              cleanupMatchAudio();
+              handleTimeUp();
+          }
+      }
     };
     timer.start();
   }
@@ -287,6 +287,7 @@ public class ArenaController implements FxController {
           character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_WINDUP_2, set.specialWindup2);
       }
       character.getAnimator().addFrames(SpriteAnimator.State.SPECIAL_THROW, set.specialThrow);
+      character.getAnimator().addFrames(SpriteAnimator.State.DEATH, set.die);
       projectileImages.put(character, set.projectilePath);
   }
 
@@ -351,18 +352,17 @@ public class ArenaController implements FxController {
   }
 
   private void showWinner(Character winner) {
-      if (winner == p2) {
-          // Player lost
-          manager.goToLose();
-          return;
-      }
-
-      // Player won
-      if (GameState.getCurrentRound() == 1) {
-          manager.goToRoundTransition();
-      } else {
-          manager.goToWin();
-      }
+      javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
+      pause.setOnFinished(e -> {
+          if (winner == p2) {
+              manager.goToLose();
+          } else if (GameState.getCurrentRound() == 1) {
+              manager.goToRoundTransition();
+          } else {
+              manager.goToWin();
+          }
+      });
+      pause.play();
   }
 
   private void cleanupMatchAudio() {

@@ -168,6 +168,10 @@ public class Character {
         int mitigated = Math.max(1, rawAmount - defensePower / 2);
         health = Math.max(0, health - mitigated);
         justHit = true;
+
+        if (health <= 0) {
+            animator.setState(SpriteAnimator.State.DEATH);
+        }
     }
 
     public boolean consumeJustHit() {

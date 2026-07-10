@@ -10,12 +10,13 @@ public class CharacterAnimationRegistry {
         public String[] walk;
         public String attack;
         public String specialWindup;
-        public String specialWindup2; // null if character doesn't use a 3-stage special
+        public String specialWindup2;
         public String specialThrow;
         public String projectilePath; // null if the special has no thrown object
+        public String die;
 
         public AnimationSet(String idle, String[] walk, String attack, String specialWindup,
-                             String specialWindup2, String specialThrow, String projectilePath) {
+                             String specialWindup2, String specialThrow, String projectilePath, String die) {
             this.idle = idle;
             this.walk = walk;
             this.attack = attack;
@@ -23,6 +24,7 @@ public class CharacterAnimationRegistry {
             this.specialWindup2 = specialWindup2;
             this.specialThrow = specialThrow;
             this.projectilePath = projectilePath;
+            this.die = die;
         }
     }
 
@@ -36,7 +38,8 @@ public class CharacterAnimationRegistry {
             "/images/basic_kirby/throw1.png",
             null,
             "/images/basic_kirby/throw2.png",
-            "/images/basic_kirby/stick.png"
+            "/images/basic_kirby/stick.png",
+            "/images/basic_kirby/die.png"
         ));
 
         REGISTRY.put("kirby_buff", new AnimationSet(
@@ -46,7 +49,8 @@ public class CharacterAnimationRegistry {
             "/images/boss_kirby/special_start.png",
             null,
             "/images/boss_kirby/special_punch.png",
-            null // add like blaze image or smth
+            null, // add like blaze image or smth
+            "/images/boss_kirby/die.png"
         ));
 
         REGISTRY.put("kirby_storm", new AnimationSet(
@@ -56,7 +60,8 @@ public class CharacterAnimationRegistry {
             "/images/storm_kirby/special.png",
             null,
             "/images/storm_kirby/special.png",
-            "/images/storm_kirby/power.png"
+            "/images/storm_kirby/power.png",
+            "/images/storm_kirby/die.png"
         ));
 
         REGISTRY.put("kirby_ninja", new AnimationSet(
@@ -66,7 +71,8 @@ public class CharacterAnimationRegistry {
             "/images/ninja_kirby/throw1.png",
             null,
             "/images/ninja_kirby/throw2.png",
-            "/images/ninja_kirby/weapon.png"
+            "/images/ninja_kirby/weapon.png",
+            "/images/ninja_kirby/die.png"
         ));
 
         REGISTRY.put("kirby_angelic", new AnimationSet(
@@ -76,7 +82,8 @@ public class CharacterAnimationRegistry {
             "/images/sailor_kirby/special.png",
             null,
             "/images/sailor_kirby/special.png",
-            "/images/sailor_kirby/sparkle.png"
+            "/images/sailor_kirby/sparkle.png",
+            "/images/sailor_kirby/die.png"
         ));
 
         REGISTRY.put("vexthorn_basic", new AnimationSet(
@@ -86,7 +93,8 @@ public class CharacterAnimationRegistry {
             "/images/vexthorn/clutch.png",
             "/images/vexthorn/roar.png",
             "/images/vexthorn/roar.png",
-            "/images/vexthorn/fireball.png"
+            "/images/vexthorn/fireball.png",
+            "/images/vexthorn/punch.png" // add actual image
         ));
 
         REGISTRY.put("vexthorn_boss", new AnimationSet(
@@ -96,7 +104,8 @@ public class CharacterAnimationRegistry {
             "/images/boss_vexthorn/steady.png",
             "/images/boss_vexthorn/special1.png",
             "/images/boss_vexthorn/special2.png",
-            "/images/boss_vexthorn/fireball.png"
+            "/images/boss_vexthorn/fireball.png",
+            "/images/boss_vexthorn/punch.png" // add actual image
         ));
     }
 
