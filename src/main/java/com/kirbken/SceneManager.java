@@ -96,6 +96,10 @@ public class SceneManager {
         }
     }
 
+    public void goToQuizSetup() {
+        loadFXML("/fxml/quizsetup.fxml");
+    }
+
     private void loadFXML(String path) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));

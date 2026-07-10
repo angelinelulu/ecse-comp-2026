@@ -4,14 +4,14 @@ import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
-import com.kirbken.model.Question;
+import com.kirbken.models.Question;
 import com.kirbken.models.Character;
 import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
 import com.kirbken.models.SpriteAnimator;
 import com.kirbken.utils.MusicManager;
 import com.kirbken.utils.QuizManager;
-import com.kirbken.utils.QuizPopup; // TODO: create this class (see next step)
+import com.kirbken.components.QuizPopup; 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -67,8 +67,6 @@ public class ArenaController implements FxController {
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
-
-  // --- Quiz mode fields ---
   private long quizTriggerNanos;
   private boolean quizTriggered = false;
 
@@ -364,8 +362,6 @@ public class ArenaController implements FxController {
   private void cleanupMatchAudio() {
     musicManager.stopSound("arena");
   }
-
-  // --- Quiz mode methods ---
 
   /** Picks a random point between 10s and 45s into the match to trigger the quiz popup. */
   private void initQuizTiming() {
