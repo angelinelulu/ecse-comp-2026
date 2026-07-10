@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "Geist Pixel";
+    src: url("../fonts/GeistPixelRegular.ttf");
+}
+
+#chooseFileButton, #startMatchButton, #backButton, #generateButton {
+    -fx-background-color: #f1f1f286; /* 26 = 15% opacity in hex */
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 17px;
+    -fx-border-radius: 50px;
+}
