@@ -167,6 +167,14 @@ public class ArenaController implements FxController {
         }
 
         fight.update();
+
+        if (p1.consumeJustHit()) {
+            playHitShake(p1Sprite);
+        }
+        if (p2.consumeJustHit()) {
+            playHitShake(p2Sprite);
+        }
+
         updateHealthBars();
         updateTimer(now);
 
@@ -378,5 +386,15 @@ public class ArenaController implements FxController {
   private void onSetting(MouseEvent event) {
     musicManager.playSound("buttonClick", 0.5);
     manager.goToSettings();
+  }
+
+  private void playHitShake(ImageView sprite) {
+      javafx.animation.TranslateTransition shake = new javafx.animation.TranslateTransition(javafx.util.Duration.millis(50), sprite);
+      shake.setFromX(-8);
+      shake.setToX(8);
+      shake.setCycleCount(4);
+      shake.setAutoReverse(true);
+      shake.setOnFinished(e -> sprite.setTranslateX(0));
+      shake.play();
   }
 }

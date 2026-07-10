@@ -32,6 +32,7 @@ public class Character {
     private long specialStartTime = 0;
     private boolean specialActive = false;
     private boolean specialThrowing = false;
+    private boolean justHit = false;
     private long throwStartTime = 0;
     private int specialStage = 0;
     private static final long SPECIAL_STAGE_DURATION_NS = 300_000_000L; // 0.3s per stage
@@ -155,17 +156,26 @@ public class Character {
         sprite.setScaleX(facingRight ? 1 : -1);
     }
 
-    public void takeDamage(int rawAmount) {
-        int mitigated = Math.max(1, rawAmount - defensePower / 2);
-        health = Math.max(0, health - mitigated);
-    }
-
     public double getCenterX() {
         return x + VISUAL_CENTER_OFFSET;
     }
 
     public double getCenterY() {
         return y + VISUAL_CENTER_Y_OFFSET;
+    }
+
+    public void takeDamage(int rawAmount) {
+        int mitigated = Math.max(1, rawAmount - defensePower / 2);
+        health = Math.max(0, health - mitigated);
+        justHit = true;
+    }
+
+    public boolean consumeJustHit() {
+        if (justHit) {
+            justHit = false;
+            return true;
+        }
+        return false;
     }
 
     public int getHealth() { return health; }
