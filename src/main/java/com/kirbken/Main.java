@@ -17,7 +17,7 @@ public class Main extends Application {
         ).getName());
         SceneManager manager = new SceneManager(primaryStage);
         primaryStage.setTitle("Puff Daddy");
-        manager.goToQuizSetup();
+        manager.goToStart();
 
         MusicManager.getInstance().play();
     }

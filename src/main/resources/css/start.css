@@ -10,7 +10,7 @@
     -fx-background-position: center center;
 }
 
-#start_button, #settings_button {
+#start_button, #settings_button, #quiz_mode_button {
     -fx-font-family: "Geist Pixel";
     -fx-font-weight: bold;
 }
@@ -62,6 +62,19 @@
 #settings_button:hover {
     -fx-background-color: derive(rgb(8, 58, 8), -10%);
     -fx-text-fill: white;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: null;
+}
+
+#quiz_mode_button {
+    -fx-font-size: 17px;
+    -fx-text-fill: white;
+    -fx-background-color: rgb(19, 49, 220);
+    -fx-border-color: white;
+    -fx-border-width: 1.25px;
     -fx-background-radius: 50px;
     -fx-border-radius: 50px;
     -fx-background-insets: 0;
