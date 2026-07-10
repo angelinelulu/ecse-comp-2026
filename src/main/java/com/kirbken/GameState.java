@@ -34,4 +34,8 @@ public class GameState {
     public static void resetRounds() {
         currentRound = 1;
     }
+
+    public static void unlockForNewRound() {
+        characterLocked = false;
+    }
 }
