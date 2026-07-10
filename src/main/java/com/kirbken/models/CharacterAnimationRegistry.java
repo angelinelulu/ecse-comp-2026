@@ -86,7 +86,7 @@ public class CharacterAnimationRegistry {
             "/images/vexthorn/clutch.png",
             "/images/vexthorn/roar.png",
             "/images/vexthorn/roar.png",
-            "/images/vexthorn/run.png" //need image
+            "/images/vexthorn/fireball.png"
         ));
     }
 
