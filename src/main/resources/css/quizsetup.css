@@ -17,13 +17,13 @@
 
 #quizmodetitle {
     -fx-font-family: "Geist Pixel";
-    -fx-font-size: 36px;
-    -fx-text-fill: white;
+    -fx-font-size: 50px;
+    -fx-text-fill: rgb(0, 0, 0);
     -fx-font-weight: bold;
 }
 
 #fileNameLabel {
     -fx-font-family: "Geist Pixel";
     -fx-font-size: 20px;
-    -fx-text-fill: rgb(255, 255, 255);
+    -fx-text-fill: rgb(0, 0, 0);
 }
