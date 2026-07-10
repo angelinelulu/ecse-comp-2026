@@ -9,7 +9,7 @@ import java.util.Map;
 /** Handles per-character sprite frame swapping based on animation state. */
 public class SpriteAnimator {
 
-    public enum State { IDLE, WALK, ATTACK, SPECIAL_WINDUP, SPECIAL_THROW }
+    public enum State { IDLE, WALK, ATTACK, SPECIAL_WINDUP,  SPECIAL_WINDUP_2, SPECIAL_THROW, DEATH }
 
     private final ImageView view;
     private final Map<State, Image[]> frames = new HashMap<>();
@@ -17,7 +17,7 @@ public class SpriteAnimator {
 
     private int frameIndex = 0;
     private long lastFrameTime = 0;
-    private static final long FRAME_DURATION_NS = 150_000_000L;
+    private static final long FRAME_DURATION_NS = 150_000_000L;  
 
     public SpriteAnimator(ImageView view) {
         this.view = view;
@@ -63,5 +63,10 @@ public class SpriteAnimator {
         }
 
         view.setImage(currentFrames[frameIndex]);
+    }
+
+    public boolean hasFrames(State state) {
+        Image[] f = frames.get(state);
+        return f != null && f.length > 0;
     }
 }
