@@ -43,6 +43,7 @@ public class ArenaController implements FxController {
   @FXML private Label timerLabel;
   @FXML private Arc timerArc;
   @FXML private ImageView imgMute;
+  @FXML private ImageView arenaBackground;
 
   private SceneManager manager;
   private Character p1, p2;
@@ -91,6 +92,15 @@ public class ArenaController implements FxController {
     CharacterProfile p2Profile = (GameState.getCurrentRound() == 1)
         ? CharacterRegistry.getVexthorn()
         : CharacterRegistry.getVexthornBoss();
+
+    if (GameState.getCurrentRound() == 2) {
+        var bgUrl = getClass().getResource("/images/arena2.png");
+        if (bgUrl != null) {
+            arenaBackground.setImage(new Image(bgUrl.toExternalForm()));
+        } else {
+            System.out.println("Missing background: /images/arena2.png");
+        }
+    }
 
     setSpriteImage(p1Sprite, p1Profile);
     setSpriteImage(p2Sprite, p2Profile);
