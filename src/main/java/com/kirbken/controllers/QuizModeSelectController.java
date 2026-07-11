@@ -30,7 +30,7 @@ public class QuizModeSelectController implements FxController {
     QuizManager.getInstance().setQuestions(questions);
     QuizManager.getInstance().setQuizModeEnabled(true);
 
-    manager.goToArena();
+    manager.goToStory();
   }
 
   @FXML
@@ -41,7 +41,7 @@ public class QuizModeSelectController implements FxController {
     QuizManager.getInstance().setQuestions(questions);
     QuizManager.getInstance().setQuizModeEnabled(true);
 
-    manager.goToArena();
+    manager.goToStory();
   }
 
   @FXML
