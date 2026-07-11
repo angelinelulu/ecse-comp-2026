@@ -12,6 +12,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.LoseController">
    <children>
+      <!-- Background Image -->
       <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/lose.png" />
@@ -20,22 +21,63 @@
             <Point3D />
          </rotationAxis>
       </ImageView>
+      
+      <!-- Main Game Over Banner Text -->
       <Label fx:id="lblGameOver" alignment="CENTER" layoutX="7.0" layoutY="45.0" prefWidth="1280.0" styleClass="tekken-regular" text="Game Over : You Lost" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
+      
+      <!-- Loss Subtitle Reason -->
       <Label fx:id="lblLossReason" alignment="CENTER" layoutY="116.0" prefWidth="1280.0" styleClass="tekken-regular" text="Defeated in battle" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
+      
+      <!-- Defeated Character Sprite Visual -->
       <ImageView fx:id="imgLoser" fitHeight="300.0" fitWidth="372.0" layoutX="84.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/basic_kirby/die.png" />
          </image>
       </ImageView>
-      <TitledPane fx:id="paneResults" layoutX="682.0" layoutY="205.0" prefHeight="314.0" prefWidth="503.0" styleClass="tekken-regular" text="Results and Stats" />
+      
+      <!-- Styled Results & Database Statistics Box -->
+      <TitledPane fx:id="paneResults" collapsible="false" layoutX="682.0" layoutY="205.0" prefHeight="314.0" prefWidth="503.0" text="RESULTS &amp; STATS">
+         <styleClass>
+            <String fx:value="tekken-regular" />
+            <String fx:value="arcade-titled-pane" />
+         </styleClass>
+         <content>
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="arcade-pane-content">
+               <children>
+                  <Label fx:id="lblCharacterUsed" layoutX="25.0" layoutY="30.0" styleClass="arcade-stat-label" text="CHARACTER: KIRBY_BASE" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblAccuracy" layoutX="25.0" layoutY="80.0" styleClass="arcade-stat-label" text="QUIZ ACCURACY: 40% (2/5)" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDamageDealt" layoutX="25.0" layoutY="130.0" styleClass="arcade-stat-label" text="DAMAGE DEALT: 320 HP" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblExpEarned" layoutX="25.0" layoutY="180.0" styleClass="arcade-stat-highlight" text="XP EARNED: +10 XP" textFill="#39ff14">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </content>
+      </TitledPane>
+      
+      <!-- Navigation Button: Play Again -->
       <Button fx:id="btnPlayAgain" layoutX="398.0" layoutY="581.0" mnemonicParsing="false" onAction="#onPlayAgain" text="Play Again">
          <font>
             <Font size="25.0" />
@@ -45,6 +87,8 @@
             <String fx:value="tekken-regular" />
          </styleClass>
       </Button>
+      
+      <!-- Navigation Button: Return Home Menu -->
       <Button fx:id="btnHome" layoutX="782.0" layoutY="584.0" mnemonicParsing="false" onAction="#onHome" text="Home">
          <font>
             <Font size="25.0" />

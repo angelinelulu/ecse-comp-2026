@@ -71,3 +71,47 @@
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.85), 16, 0.4, 0, 0);
 }
+
+/* --- ARCADE TITLEDPANE MASTER CONTAINER --- */
+.arcade-titled-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: #ff69b4; /* Vibrant Magenta border accent */
+    -fx-border-width: 3px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-animated: false;
+}
+
+/* Style the top header bar of the pane container */
+.arcade-titled-pane > .title {
+    -fx-background-color: #ffb6c1; /* Deep Midnight Purple */
+    -fx-text-fill: #FFD700; /* High Contrast Bright Gold text */
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+    -fx-padding: 10px 15px;
+    -fx-background-radius: 6px 6px 0px 0px;
+    -fx-border-color: transparent transparent #C71585 transparent;
+    -fx-border-width: 0px 0px 2px 0px;
+}
+
+/* Style the body backdrop layout context */
+.arcade-pane-content {
+    -fx-background-color: rgba(10, 5, 20, 0.92); /* Darkened opacity so text floats perfectly */
+    -fx-padding: 20px;
+}
+
+/* Standard structural body stat text styles */
+.arcade-stat-label {
+    -fx-text-fill: #FFFFFF; /* Pure crisp white font */
+    -fx-font-weight: bold;
+    /* Rich drop shadow to create visual separation from background patterns */
+    -fx-effect: dropshadow(three-pass-box, #000000, 6, 0.7, 2, 2);
+}
+
+/* Neon highlighted values (e.g. Points, XP boosts, or Levels) */
+.arcade-stat-highlight {
+    -fx-text-fill: #00ffff; /* Neon Electric Cyan for incredible contrast */
+    -fx-font-weight: bold;
+    /* Soft glowing outline effect */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 255, 255, 0.5), 8, 0.4, 0, 0);
+}
