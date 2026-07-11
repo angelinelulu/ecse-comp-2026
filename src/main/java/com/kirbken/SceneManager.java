@@ -3,6 +3,7 @@ package com.kirbken;
 import com.kirbken.controllers.ArenaController;
 import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
+import com.kirbken.controllers.LoseController;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +54,26 @@ public class SceneManager {
     }
 
     public void goToLose() {
-        loadFXML("/fxml/lose.fxml");
+        goToLose(CharacterRegistry.getDefault());
+    }
+
+    public void goToLose(CharacterProfile loserProfile) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/lose.fxml"));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof FxController fxController) {
+                fxController.setSceneManager(this);
+            }
+            if (controller instanceof LoseController loseController) {
+                loseController.setLoserProfile(loserProfile);
+            }
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void goToSettings() {

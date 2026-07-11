@@ -47,6 +47,7 @@ public class ArenaController implements FxController {
 
   private SceneManager manager;
   private Character p1, p2;
+  private CharacterProfile p1Profile, p2Profile;
   private Fight fight;
   private Region[] p1Segments, p2Segments;
   private Rectangle p1HitboxDebug;
@@ -87,9 +88,9 @@ public class ArenaController implements FxController {
           }
         });
 
-    CharacterProfile p1Profile = GameState.getSelectedCharacter();
+    p1Profile = GameState.getSelectedCharacter();
     System.out.println("ARENA LOADED CHARACTER: " + p1Profile.getId()); //debug
-    CharacterProfile p2Profile = (GameState.getCurrentRound() == 1)
+    p2Profile = (GameState.getCurrentRound() == 1)
         ? CharacterRegistry.getVexthorn()
         : CharacterRegistry.getVexthornBoss();
 
@@ -365,6 +366,7 @@ public class ArenaController implements FxController {
 
   private void showWinner(Character winner) {
       musicManager.stopSound("arena");
+      CharacterProfile loserProfile = (winner == p2) ? p1Profile : p2Profile;
 
       if (winner == p2) {
           musicManager.playSound("lose", 0.7);
@@ -374,7 +376,7 @@ public class ArenaController implements FxController {
       javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
       pause.setOnFinished(e -> {
           if (winner == p2) {
-              manager.goToLose();
+            manager.goToLose(loserProfile);
           } else if (GameState.getCurrentRound() == 1) {
               manager.goToRoundTransition();
           } else {

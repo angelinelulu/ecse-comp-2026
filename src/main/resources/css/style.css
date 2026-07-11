@@ -3,12 +3,21 @@
     src: url('../fonts/TekkenReg.ttf');
 }
 
-.tekken-regular {
+@font-face {
+    font-family: "Geist Pixel";
+    src: url("../fonts/GeistPixelRegular.ttf");
+}
+
+/* .tekken-regular {
     -fx-font-family: 'Tarrget Regular';
+} */
+
+.geist-pixel {
+    -fx-font-family: "Geist Pixel";
 }
 
 .victory.text {
-    -fx-font-family: 'Tarrget Regular';
+    -fx-font-family: 'Geist Pixel';
     -fx-font-size: 25px;
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.85), 16, 0.4, 0, 0);
