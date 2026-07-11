@@ -43,6 +43,7 @@ public class ArenaController implements FxController {
   @FXML private Label timerLabel;
   @FXML private Arc timerArc;
   @FXML private ImageView imgMute;
+  @FXML private ImageView arenaBackground;
 
   private SceneManager manager;
   private Character p1, p2;
@@ -91,6 +92,15 @@ public class ArenaController implements FxController {
     CharacterProfile p2Profile = (GameState.getCurrentRound() == 1)
         ? CharacterRegistry.getVexthorn()
         : CharacterRegistry.getVexthornBoss();
+
+    if (GameState.getCurrentRound() == 2) {
+        var bgUrl = getClass().getResource("/images/arena2.png");
+        if (bgUrl != null) {
+            arenaBackground.setImage(new Image(bgUrl.toExternalForm()));
+        } else {
+            System.out.println("Missing background: /images/arena2.png");
+        }
+    }
 
     setSpriteImage(p1Sprite, p1Profile);
     setSpriteImage(p2Sprite, p2Profile);
@@ -162,9 +172,11 @@ public class ArenaController implements FxController {
 
           if (p1.consumeJustHit()) {
               playHitShake(p1Sprite);
+              musicManager.playSound("punch", 0.6);
           }
           if (p2.consumeJustHit()) {
               playHitShake(p2Sprite);
+              musicManager.playSound("punch", 0.6);
           }
 
           p1.getAnimator().update(now);
@@ -352,6 +364,13 @@ public class ArenaController implements FxController {
   }
 
   private void showWinner(Character winner) {
+      musicManager.stopSound("arena");
+
+      if (winner == p2) {
+          musicManager.playSound("lose", 0.7);
+      } else {
+          musicManager.playSound("win", 0.7);
+      }
       javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
       pause.setOnFinished(e -> {
           if (winner == p2) {
@@ -384,8 +403,14 @@ public class ArenaController implements FxController {
 
   @FXML
   private void onSetting(MouseEvent event) {
-    musicManager.playSound("buttonClick", 0.5);
-    manager.goToSettings();
+      musicManager.playSound("buttonClick", 0.5);
+      timer.stop(); // freeze the game loop
+      manager.goToSettingsFrom(rootPane, this::resumeGame);
+  }
+
+  private void resumeGame() {
+      lastSecondTick = 0; // reset so the countdown doesn't jump when resuming
+      timer.start();
   }
 
   private void playHitShake(ImageView sprite) {

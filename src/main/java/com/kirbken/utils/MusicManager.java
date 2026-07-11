@@ -12,13 +12,20 @@ public class MusicManager {
 
     private static MusicManager instance;
     private final Map<String, MediaPlayer> soundCache = new HashMap<>();
+    private final Map<String, String> soundCategory = new HashMap<>(); 
+    private final Map<String, Double> baseVolumes = new HashMap<>(); 
+
     private boolean backgroundMuted = false;
+    private double masterVolume = 1.0;
+    private double musicVolume = 1.0;
+    private double sfxVolume = 1.0;
 
     private MusicManager() {
-        // Load the background stream track
         loadSound("background", "/sounds/maingameaudio.mp3");
-        // FIX: Pre-load your missing sound effect asset so playSound() can find it!
-        loadSound("buttonClick", "/sounds/buttonClick.mp3"); 
+        loadSound("buttonClick", "/sounds/buttonClick.mp3");
+        loadSound("win", "/sounds/win.mp3");
+        loadSound("lose", "/sounds/lose.mp3");
+        loadSound("punch", "/sounds/punch.mp3");
     }
 
     public static MusicManager getInstance() {
@@ -37,6 +44,9 @@ public class MusicManager {
                 MediaPlayer player = new MediaPlayer(media);
                 if (soundKey.equals("background") || soundKey.equals("arena")) {
                     player.setCycleCount(MediaPlayer.INDEFINITE);
+                    soundCategory.put(soundKey, "music");
+                } else {
+                    soundCategory.put(soundKey, "sfx");
                 }
                 soundCache.put(soundKey, player);
             } else {
@@ -74,8 +84,8 @@ public class MusicManager {
         if (player != null) {
             try {
                 player.seek(Duration.ZERO);
-                // If the master mute toggle is active, force volume to silence
-                player.setVolume(backgroundMuted ? 0.0 : volume);
+                baseVolumes.put(soundKey, volume);
+                applyEffectiveVolume(soundKey);
 
                 if (player.getStatus() == MediaPlayer.Status.READY
                     || player.getStatus() == MediaPlayer.Status.PAUSED
@@ -108,22 +118,34 @@ public class MusicManager {
     }
 
     public void setVolume(String soundKey, double volume) {
+        baseVolumes.put(soundKey, volume);
+        applyEffectiveVolume(soundKey);
+    }
+
+    /** Computes and applies final volume for a sound, factoring in master/category volume and mute state. */
+    private void applyEffectiveVolume(String soundKey) {
         MediaPlayer player = soundCache.get(soundKey);
-        if (player != null) {
-            try { player.setVolume(volume); } catch (Exception e) { /* Ignore */ }
+        if (player == null) return;
+
+        double base = baseVolumes.getOrDefault(soundKey, 1.0);
+        String category = soundCategory.getOrDefault(soundKey, "sfx");
+        double categoryVolume = category.equals("music") ? musicVolume : sfxVolume;
+
+        double effective = backgroundMuted ? 0.0 : base * masterVolume * categoryVolume;
+        try {
+            player.setVolume(effective);
+        } catch (Exception e) { /* Ignore */ }
+    }
+
+    private void reapplyAllVolumes() {
+        for (String key : soundCache.keySet()) {
+            applyEffectiveVolume(key);
         }
     }
 
     public boolean toggleBackgroundMuted() {
         backgroundMuted = !backgroundMuted;
-        
-        // Mute or restore both potential master track environments
-        double bgVol = backgroundMuted ? 0.0 : 0.25;
-        double arenaVol = backgroundMuted ? 0.0 : 0.3;
-        
-        setVolume("background", bgVol);
-        setVolume("arena", arenaVol);
-
+        reapplyAllVolumes();
         return backgroundMuted;
     }
 
@@ -137,4 +159,25 @@ public class MusicManager {
             try { player.stop(); } catch (Exception e) { /* Ignore */ }
         }
     }
+
+    // Master/music/SFX category volume controls, for Settings sliders
+
+    public void setMasterVolume(double volume) {
+        masterVolume = volume;
+        reapplyAllVolumes();
+    }
+
+    public void setMusicVolume(double volume) {
+        musicVolume = volume;
+        reapplyAllVolumes();
+    }
+
+    public void setSfxVolume(double volume) {
+        sfxVolume = volume;
+        reapplyAllVolumes();
+    }
+
+    public double getMasterVolume() { return masterVolume; }
+    public double getMusicVolume() { return musicVolume; }
+    public double getSfxVolume() { return sfxVolume; }
 }
