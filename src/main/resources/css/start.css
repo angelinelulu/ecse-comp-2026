@@ -81,3 +81,13 @@
     -fx-border-insets: 0;
     -fx-effect: null;
 }
+
+#quiz_mode_button:hover {
+    -fx-background-color: derive(rgb(19, 49, 220), -30%);
+    -fx-text-fill: white;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: null;
+}
