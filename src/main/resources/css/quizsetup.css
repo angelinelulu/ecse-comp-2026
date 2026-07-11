@@ -3,7 +3,7 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
-#chooseFileButton, #storyButton, #backButton, #generateButton {
+#chooseFileButton {
     -fx-font-size: 20px;
     -fx-background-color: pink;
     -fx-border-color: rgb(255, 255, 255);
@@ -13,6 +13,60 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
+}
+
+#storyButton {
+    -fx-font-size: 20px;
+    -fx-background-color: rgb(240, 231, 105);
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-border-width: 1.25px;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
+}
+
+#generateButton {
+    -fx-font-size: 20px;
+    -fx-background-color: rgb(95, 210, 231);
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-border-width: 1.25px;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
+}
+
+#backButton{
+    -fx-font-size: 20px;
+    -fx-background-color: rgb(193, 193, 193);
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-border-width: 1.25px;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
+}
+
+#chooseFileButton:hover,
+#storyButton:hover,
+#generateButton:hover,
+#backButton:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 12, 0, 0, 6);
+}
+
+#chooseFileButton:pressed,
+#storyButton:pressed,
+#generateButton:pressed,
+#backButton:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
 }
 
 #quizmodetitle {

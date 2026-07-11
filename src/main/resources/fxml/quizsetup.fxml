@@ -27,9 +27,9 @@
 
     <Label fx:id="statusLabel" styleClass="quiz-setup-status" text="" wrapText="true" />
 
-    <Button fx:id="storyButton" layoutX="1041.0" layoutY="581.0" onMouseClicked="#onStoryButtonClicked" prefHeight="46.0" prefWidth="152.0" text="Learn Story" />
+    <Button fx:id="storyButton" layoutX="1012.0" layoutY="570.0" onMouseClicked="#onStoryButtonClicked" prefHeight="46.0" prefWidth="152.0" text="Learn Story" />
 
-    <Button fx:id="backButton" layoutX="92.0" layoutY="581.0" onMouseClicked="#onBack" prefHeight="33.0" prefWidth="80.0" text="Back" />
+    <Button fx:id="backButton" layoutX="111.0" layoutY="567.0"  onMouseClicked="#onBack" prefHeight="33.0" prefWidth="80.0" text="Back" />
 
     </children>
 

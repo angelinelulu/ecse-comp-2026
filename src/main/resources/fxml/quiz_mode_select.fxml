@@ -15,18 +15,18 @@
         </image>
       </ImageView>
 
-      <Label fx:id="quizmodeselecttitle" layoutX="354.0" layoutY="120.0" text="Choose Your Quiz Difficulty" />
+      <Label fx:id="quizmodeselecttitle" layoutX="315.0" layoutY="150.0" text="Choose Your Quiz Difficulty" />
 
-      <Button fx:id="basicButton" layoutX="440.0" layoutY="240.0" onMouseClicked="#onBasicSelected" prefHeight="60.0" prefWidth="400.0" text="Basic — Arithmetic">
+      <Button fx:id="basicButton" layoutX="440.0" layoutY="271.0" onMouseClicked="#onBasicSelected" prefHeight="60.0" prefWidth="400.0" text="Basic — Arithmetic">
       </Button>
 
-      <Button fx:id="intermediateButton" layoutX="440.0" layoutY="330.0" onMouseClicked="#onIntermediateSelected" prefHeight="60.0" prefWidth="400.0" text="Intermediate — Algebra &amp; Calculus">
+      <Button fx:id="intermediateButton" layoutX="440.0" layoutY="366.0" onMouseClicked="#onIntermediateSelected" prefHeight="60.0" prefWidth="400.0" text="Intermediate — Algebra &amp; Calculus">
       </Button>
 
-      <Button fx:id="customPdfButton" layoutX="440.0" layoutY="420.0" onMouseClicked="#onCustomPdfSelected" prefHeight="60.0" prefWidth="400.0" text="Custom — Upload Your Own PDF">
+      <Button fx:id="customPdfButton" layoutX="440.0" layoutY="464.0" onMouseClicked="#onCustomPdfSelected" prefHeight="60.0" prefWidth="400.0" text="Custom — Upload Your Own PDF">
       </Button>
 
-      <Button fx:id="backButton" layoutX="92.0" layoutY="581.0" onMouseClicked="#onBack" prefHeight="33.0" prefWidth="80.0" text="Back" />
+      <Button fx:id="backButton" layoutX="111.0" layoutY="567.0" onMouseClicked="#onBack" prefHeight="33.0" prefWidth="80.0" text="Back" />
 
     </children>
 

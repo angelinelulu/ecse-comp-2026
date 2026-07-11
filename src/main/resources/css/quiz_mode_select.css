@@ -13,6 +13,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
     -fx-font-family: "Geist Pixel";
 }
 
@@ -25,7 +26,7 @@
     -fx-border-radius: 50px;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
-    -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
     -fx-font-family: "Geist Pixel";
 }
 
@@ -39,6 +40,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
     -fx-font-family: "Geist Pixel";
 }
 
@@ -52,7 +54,22 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
     -fx-font-family: "Geist Pixel";
+}
+
+#intermediateButton:hover,
+#basicButton:hover,
+#customPdfButton:hover,
+#backButton:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 12, 0, 0, 6);
+}
+
+#intermediateButton:pressed,
+#basicButton:pressed,
+#customPdfButton:pressed,
+#backButton:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
 }
 
 #quizmodeselecttitle {
