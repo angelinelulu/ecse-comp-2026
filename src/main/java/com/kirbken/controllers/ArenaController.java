@@ -162,9 +162,11 @@ public class ArenaController implements FxController {
 
           if (p1.consumeJustHit()) {
               playHitShake(p1Sprite);
+              musicManager.playSound("punch", 0.6);
           }
           if (p2.consumeJustHit()) {
               playHitShake(p2Sprite);
+              musicManager.playSound("punch", 0.6);
           }
 
           p1.getAnimator().update(now);
@@ -352,6 +354,13 @@ public class ArenaController implements FxController {
   }
 
   private void showWinner(Character winner) {
+      musicManager.stopSound("arena");
+
+      if (winner == p2) {
+          musicManager.playSound("lose", 0.7);
+      } else {
+          musicManager.playSound("win", 0.7);
+      }
       javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
       pause.setOnFinished(e -> {
           if (winner == p2) {
