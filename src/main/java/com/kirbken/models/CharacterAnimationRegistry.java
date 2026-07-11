@@ -49,7 +49,7 @@ public class CharacterAnimationRegistry {
             "/images/boss_kirby/special_start.png",
             null,
             "/images/boss_kirby/special_punch.png",
-            null, // add like blaze image or smth
+            "/images/boss_kirby/blaze.png", 
             "/images/boss_kirby/die.png"
         ));
 
@@ -91,21 +91,21 @@ public class CharacterAnimationRegistry {
             new String[]{"/images/vexthorn/run.png"},
             "/images/vexthorn/mad.png",
             "/images/vexthorn/clutch.png",
-            "/images/vexthorn/roar.png",
+            null,
             "/images/vexthorn/roar.png",
             "/images/vexthorn/fireball.png",
-            "/images/vexthorn/punch.png" // add actual image
+            "/images/vexthorn/die.png"
         ));
 
         REGISTRY.put("vexthorn_boss", new AnimationSet(
             "/images/vexthorn_boss.png",
-            new String[]{"/images/vexthorn_boss.png"}, // add an actual walking photo
+            new String[]{"/images/boss_vexthorn/walk.png"},
             "/images/boss_vexthorn/punch.png",
             "/images/boss_vexthorn/steady.png",
             "/images/boss_vexthorn/special1.png",
             "/images/boss_vexthorn/special2.png",
             "/images/boss_vexthorn/fireball.png",
-            "/images/boss_vexthorn/punch.png" // add actual image
+            "/images/boss_vexthorn/die.png"
         ));
     }
 
