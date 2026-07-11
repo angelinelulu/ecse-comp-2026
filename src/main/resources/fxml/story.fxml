@@ -10,14 +10,14 @@
 
 <Pane id="story_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/story.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.StoryController">
    <children>
-      <VBox id="story_box" fx:id="storyBox" layoutY="480.0" prefHeight="240.0" prefWidth="1280.0" spacing="15.0">
+      <VBox id="story_box" fx:id="storyBox" layoutX="150.0" layoutY="160.0" prefHeight="400.0" prefWidth="980.0" spacing="18.0">
         <children>
-            <ScrollPane fx:id="storyScrollPane" id="story_scroll_pane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="180.0" prefWidth="1280.0" vbarPolicy="AS_NEEDED">
+            <ScrollPane fx:id="storyScrollPane" id="story_scroll_pane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="320.0" prefWidth="980.0" vbarPolicy="AS_NEEDED">
                <content>
-                  <Label id="story_text" fx:id="storyText" alignment="TOP_LEFT" maxWidth="1200.0" textAlignment="LEFT" wrapText="true" />
+                  <Label id="story_text" fx:id="storyText" alignment="TOP_LEFT" maxWidth="920.0" textAlignment="LEFT" wrapText="true" />
                </content>
             </ScrollPane>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="15.0" prefWidth="1219.0" maxWidth="Infinity">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="15.0" prefWidth="920.0" maxWidth="Infinity">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
                   <Button fx:id="enterButton" id="enter_button" onAction="#onEnterClicked" text=" → " />
