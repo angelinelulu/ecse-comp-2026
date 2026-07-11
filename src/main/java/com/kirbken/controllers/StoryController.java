@@ -4,16 +4,19 @@ import com.kirbken.CharacterRegistry;
 import com.kirbken.SceneManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class StoryController implements FxController {
     private static final String STORY_TEXT =
-        "The world once shimmered with pastel light and laughter — until Vexthorn cracked open beneath the Starwell. Now, the balance of light and darkness teeters on the edge. You are Luma (cousin of Kirby), a brave puffling born from the glow of the Starwell itself.\n" +
-        "Your mission: restore the light, defeat Vexthorn, and bring harmony back to Dream Springs.\n" +
+        "The world once shimmered with pastel light and laughter — until Vexthorn cracked open beneath the Starwell. Now, the balance of light and darkness teeters on the edge. You are Luma (cousin of Kirby), a brave puffling born from the glow of the Starwell itself.\n\n" +
+        "Your mission: restore the light, defeat Vexthorn, and bring harmony back to Dream Springs.\n\n" +
         "But beware — every step you take ripples through the realms. The shadows whisper, the skies tremble, and the fate of every Puffling rests in your tiny, glowing hands.";
 
     private SceneManager manager;
@@ -24,6 +27,7 @@ public class StoryController implements FxController {
     @FXML private VBox storyBox;
     @FXML private VBox cardPromptBox;
     @FXML private Button enterButton;
+    @FXML private ScrollPane storyScrollPane;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -36,13 +40,20 @@ public class StoryController implements FxController {
         storyText.setText("");
         enterButton.setText("Skip");
 
+        storyBox.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            if (!typingComplete) {
+                finishTyping();
+                event.consume();
+            }
+        });
+
         typingTimeline = new Timeline();
-        typingTimeline.setCycleCount(STORY_TEXT.length());
         for (int index = 0; index < STORY_TEXT.length(); index++) {
             final int currentIndex = index;
             typingTimeline.getKeyFrames().add(
                 new KeyFrame(Duration.millis(25L * (index + 1)), event -> {
                     storyText.setText(STORY_TEXT.substring(0, currentIndex + 1));
+                    scrollStoryToBottom();
                     if (currentIndex + 1 == STORY_TEXT.length()) {
                         enterButton.setDisable(false);
                     }
@@ -79,8 +90,13 @@ public class StoryController implements FxController {
         }
 
         storyText.setText(STORY_TEXT);
+        scrollStoryToBottom();
         typingComplete = true;
         enterButton.setText(" → ");
+    }
+
+    private void scrollStoryToBottom() {
+        Platform.runLater(() -> storyScrollPane.setVvalue(1.0));
     }
 
     @FXML
