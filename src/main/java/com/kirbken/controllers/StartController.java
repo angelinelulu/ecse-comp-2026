@@ -31,8 +31,8 @@ public class StartController implements FxController {
     }
 
     @FXML
-    private void GoToQuizSetup() {
-        manager.goToQuizSetup();
+    private void GoToQuizModeSelect() {
+        manager.goToQuizModeSelect();
     }
 
     @FXML

@@ -2,32 +2,32 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
 
-<VBox fx:id="rootPane" alignment="CENTER" spacing="24" styleClass="quiz-mode-select-root"
-      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="720.0" prefWidth="1280.0"
-      stylesheets="@../css/quizmodeselect.css"
-      xmlns="http://javafx.com/javafx/24.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.kirbken.controllers.QuizModeSelectController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/quiz_mode_select.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.QuizModeSelectController">
+   <children>
 
-    <padding>
-        <Insets top="60" right="60" bottom="60" left="60"/>
-    </padding>
+      <ImageView fitHeight="720.0" fitWidth="1280.0" preserveRatio="false">
+        <image>
+            <Image url="@../images/quizsetup.png" />
+        </image>
+      </ImageView>
 
-    <Label text="Choose Your Quiz Difficulty" styleClass="quiz-mode-select-title"/>
+      <Label fx:id="quizmodeselecttitle" layoutX="354.0" layoutY="120.0" text="Choose Your Quiz Difficulty" />
 
-    <Button fx:id="basicButton" text="Basic — Arithmetic" onMouseClicked="#onBasicSelected"
-            prefWidth="400" prefHeight="60"/>
+      <Button fx:id="basicButton" layoutX="440.0" layoutY="240.0" onMouseClicked="#onBasicSelected" prefHeight="60.0" prefWidth="400.0" text="Basic — Arithmetic">
+      </Button>
 
-    <Button fx:id="intermediateButton" text="Intermediate — Algebra &amp; Calculus" onMouseClicked="#onIntermediateSelected"
-            prefWidth="400" prefHeight="60"/>
+      <Button fx:id="intermediateButton" layoutX="440.0" layoutY="330.0" onMouseClicked="#onIntermediateSelected" prefHeight="60.0" prefWidth="400.0" text="Intermediate — Algebra &amp; Calculus">
+      </Button>
 
-    <Button fx:id="customPdfButton" text="Custom — Upload Your Own PDF" onMouseClicked="#onCustomPdfSelected"
-            prefWidth="400" prefHeight="60"/>
+      <Button fx:id="customPdfButton" layoutX="440.0" layoutY="420.0" onMouseClicked="#onCustomPdfSelected" prefHeight="60.0" prefWidth="400.0" text="Custom — Upload Your Own PDF">
+      </Button>
 
-    <Button fx:id="backButton" text="Back" onMouseClicked="#onBack"/>
+      <Button fx:id="backButton" layoutX="92.0" layoutY="581.0" onMouseClicked="#onBack" prefHeight="33.0" prefWidth="80.0" text="Back" />
 
-</VBox>
+    </children>
+
+</Pane>

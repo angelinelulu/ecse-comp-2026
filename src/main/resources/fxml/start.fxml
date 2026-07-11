@@ -9,7 +9,7 @@
       </Button>
       <Button id="settings_button" fx:id="settings_button" alignment="CENTER" layoutX="1157.0" layoutY="646.0" mnemonicParsing="false" onAction="#GameSettingsClicked" prefHeight="43.0" prefWidth="108.0" text="Settings" textAlignment="CENTER">
       </Button>
-      <Button id="quiz_mode_button" fx:id="quiz_mode_button" alignment="CENTER" layoutX="1020.0" layoutY="646.0" mnemonicParsing="false" onAction="#GoToQuizSetup" prefHeight="43.0" prefWidth="129.0" text="Quiz Mode" textAlignment="CENTER">
-      </Button>
+      <Button id="quiz_mode_button" fx:id="quiz_mode_button" alignment="CENTER" layoutX="1020.0" layoutY="646.0" mnemonicParsing="false" onAction="#GoToQuizModeSelect" prefHeight="43.0" prefWidth="129.0" text="Quiz Mode" textAlignment="CENTER">
+      </Button>~
    </children>
 </Pane>
