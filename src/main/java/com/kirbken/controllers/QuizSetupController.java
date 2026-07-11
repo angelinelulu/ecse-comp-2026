@@ -113,7 +113,7 @@ public class QuizSetupController implements FxController {
   private void onBack(MouseEvent event) {
     musicManager.playSound("buttonClick", 0.5);
     QuizManager.getInstance().setQuizModeEnabled(false);
-    manager.goToStart(); // 
+    manager.goToQuizModeSelect(); // 
   }
 
   private void setBusy(boolean busy, String message) {
