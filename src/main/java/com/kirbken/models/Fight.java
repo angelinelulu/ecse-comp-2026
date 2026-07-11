@@ -24,8 +24,8 @@ public class Fight {
         double distance = Math.abs(p1.getX() - p2.getX());
 
         if (distance < ATTACK_RANGE) {
-            if (p1.isAttacking()) p2.takeDamage(p1.getAttackPower());
-            if (p2.isAttacking()) p1.takeDamage(p2.getAttackPower());
+            if (p1.isAttacking()) p2.takeDamage(p1.rollAttackDamage());
+            if (p2.isAttacking()) p1.takeDamage(p2.rollAttackDamage());
         }
     }
 

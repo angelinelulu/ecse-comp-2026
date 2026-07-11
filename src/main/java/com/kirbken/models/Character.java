@@ -1,6 +1,7 @@
 package com.kirbken.models;
 
 import javafx.scene.image.ImageView;
+import java.util.Random;
 
 public class Character {
     private ImageView sprite;
@@ -14,6 +15,7 @@ public class Character {
     private final int attackPower;
     private final int defensePower;
     private final int speed;
+    private final Random damageRandom = new Random();
 
     private boolean isAttacking = false;
 
@@ -172,6 +174,13 @@ public class Character {
         if (health <= 0) {
             animator.setState(SpriteAnimator.State.DEATH);
         }
+    }
+
+    public int rollAttackDamage() {
+        int baseDamage = attackPower + Math.max(1, speed / 3);
+        int variance = Math.max(1, attackPower / 4);
+        int rolledDamage = baseDamage + damageRandom.nextInt(variance * 2 + 1) - variance;
+        return Math.max(1, rolledDamage);
     }
 
     public boolean consumeJustHit() {
