@@ -13,7 +13,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
-    fx-font-family: "Geist Pixel";
+    -fx-font-family: "Geist Pixel";
 }
 
 #intermediateButton {
@@ -26,7 +26,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
-    fx-font-family: "Geist Pixel";
+    -fx-font-family: "Geist Pixel";
 }
 
 #customPdfButton{
@@ -39,7 +39,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
-    fx-font-family: "Geist Pixel";
+    -fx-font-family: "Geist Pixel";
 }
 
 #backButton {
@@ -52,7 +52,7 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-effect: null;
-    fx-font-family: "Geist Pixel";
+    -fx-font-family: "Geist Pixel";
 }
 
 #quizmodeselecttitle {
