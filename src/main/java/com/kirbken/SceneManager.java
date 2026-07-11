@@ -192,4 +192,12 @@ public class SceneManager {
             goToStart(); // fallback if Settings was opened with no stored return point
         }
     }
+
+    public void goToControls() {
+        loadFXML("/fxml/controls.fxml");
+    }
+
+    public void goToCredits() {
+        loadFXML("/fxml/credits.fxml");
+    }
 }

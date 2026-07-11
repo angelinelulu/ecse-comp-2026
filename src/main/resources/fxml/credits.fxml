@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane id="credits_pane" fx:controller="com.kirbken.controllers.CreditsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/story.css" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" layoutY="140.0" prefWidth="1280.0" spacing="20.0">
+         <children>
+            <Label id="settings_title" text="Credits" />
+            <Label id="settings_label" text="Puff Daddy" style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+            <Label id="settings_label" text="Developed for ECSE 2026 Competition" />
+
+            <!-- TODO: fill in real names/roles -->
+            <Label id="settings_label" text="Character &amp; Game Design/Development — Alyza So, Olivia Kusuma, and Angeline Lulu" />
+            <Label id="settings_label" text="Hardware Integration — Krystelle Ferrer, Franchesca Calutan, and Wendy Zhao" />
+
+            <Label id="settings_label" text="Special thanks to the University of Auckland." style="-fx-opacity: 0.7;" />
+
+            <Button id="back_button" onAction="#onBackClicked" text="Back" />
+         </children>
+      </VBox>
+   </children>
+</Pane>

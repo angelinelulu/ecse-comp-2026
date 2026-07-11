@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+
+<Pane id="controls_pane" fx:controller="com.kirbken.controllers.ControlsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/story.css" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" layoutY="60.0" prefWidth="1280.0" spacing="40.0">
+         <children>
+            <Label id="settings_title" text="Controls" />
+
+            <GridPane hgap="60.0" vgap="18.0">
+               <columnConstraints>
+                  <ColumnConstraints minWidth="500.0" />
+                  <ColumnConstraints minWidth="500.0" />
+               </columnConstraints>
+               <children>
+                  <Label id="prompt_text" text="PLAYER 1" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+                  <Label id="prompt_text" text="PLAYER 2" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+
+                  <Label id="settings_label" text="A / D — Move Left / Right" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <Label id="settings_label" text="← / → — Move Left / Right" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                  <Label id="settings_label" text="W — Jump" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                  <Label id="settings_label" text="↑ — Jump" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                  <Label id="settings_label" text="F — Attack" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                  <Label id="settings_label" text="L — Attack" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                  <Label id="settings_label" text="G — Special Move" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                  <Label id="settings_label" text="; — Special Move" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+
+            <Label id="settings_label" text="Note: this game will also support physical arcade buttons and controllers in future updates." wrapText="true" style="-fx-font-size: 14px; -fx-opacity: 0.7;" />
+
+            <Button id="back_button" onAction="#onBackClicked" text="Back" />
+         </children>
+      </VBox>
+   </children>
+</Pane>

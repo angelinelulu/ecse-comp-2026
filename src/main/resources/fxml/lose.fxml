@@ -37,7 +37,7 @@
       </Label>
       
       <!-- Defeated Character Sprite Visual -->
-      <ImageView fx:id="imgLoser" fitHeight="300.0" fitWidth="372.0" layoutX="84.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgLoser" fitHeight="820.0" fitWidth="750.0" layoutX="84.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/basic_kirby/die.png" />
          </image>

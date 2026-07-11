@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.Pane?>
@@ -38,15 +37,15 @@
 
             <HBox alignment="CENTER" spacing="20.0">
                <children>
-                  <Label id="settings_label" text="Language" />
-                  <ComboBox fx:id="languageComboBox" />
+                  <Label id="settings_label" text="Fullscreen" />
+                  <CheckBox fx:id="fullscreenCheckBox" />
                </children>
             </HBox>
 
             <HBox alignment="CENTER" spacing="20.0">
                <children>
-                  <Label id="settings_label" text="Fullscreen" />
-                  <CheckBox fx:id="fullscreenCheckBox" />
+                  <Button id="controls_button" onAction="#onControlsClicked" text="Controls" />
+                  <Button id="credits_button" onAction="#onCreditsClicked" text="Credits" />
                </children>
             </HBox>
 
