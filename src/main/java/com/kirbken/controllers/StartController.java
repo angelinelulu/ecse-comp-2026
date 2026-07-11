@@ -3,6 +3,7 @@ package com.kirbken.controllers;
 import com.kirbken.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 
 public class StartController implements FxController {
     private SceneManager manager;
@@ -12,6 +13,9 @@ public class StartController implements FxController {
 
     @FXML
     private Button settings_button;
+
+    @FXML
+    private AnchorPane startRootPane;
 
     @FXML
     private Button quiz_mode_button;
@@ -33,8 +37,6 @@ public class StartController implements FxController {
 
     @FXML
     private void GameSettingsClicked() {
-        manager.goToSettings();
+        manager.goToSettingsFrom(startRootPane, null);
     }
-
-
 }

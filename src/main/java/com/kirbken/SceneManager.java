@@ -3,11 +3,15 @@ package com.kirbken;
 import com.kirbken.controllers.ArenaController;
 import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
+import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import java.io.IOException;
 
 public class SceneManager {
@@ -17,6 +21,8 @@ public class SceneManager {
     private final Stage stage;
     private final Pane container = new Pane();
     private Scene scene;
+    private Parent previousRoot;
+    private Runnable onReturnFromSettings;
 
     public SceneManager(Stage stage) {
         this.stage = stage;
@@ -117,10 +123,57 @@ public class SceneManager {
     }
 
     private void setRoot(Parent root) {
-        container.getChildren().setAll(root);
+        Node oldRoot = container.getChildren().isEmpty() ? null : container.getChildren().get(0);
+
+        if (oldRoot == null) {
+            root.setOpacity(0.0);
+            container.getChildren().setAll(root);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(350), root);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
+            return;
+        }
+
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(220), oldRoot);
+        fadeOut.setFromValue(oldRoot.getOpacity());
+        fadeOut.setToValue(0.0);
+        fadeOut.setOnFinished(event -> {
+            container.getChildren().remove(oldRoot);
+            root.setOpacity(0.0);
+            container.getChildren().setAll(root);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(350), root);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
+        });
+
+        SequentialTransition transition = new SequentialTransition(fadeOut);
+        transition.play();
     }
 
     public void goToRoundTransition() {
         loadFXML("/fxml/round_transition.fxml");
+    }
+
+    public void goToSettingsFrom(Parent currentRoot, Runnable onReturn) {
+        this.previousRoot = currentRoot;
+        this.onReturnFromSettings = onReturn;
+        loadFXML("/fxml/settings.fxml");
+    }
+
+    public void returnFromSettings() {
+        if (previousRoot != null) {
+            setRoot(previousRoot);
+            if (onReturnFromSettings != null) {
+                onReturnFromSettings.run();
+                onReturnFromSettings = null;
+            }
+            previousRoot = null;
+        } else {
+            goToStart(); // fallback if Settings was opened with no stored return point
+        }
     }
 }
