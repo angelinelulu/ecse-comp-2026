@@ -79,6 +79,10 @@ public class ArenaController implements FxController {
   private static final double AI_ATTACK_RANGE = 160;
   private final Random aiRandom = new Random();
 
+  // Current AI intent, persists between decision ticks
+  private enum AIAction { APPROACH_LEFT, APPROACH_RIGHT, ATTACK, IDLE }
+  private AIAction currentAIAction = AIAction.IDLE;
+
   // --- Quiz mode fields ---
   private static final int QUESTIONS_PER_MATCH = 2;
   private static final int FALLBACK_TRIGGER_SECONDS_REMAINING = 15; // force a quiz if time is running out
@@ -286,23 +290,42 @@ public class ArenaController implements FxController {
 
   private void updateAI() {
       long now = System.nanoTime();
-      if (now - lastAIDecisionTime < AI_DECISION_INTERVAL_NS) {
-          return;
-      }
-      lastAIDecisionTime = now;
 
+      // Only re-evaluate the AI's strategy periodically...
+      if (now - lastAIDecisionTime >= AI_DECISION_INTERVAL_NS) {
+          lastAIDecisionTime = now;
+          decideAIAction();
+      }
+
+      // ...but execute movement every single frame, just like real player input
+      switch (currentAIAction) {
+          case APPROACH_LEFT -> {
+              p2.moveLeft();
+              p2.setAttacking(false);
+          }
+          case APPROACH_RIGHT -> {
+              p2.moveRight();
+              p2.setAttacking(false);
+          }
+          case ATTACK -> {
+              p2.setAttacking(true);
+              p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+          }
+          case IDLE -> {
+              p2.setAttacking(false);
+          }
+      }
+  }
+
+  private void decideAIAction() {
       double distance = Math.abs(p1.getCenterX() - p2.getCenterX());
 
       if (distance > AI_ATTACK_RANGE) {
-          if (p1.getCenterX() < p2.getCenterX()) {
-              p2.moveLeft();
-          } else {
-              p2.moveRight();
-          }
-          p2.setAttacking(false);
+          currentAIAction = (p1.getCenterX() < p2.getCenterX())
+              ? AIAction.APPROACH_LEFT
+              : AIAction.APPROACH_RIGHT;
       } else {
-          p2.setAttacking(true);
-          p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+          currentAIAction = AIAction.ATTACK;
 
           if (aiRandom.nextInt(100) < 15) {
               p2.triggerSpecial();
