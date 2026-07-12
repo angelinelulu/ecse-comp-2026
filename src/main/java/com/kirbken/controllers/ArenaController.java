@@ -205,9 +205,8 @@ public class ArenaController implements FxController {
               updateDebugRect(p2HitboxDebug, p2);
           }
 
-        fight.update();
-        updateHealthBars();
-        updateTimer(now);
+          updateHealthBars();
+          updateTimer(now);
 
         // Quiz mode: fallback — force any remaining questions before time runs out.
         // Does NOT fire on a KO (fight.isOver()) — if a character's health hits 0,

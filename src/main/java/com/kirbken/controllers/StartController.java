@@ -1,5 +1,6 @@
 package com.kirbken.controllers;
 
+import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,6 +28,8 @@ public class StartController implements FxController {
 
     @FXML
     private void StartGame() {
+        GameState.resetRounds();
+        GameState.unlockForNewRound();
         manager.goToStory();
     }
 

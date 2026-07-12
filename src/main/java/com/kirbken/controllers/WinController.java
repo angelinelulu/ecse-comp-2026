@@ -1,5 +1,6 @@
 package com.kirbken.controllers;
 
+import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 
 import javafx.event.ActionEvent;
@@ -20,10 +21,7 @@ public class WinController implements FxController {
     public void setSceneManager(SceneManager manager) {
         this.manager = manager;
     }
-
-    // Add @FXML fields/methods once you know what buttons win.fxml has
-
-    // if player clicks play again, go to story
+    
     @FXML
     public void onPlayAgain(ActionEvent event) {
         // Play again should return to the arena to rematch
@@ -33,6 +31,8 @@ public class WinController implements FxController {
     // if player clicks home, go to start
     @FXML
     public void onHome(ActionEvent event) {
+        GameState.resetRounds();
+        GameState.unlockForNewRound();
         manager.goToStart();
     }
     

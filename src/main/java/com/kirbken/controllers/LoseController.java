@@ -1,6 +1,7 @@
 package com.kirbken.controllers;
 
 import com.kirbken.CharacterProfile;
+import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 
 import javafx.event.ActionEvent;
@@ -35,6 +36,8 @@ public class LoseController implements FxController {
 
     @FXML
     public void onHome(ActionEvent event) {
+        GameState.resetRounds();
+        GameState.unlockForNewRound();
         manager.goToStart();
     }
 
