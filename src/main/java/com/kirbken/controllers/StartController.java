@@ -17,6 +17,9 @@ public class StartController implements FxController {
     @FXML
     private AnchorPane startRootPane;
 
+    @FXML
+    private Button quiz_mode_button;
+
     @Override
     public void setSceneManager(SceneManager manager) {
         this.manager = manager;
@@ -25,6 +28,11 @@ public class StartController implements FxController {
     @FXML
     private void StartGame() {
         manager.goToStory();
+    }
+
+    @FXML
+    private void GoToQuizModeSelect() {
+        manager.goToQuizModeSelect();
     }
 
     @FXML

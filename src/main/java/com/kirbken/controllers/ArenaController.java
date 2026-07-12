@@ -12,13 +12,18 @@ import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.models.Question;
 import com.kirbken.models.Character;
 import com.kirbken.models.CharacterAnimationRegistry;
 import com.kirbken.models.Fight;
 import com.kirbken.models.Projectile;
 import com.kirbken.models.SpriteAnimator;
 import com.kirbken.utils.MusicManager;
-
+import com.kirbken.utils.QuizManager;
+import com.kirbken.components.QuizPopup; 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -29,6 +34,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Rectangle;
@@ -66,6 +72,13 @@ public class ArenaController implements FxController {
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
+
+  // --- Quiz mode fields ---
+  private static final int QUESTIONS_PER_MATCH = 2;
+  private static final int FALLBACK_TRIGGER_SECONDS_REMAINING = 15; // force a quiz if time is running out
+  private final List<Long> quizTriggerNanosList = new ArrayList<>();
+  private int nextQuizIndex = 0;
+  private int questionsAskedCount = 0;
 
   @FXML
   public void initialize() {
@@ -126,6 +139,10 @@ public class ArenaController implements FxController {
     p2Segments = new Region[] {p2Seg0, p2Seg1, p2Seg2, p2Seg3, p2Seg4, p2Seg5, p2Seg6, p2Seg7};
 
     timerLabel.setText(formatTime(timeRemaining));
+
+    if (QuizManager.getInstance().isQuizModeEnabled()) {
+      initQuizTiming();
+    }
 
     startGameLoop();
   }
@@ -188,8 +205,20 @@ public class ArenaController implements FxController {
               updateDebugRect(p2HitboxDebug, p2);
           }
 
-          updateHealthBars();
-          updateTimer(now);
+        fight.update();
+        updateHealthBars();
+        updateTimer(now);
+
+        // Quiz mode: fallback — force any remaining questions before time runs out.
+        // Does NOT fire on a KO (fight.isOver()) — if a character's health hits 0,
+        // the match ends immediately and no quiz pops up, even if questions are still owed.
+        if (QuizManager.getInstance().isQuizModeEnabled()
+            && !fight.isOver()
+            && questionsAskedCount < QUESTIONS_PER_MATCH
+            && timeRemaining <= FALLBACK_TRIGGER_SECONDS_REMAINING) {
+            triggerQuizPopup();
+            return; // skip the rest of this frame; time-up will be re-checked next frame
+        }
 
           if (fight.isOver()) {
               stop();
@@ -198,12 +227,20 @@ public class ArenaController implements FxController {
               return;
           }
 
-          if (timeRemaining <= 0) {
-              stop();
-              cleanupMatchAudio();
-              handleTimeUp();
-          }
-      }
+        if (timeRemaining <= 0) {
+            stop();
+            cleanupMatchAudio();
+            handleTimeUp();
+            return;
+        }
+
+        // Quiz mode: scheduled mid-match trigger
+        if (QuizManager.getInstance().isQuizModeEnabled()
+            && nextQuizIndex < quizTriggerNanosList.size()
+            && now >= quizTriggerNanosList.get(nextQuizIndex)) {
+            triggerQuizPopup();
+        }
+    }
     };
     timer.start();
   }
@@ -388,6 +425,61 @@ public class ArenaController implements FxController {
 
   private void cleanupMatchAudio() {
     musicManager.stopSound("arena");
+  }
+
+  // --- Quiz mode methods ---
+
+  /**
+   * Schedules two quiz triggers at fixed points in the match:
+   *  - Question 1: random time between 0:10 and 1:30
+   *  - Question 2: random time between 1:40 and 3:00
+   */
+  private void initQuizTiming() {
+    quizTriggerNanosList.clear();
+    Random random = new Random();
+    long startNanos = System.nanoTime();
+
+    int q1MinSeconds = 10;
+    int q1MaxSeconds = 90;  // 1:30
+    int q2MinSeconds = 100; // 1:40
+    int q2MaxSeconds = 165; // stays ahead of the 15s-remaining fallback trigger (180 - 15)
+
+    int q1DelaySeconds = q1MinSeconds + random.nextInt(q1MaxSeconds - q1MinSeconds + 1);
+    int q2DelaySeconds = q2MinSeconds + random.nextInt(q2MaxSeconds - q2MinSeconds + 1);
+
+    quizTriggerNanosList.add(startNanos + q1DelaySeconds * 1_000_000_000L);
+    quizTriggerNanosList.add(startNanos + q2DelaySeconds * 1_000_000_000L);
+  }
+
+  private void triggerQuizPopup() {
+    timer.stop(); // pauses movement, health, AND the countdown, since they all live in handle()
+
+    Question q = QuizManager.getInstance().getRandomQuestion();
+    if (q == null) {
+      // no questions available (e.g. PDF generation failed) — just resume the match.
+      // Count it anyway so the fallback doesn't loop trying to force a quiz forever.
+      questionsAskedCount++;
+      nextQuizIndex++;
+      timer.start();
+      return;
+    }
+
+    QuizPopup popup = new QuizPopup(q, this::onQuizAnswered);
+    rootPane.getChildren().add(popup.getOverlay()); // StackPane overlay, id="quizOverlay"
+  }
+
+  private void onQuizAnswered(boolean wasCorrect) {
+    rootPane.getChildren().removeIf(
+        node -> node instanceof StackPane && "quizOverlay".equals(node.getId()));
+
+    questionsAskedCount++;
+    nextQuizIndex++;
+
+    // optional: apply a reward/penalty for correct/incorrect answers here
+    // e.g. if (wasCorrect) p1.heal(10); else p1.takeDamage(5);
+
+    lastSecondTick = 0; // recalibrate countdown baseline so paused time isn't counted
+    timer.start();
   }
 
   @FXML

@@ -122,6 +122,14 @@ public class SceneManager {
         }
     }
 
+    public void goToQuizSetup() {
+        loadFXML("/fxml/quizsetup.fxml");
+    }
+
+    public void goToQuizModeSelect() {
+        loadFXML("/fxml/quiz_mode_select.fxml");
+    }
+
     private void loadFXML(String path) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
