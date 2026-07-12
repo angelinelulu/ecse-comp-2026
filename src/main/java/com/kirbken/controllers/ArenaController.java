@@ -73,6 +73,12 @@ public class ArenaController implements FxController {
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
 
+  // --- singleplayer mode fields ---
+  private long lastAIDecisionTime = 0;
+  private static final long AI_DECISION_INTERVAL_NS = 400_000_000L;
+  private static final double AI_ATTACK_RANGE = 160;
+  private final Random aiRandom = new Random();
+
   // --- Quiz mode fields ---
   private static final int QUESTIONS_PER_MATCH = 2;
   private static final int FALLBACK_TRIGGER_SECONDS_REMAINING = 15; // force a quiz if time is running out
@@ -245,33 +251,67 @@ public class ArenaController implements FxController {
   }
 
   private void handleInput() {
-    if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
-    if (activeKeys.contains(KeyCode.D)) p1.moveRight();
-    if (activeKeys.contains(KeyCode.W)) p1.jump();
+      if (activeKeys.contains(KeyCode.A)) p1.moveLeft();
+      if (activeKeys.contains(KeyCode.D)) p1.moveRight();
+      if (activeKeys.contains(KeyCode.W)) p1.jump();
 
-    boolean p1Attacking = activeKeys.contains(KeyCode.F);
-    p1.setAttacking(p1Attacking);
-    if (p1Attacking) {
-      p1.getAnimator().setState(SpriteAnimator.State.ATTACK);
-    } else if (activeKeys.contains(KeyCode.G)) {
-      p1.triggerSpecial();
-    } else if (!activeKeys.contains(KeyCode.A) && !activeKeys.contains(KeyCode.D)) {
-      p1.getAnimator().setState(SpriteAnimator.State.IDLE);
-    }
+      boolean p1Attacking = activeKeys.contains(KeyCode.F);
+      p1.setAttacking(p1Attacking);
+      if (p1Attacking) {
+          p1.getAnimator().setState(SpriteAnimator.State.ATTACK);
+      } else if (activeKeys.contains(KeyCode.G)) {
+          p1.triggerSpecial();
+      } else if (!activeKeys.contains(KeyCode.A) && !activeKeys.contains(KeyCode.D)) {
+          p1.getAnimator().setState(SpriteAnimator.State.IDLE);
+      }
 
-    if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
-    if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
-    if (activeKeys.contains(KeyCode.UP)) p2.jump();
+      if (GameState.getGameMode() == GameState.GameMode.SINGLEPLAYER) {
+          updateAI();
+      } else {
+          if (activeKeys.contains(KeyCode.LEFT)) p2.moveLeft();
+          if (activeKeys.contains(KeyCode.RIGHT)) p2.moveRight();
+          if (activeKeys.contains(KeyCode.UP)) p2.jump();
 
-    boolean p2Attacking = activeKeys.contains(KeyCode.L);
-    p2.setAttacking(p2Attacking);
-    if (p2Attacking) {
-      p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
-    } else if (activeKeys.contains(KeyCode.SEMICOLON)) {
-      p2.triggerSpecial();
-    } else if (!activeKeys.contains(KeyCode.LEFT) && !activeKeys.contains(KeyCode.RIGHT)) {
-      p2.getAnimator().setState(SpriteAnimator.State.IDLE);
-    }
+          boolean p2Attacking = activeKeys.contains(KeyCode.L);
+          p2.setAttacking(p2Attacking);
+          if (p2Attacking) {
+              p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+          } else if (activeKeys.contains(KeyCode.SEMICOLON)) {
+              p2.triggerSpecial();
+          } else if (!activeKeys.contains(KeyCode.LEFT) && !activeKeys.contains(KeyCode.RIGHT)) {
+              p2.getAnimator().setState(SpriteAnimator.State.IDLE);
+          }
+      }
+  }
+
+  private void updateAI() {
+      long now = System.nanoTime();
+      if (now - lastAIDecisionTime < AI_DECISION_INTERVAL_NS) {
+          return;
+      }
+      lastAIDecisionTime = now;
+
+      double distance = Math.abs(p1.getCenterX() - p2.getCenterX());
+
+      if (distance > AI_ATTACK_RANGE) {
+          if (p1.getCenterX() < p2.getCenterX()) {
+              p2.moveLeft();
+          } else {
+              p2.moveRight();
+          }
+          p2.setAttacking(false);
+      } else {
+          p2.setAttacking(true);
+          p2.getAnimator().setState(SpriteAnimator.State.ATTACK);
+
+          if (aiRandom.nextInt(100) < 15) {
+              p2.triggerSpecial();
+          }
+      }
+
+      if (aiRandom.nextInt(100) < 5) {
+          p2.jump();
+      }
   }
 
   private void updateHealthBars() {

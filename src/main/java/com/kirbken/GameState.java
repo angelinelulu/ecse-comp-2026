@@ -4,6 +4,8 @@ public class GameState {
     private static boolean characterLocked = false;
     private static CharacterProfile selectedCharacter = CharacterRegistry.getDefault();
     private static int currentRound = 1;
+    public enum GameMode { SINGLEPLAYER, MULTIPLAYER, UNSET }
+    private static GameMode gameMode = GameMode.UNSET;
 
     public static void setPendingCharacter(CharacterProfile profile) {
         if (!characterLocked) {
@@ -37,5 +39,13 @@ public class GameState {
 
     public static void unlockForNewRound() {
         characterLocked = false;
+    }
+
+    public static void setGameMode(GameMode mode) {
+        gameMode = mode;
+    }
+
+    public static GameMode getGameMode() {
+        return gameMode;
     }
 }
