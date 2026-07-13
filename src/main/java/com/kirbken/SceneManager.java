@@ -221,6 +221,11 @@ public class SceneManager {
         }
     }
 
+    // for multiplayer mode
+    public void goToPlayer2Prompt() {
+        loadFXML("/fxml/player2_prompt.fxml");
+    }
+
     public void goToControls() {
         loadFXML("/fxml/controls.fxml");
     }

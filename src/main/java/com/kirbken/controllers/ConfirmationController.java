@@ -49,7 +49,7 @@ public class ConfirmationController implements FxController {
         } else {
             GameState.confirmCharacter();
             if (GameState.getGameMode() == GameState.GameMode.MULTIPLAYER) {
-                manager.goToCardScanP2();
+                manager.goToPlayer2Prompt(); // ask P2 first, don't jump straight to camera
             } else {
                 manager.goToArena();
             }
