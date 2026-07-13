@@ -26,6 +26,7 @@ public class MusicManager {
         loadSound("win", "/sounds/win.mp3");
         loadSound("lose", "/sounds/lose.mp3");
         loadSound("punch", "/sounds/punch.mp3");
+        loadSound("countdown", "/sounds/countdown.mp3");
     }
 
     public static MusicManager getInstance() {
