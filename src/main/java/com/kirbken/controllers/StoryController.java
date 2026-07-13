@@ -101,7 +101,7 @@ public class StoryController implements FxController {
 
     @FXML
     private void onNoClicked() {
-        manager.goToConfirmation(CharacterRegistry.getDefault());
+        manager.goToConfirmation(CharacterRegistry.getDefault(), false);
     }
 
     @FXML

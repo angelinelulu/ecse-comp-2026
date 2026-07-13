@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 public class ConfirmationController implements FxController {
     private SceneManager manager;
     private CharacterProfile pendingProfile;
+    private boolean isForPlayer2 = false;
 
     @FXML private ImageView previewImage;
     @FXML private Label characterNameLabel;
@@ -20,9 +21,14 @@ public class ConfirmationController implements FxController {
         this.manager = manager;
     }
 
-    public void setProfile(CharacterProfile profile) {
+    public void setProfile(CharacterProfile profile, boolean forPlayer2) {
         this.pendingProfile = profile;
-        GameState.setPendingCharacter(profile);
+        this.isForPlayer2 = forPlayer2;
+        if (forPlayer2) {
+            GameState.setPendingCharacterP2(profile);
+        } else {
+            GameState.setPendingCharacter(profile);
+        }
 
         characterNameLabel.setText(profile.getDisplayName());
 
@@ -37,13 +43,25 @@ public class ConfirmationController implements FxController {
 
     @FXML
     private void onConfirmClicked() {
-        System.out.println("CONFIRMING CHARACTER: " + pendingProfile.getId()); //debug
-        GameState.confirmCharacter();
-        manager.goToArena();
+        if (isForPlayer2) {
+            GameState.confirmCharacterP2();
+            manager.goToArena();
+        } else {
+            GameState.confirmCharacter();
+            if (GameState.getGameMode() == GameState.GameMode.MULTIPLAYER) {
+                manager.goToCardScanP2();
+            } else {
+                manager.goToArena();
+            }
+        }
     }
 
     @FXML
     private void onCancelClicked() {
-        manager.goToCardScan(); //if they want to try different cards
+        if (isForPlayer2) {
+            manager.goToCardScanP2();
+        } else {
+            manager.goToCardScan();
+        }
     }
 }

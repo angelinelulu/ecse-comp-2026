@@ -1,6 +1,7 @@
 package com.kirbken;
 
 import com.kirbken.controllers.ArenaController;
+import com.kirbken.controllers.CardScanController;
 import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
 import com.kirbken.controllers.LoseController;
@@ -103,7 +104,26 @@ public class SceneManager {
         loadFXML("/fxml/card_scan.fxml");
     }
 
-    public void goToConfirmation(CharacterProfile profile) {
+    public void goToCardScanP2() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/card_scan.fxml"));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof FxController fxController) {
+                fxController.setSceneManager(this);
+            }
+            if (controller instanceof CardScanController cardScanController) {
+                cardScanController.setForPlayer2(true);
+            }
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToConfirmation(CharacterProfile profile, boolean forPlayer2) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/confirmation.fxml"));
             Parent root = loader.load();
@@ -113,7 +133,7 @@ public class SceneManager {
                 fxController.setSceneManager(this);
             }
             if (controller instanceof ConfirmationController confirmationController) {
-                confirmationController.setProfile(profile);
+                confirmationController.setProfile(profile, forPlayer2);
             }
 
             setRoot(root);
