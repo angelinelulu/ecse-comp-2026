@@ -475,17 +475,21 @@ public class ArenaController implements FxController {
   private void showWinner(Character winner) {
       musicManager.stopSound("arena");
       CharacterProfile loserProfile = (winner == p2) ? p1Profile : p2Profile;
+      boolean isMultiplayer = GameState.getGameMode() == GameState.GameMode.MULTIPLAYER;
 
-      if (winner == p2) {
+      if (isMultiplayer) {
+          musicManager.playSound("win", 0.7); // always a win sound in multiplayer, regardless of which player wins
+      } else if (winner == p2) {
           musicManager.playSound("lose", 0.7);
       } else {
           musicManager.playSound("win", 0.7);
-      }
+      } 
+
       javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
       pause.setOnFinished(e -> {
-          if (GameState.getGameMode() == GameState.GameMode.MULTIPLAYER) {
-              // Multiplayer: single match, straight to win/lose — no rounds, no boss, no Vexthorn
-              manager.goToWin();
+          if (isMultiplayer) {
+              int winningPlayerNumber = (winner == p1) ? 1 : 2;
+              manager.goToWin("Victory to Player " + winningPlayerNumber + "!");
           } else if (winner == p2) {
               manager.goToLose(loserProfile);
           } else if (GameState.getCurrentRound() == 1) {
