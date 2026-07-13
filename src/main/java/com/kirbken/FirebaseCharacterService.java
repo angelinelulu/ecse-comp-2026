@@ -21,6 +21,11 @@ public class FirebaseCharacterService {
         "kirby_buff", "boss.png"        
     );
 
+    private static final java.util.Set<String> FULL_HEALTH_KEYS = java.util.Set.of(
+        "kirby_angelic",
+        "kirby_buff"
+    );
+
     public static CharacterProfile fetchCharacter(String key) {
         try {
             String url = BASE_URL + key + ".json";
@@ -39,12 +44,13 @@ public class FirebaseCharacterService {
             if (dto == null || dto.stats == null) return null;
 
             String spriteFile = SPRITE_FILES.getOrDefault(key, "basic.png");
+            int adjustedHealth = normalizeHealth(key, dto.stats.health_points);
 
             return new CharacterProfile(
                 key,
                 dto.name,
                 "/images/" + spriteFile,
-                dto.stats.health_points,
+                adjustedHealth,
                 dto.stats.attack_power,
                 dto.stats.defense_rating,
                 dto.stats.speed_velocity,
@@ -63,6 +69,14 @@ public class FirebaseCharacterService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static int normalizeHealth(String key, int healthPoints) {
+        if (FULL_HEALTH_KEYS.contains(key)) {
+            return healthPoints;
+        }
+
+        return Math.max(1, Math.round(healthPoints * 0.95f));
     }
 
     /** Matches Firebase's actual JSON structure for a single character entry. */
