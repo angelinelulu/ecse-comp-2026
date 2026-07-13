@@ -1,0 +1,84 @@
+{
+    "characters": {
+        "kirby_base": {
+            "name": "Classic Pink",
+            "visual_description": "Standard pink spherical protagonist, unequipped base variant",
+            "ranking_tier": "F",
+            "stats": {
+                "health_points": 100,
+                "attack_power": 12,
+                "defense_rating": 6,
+                "speed_velocity": 10
+            },
+            "combat_mechanics": {
+                "primary_action": "Standard Inhale",
+                "secondary_action": "Star Spit",
+                "signature_burst": "Warp Star Strike"
+            }
+        },
+        "kirby_ninja": {
+            "name": "Shadow Shinobi",
+            "visual_description": "Dark blue stealth cowl variant wielding a ceremonial kunai dagger",
+            "ranking_tier": "D",
+            "stats": {
+                "health_points": 115,
+                "attack_power": 18,
+                "defense_rating": 8,
+                "speed_velocity": 16
+            },
+            "combat_mechanics": {
+                "primary_action": "Kunai Slash",
+                "secondary_action": "Smoke Bomb Vanish",
+                "signature_burst": "Shadow Clone Flurry"
+            }
+        },
+        "kirby_storm": {
+            "name": "Storm Summoner",
+            "visual_description": "Pink variant with an active static localized lightning raincloud hovering above",
+            "ranking_tier": "C",
+            "stats": {
+                "health_points": 130,
+                "attack_power": 24,
+                "defense_rating": 10,
+                "speed_velocity": 12
+            },
+            "combat_mechanics": {
+                "primary_action": "Spark Discharge",
+                "secondary_action": "Nimbus Shield",
+                "signature_burst": "Thunderbolt Judgment"
+            }
+        },
+        "kirby_angelic": {
+            "name": "Seraphic Monarch",
+            "visual_description": "Ornate white robed angel variant with feathered wings, wielding a crescent moon staff",
+            "ranking_tier": "B",
+            "stats": {
+                "health_points": 150,
+                "attack_power": 30,
+                "defense_rating": 14,
+                "speed_velocity": 15
+            },
+            "combat_mechanics": {
+                "primary_action": "Lunar Ray",
+                "secondary_action": "Divine Sanctuary",
+                "signature_burst": "Crescent Nova Blast"
+            }
+        },
+        "kirby_buff": {
+            "name": "Titan Overlord",
+            "visual_description": "Hyper-muscular brawny variant wearing a royal ruby crown, holding a golden sun scepter",
+            "ranking_tier": "A",
+            "stats": {
+                "health_points": 200,
+                "attack_power": 45,
+                "defense_rating": 22,
+                "speed_velocity": 8
+            },
+            "combat_mechanics": {
+                "primary_action": "Scepter Smash",
+                "secondary_action": "Iron Flex Armor",
+                "signature_burst": "Supermassive Earthshaker"
+            }
+        }
+    }
+}
