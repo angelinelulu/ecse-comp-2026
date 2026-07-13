@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 public class CardScanController implements FxController {
     private SceneManager manager;
     private Webcam webcam;
+    private boolean forPlayer2 = false;
     private AnimationTimer scanLoop;
     private boolean scanned = false;
 
@@ -69,8 +70,12 @@ public class CardScanController implements FxController {
             scanned = true;
             onCodeScanned(qrText);
         } catch (NotFoundException e) {
-            // no QR code visible in this frame — normal, just keep scanning
+            // if no QR code visible in this frame, just keep scanning
         }
+    }
+
+    public void setForPlayer2(boolean forPlayer2) {
+        this.forPlayer2 = forPlayer2;
     }
 
     private void onCodeScanned(String qrCodeId) {
@@ -78,16 +83,14 @@ public class CardScanController implements FxController {
         statusLabel.setText("Loading character data...");
 
         new Thread(() -> {
-            System.out.println("Attempting Firebase fetch for key: [" + qrCodeId + "]");
             CharacterProfile profile = FirebaseCharacterService.fetchCharacter(qrCodeId);
-            System.out.println("Fetch result: " + (profile != null ? profile.getDisplayName() : "NULL (not found)"));
 
             Platform.runLater(() -> {
                 if (profile == null) {
                     statusLabel.setText("Card not recognized — using default character.");
-                    manager.goToConfirmation(CharacterRegistry.getDefault());
+                    manager.goToConfirmation(CharacterRegistry.getDefault(), forPlayer2);
                 } else {
-                    manager.goToConfirmation(profile);
+                    manager.goToConfirmation(profile, forPlayer2);
                 }
             });
         }).start();

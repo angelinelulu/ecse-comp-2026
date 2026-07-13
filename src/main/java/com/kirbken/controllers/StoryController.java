@@ -1,7 +1,9 @@
 package com.kirbken.controllers;
 
 import com.kirbken.CharacterRegistry;
+import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -28,6 +30,7 @@ public class StoryController implements FxController {
     @FXML private VBox cardPromptBox;
     @FXML private Button enterButton;
     @FXML private ScrollPane storyScrollPane;
+    @FXML private Label cardPromptLabel;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -78,6 +81,9 @@ public class StoryController implements FxController {
         storyBox.setManaged(false);
         cardPromptBox.setVisible(true);
         cardPromptBox.setManaged(true);
+
+        String playerLabel = (GameState.getGameMode() == GameState.GameMode.MULTIPLAYER) ? "Player 1" : " ";
+        cardPromptLabel.setText(playerLabel + " would you like to insert/scan your existing Kirby card?");
     }
 
     private void finishTyping() {
@@ -101,7 +107,11 @@ public class StoryController implements FxController {
 
     @FXML
     private void onNoClicked() {
-        manager.goToConfirmation(CharacterRegistry.getDefault());
+        if (GameState.getGameMode() == GameState.GameMode.MULTIPLAYER) {
+            manager.goToConfirmation(CharacterRegistry.getDefault(), false);
+        } else {
+            manager.goToConfirmation(CharacterRegistry.getDefault(), false);
+        }
     }
 
     @FXML

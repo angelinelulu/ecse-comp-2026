@@ -1,9 +1,12 @@
 package com.kirbken;
 
 import com.kirbken.controllers.ArenaController;
+import com.kirbken.controllers.CardScanController;
 import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
 import com.kirbken.controllers.LoseController;
+import com.kirbken.controllers.WinController;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +54,25 @@ public class SceneManager {
 
     public void goToWin() {
         loadFXML("/fxml/win.fxml");
+    }
+
+    public void goToWin(String winLabelText) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/win.fxml"));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof FxController fxController) {
+                fxController.setSceneManager(this);
+            }
+            if (controller instanceof WinController winController) {
+                winController.setWinLabel(winLabelText);
+            }
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void goToLose() {
@@ -103,7 +125,26 @@ public class SceneManager {
         loadFXML("/fxml/card_scan.fxml");
     }
 
-    public void goToConfirmation(CharacterProfile profile) {
+    public void goToCardScanP2() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/card_scan.fxml"));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof FxController fxController) {
+                fxController.setSceneManager(this);
+            }
+            if (controller instanceof CardScanController cardScanController) {
+                cardScanController.setForPlayer2(true);
+            }
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToConfirmation(CharacterProfile profile, boolean forPlayer2) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/confirmation.fxml"));
             Parent root = loader.load();
@@ -113,7 +154,7 @@ public class SceneManager {
                 fxController.setSceneManager(this);
             }
             if (controller instanceof ConfirmationController confirmationController) {
-                confirmationController.setProfile(profile);
+                confirmationController.setProfile(profile, forPlayer2);
             }
 
             setRoot(root);
@@ -199,6 +240,11 @@ public class SceneManager {
         } else {
             goToStart(); // fallback if Settings was opened with no stored return point
         }
+    }
+
+    // for multiplayer mode
+    public void goToPlayer2Prompt() {
+        loadFXML("/fxml/player2_prompt.fxml");
     }
 
     public void goToControls() {

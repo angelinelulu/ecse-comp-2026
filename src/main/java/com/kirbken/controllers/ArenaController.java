@@ -112,18 +112,27 @@ public class ArenaController implements FxController {
         });
 
     p1Profile = GameState.getSelectedCharacter();
-    System.out.println("ARENA LOADED CHARACTER: " + p1Profile.getId()); //debug
-    p2Profile = (GameState.getCurrentRound() == 1)
-        ? CharacterRegistry.getVexthorn()
-        : CharacterRegistry.getVexthornBoss();
+    System.out.println("ARENA LOADED CHARACTER: " + p1Profile.getId());
 
-    if (GameState.getCurrentRound() == 2) {
-        var bgUrl = getClass().getResource("/images/arena2.png");
-        if (bgUrl != null) {
-            arenaBackground.setImage(new Image(bgUrl.toExternalForm()));
-        } else {
-            System.out.println("Missing background: /images/arena2.png");
+    boolean isSingleplayer = GameState.getGameMode() == GameState.GameMode.SINGLEPLAYER;
+
+    if (isSingleplayer) {
+        p2Profile = (GameState.getCurrentRound() == 1)
+            ? CharacterRegistry.getVexthorn()
+            : CharacterRegistry.getVexthornBoss();
+
+        if (GameState.getCurrentRound() == 2) {
+            var bgUrl = getClass().getResource("/images/arena2.png");
+            if (bgUrl != null) {
+                arenaBackground.setImage(new Image(bgUrl.toExternalForm()));
+            } else {
+                System.out.println("Missing background: /images/arena2.png");
+            }
         }
+    } else {
+        // Multiplayer: P2 is a real player who scanned their own card — Kirby vs Kirby, no Vexthorn, no rounds
+        p2Profile = GameState.getSelectedCharacterP2();
+        System.out.println("ARENA LOADED CHARACTER P2: " + (p2Profile != null ? p2Profile.getId() : "NULL - P2 never scanned!"));
     }
 
     setSpriteImage(p1Sprite, p1Profile);
@@ -466,16 +475,23 @@ public class ArenaController implements FxController {
   private void showWinner(Character winner) {
       musicManager.stopSound("arena");
       CharacterProfile loserProfile = (winner == p2) ? p1Profile : p2Profile;
+      boolean isMultiplayer = GameState.getGameMode() == GameState.GameMode.MULTIPLAYER;
 
-      if (winner == p2) {
+      if (isMultiplayer) {
+          musicManager.playSound("win", 0.7); // always a win sound in multiplayer, regardless of which player wins
+      } else if (winner == p2) {
           musicManager.playSound("lose", 0.7);
       } else {
           musicManager.playSound("win", 0.7);
-      }
+      } 
+
       javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
       pause.setOnFinished(e -> {
-          if (winner == p2) {
-            manager.goToLose(loserProfile);
+          if (isMultiplayer) {
+              int winningPlayerNumber = (winner == p1) ? 1 : 2;
+              manager.goToWin("Victory to Player " + winningPlayerNumber + "!");
+          } else if (winner == p2) {
+              manager.goToLose(loserProfile);
           } else if (GameState.getCurrentRound() == 1) {
               manager.goToRoundTransition();
           } else {
