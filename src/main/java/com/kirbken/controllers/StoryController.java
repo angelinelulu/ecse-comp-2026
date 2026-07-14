@@ -3,6 +3,7 @@ package com.kirbken.controllers;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.utils.KeyboardNavHelper;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -31,6 +32,8 @@ public class StoryController implements FxController {
     @FXML private Button enterButton;
     @FXML private ScrollPane storyScrollPane;
     @FXML private Label cardPromptLabel;
+    @FXML private Button yesButton;
+    @FXML private Button noButton;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -65,6 +68,10 @@ public class StoryController implements FxController {
         }
         typingTimeline.setOnFinished(event -> finishTyping());
         typingTimeline.playFromStart();
+
+        javafx.application.Platform.runLater(() ->
+            KeyboardNavHelper.enableHorizontalNav(yesButton, yesButton, noButton)
+        );
     }
 
     @FXML

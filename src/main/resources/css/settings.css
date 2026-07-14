@@ -31,3 +31,9 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
 }
+
+.button:focused {
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
+}

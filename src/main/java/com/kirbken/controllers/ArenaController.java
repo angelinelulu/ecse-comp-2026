@@ -21,9 +21,7 @@ import com.kirbken.models.SpriteAnimator;
 import com.kirbken.utils.MusicManager;
 import com.kirbken.utils.QuizManager;
 import com.kirbken.components.QuizPopup; 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -50,6 +48,7 @@ public class ArenaController implements FxController {
   @FXML private Arc timerArc;
   @FXML private ImageView imgMute;
   @FXML private ImageView arenaBackground;
+  @FXML private Label countdownLabel;
 
   private SceneManager manager;
   private Character p1, p2;
@@ -162,7 +161,7 @@ public class ArenaController implements FxController {
       initQuizTiming();
     }
 
-    startGameLoop();
+    playCountdown(this::startGameLoop);
   }
 
   @Override
@@ -181,8 +180,15 @@ public class ArenaController implements FxController {
   }
 
   public void setupInput(Scene scene) {
-    scene.setOnKeyPressed(e -> activeKeys.add(e.getCode()));
-    scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
+      scene.setOnKeyPressed(e -> {
+          activeKeys.add(e.getCode());
+          if (e.getCode() == KeyCode.ESCAPE) {
+              onSetting(null);
+          } else if (e.getCode() == KeyCode.J) {
+              onMute(null);
+          }
+      });
+      scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
   }
 
   private void startGameLoop() {
@@ -420,7 +426,7 @@ public class ArenaController implements FxController {
       Projectile projectile = new Projectile(
           stickImage,
           thrower.getX() + 400,
-          500, // TODO: tune vertical spawn height
+          500, 
           thrower.isFacingRight(),
           PROJECTILE_SPEED,
           thrower.rollAttackDamage(),
@@ -436,7 +442,7 @@ public class ArenaController implements FxController {
           boolean stillActive = p.update();
 
           if (stillActive) {
-              Character target = p.isMovingRight() ? p2 : p1; // TODO: needs isMovingRight() getter — see below
+              Character target = p.isMovingRight() ? p2 : p1;
               if (p.checkHit(target, CHARACTER_WIDTH)) {
                   target.takeDamage(p.getDamage());
                   p.deactivate();
@@ -592,5 +598,34 @@ public class ArenaController implements FxController {
       shake.setAutoReverse(true);
       shake.setOnFinished(e -> sprite.setTranslateX(0));
       shake.play();
+  }
+
+  private void playCountdown(Runnable onFinished) {
+      countdownLabel.setVisible(true);
+      musicManager.playSound("countdown", 0.8);
+
+      String[] steps = {"3", "2", "1", "FIGHT!"};
+      countdownLabel.setText(steps[0]); // show "3" immediately, no initial delay
+
+      javafx.animation.Timeline timeline = new javafx.animation.Timeline();
+      for (int i = 1; i < steps.length; i++) {
+          String stepText = steps[i];
+          javafx.animation.KeyFrame frame = new javafx.animation.KeyFrame(
+              javafx.util.Duration.seconds(0.8 * i),
+              e -> countdownLabel.setText(stepText)
+          );
+          timeline.getKeyFrames().add(frame);
+      }
+
+      javafx.animation.KeyFrame endFrame = new javafx.animation.KeyFrame(
+          javafx.util.Duration.seconds(0.8 * steps.length),
+          e -> {
+              countdownLabel.setVisible(false);
+              onFinished.run();
+          }
+      );
+      timeline.getKeyFrames().add(endFrame);
+
+      timeline.play();
   }
 }

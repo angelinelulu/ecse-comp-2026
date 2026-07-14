@@ -171,6 +171,10 @@ public class SceneManager {
         loadFXML("/fxml/quiz_mode_select.fxml");
     }
 
+    public void goToModeSelect() {
+        loadFXML("/fxml/mode_select.fxml");
+    }
+
     private void loadFXML(String path) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
