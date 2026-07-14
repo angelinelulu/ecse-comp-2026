@@ -12,6 +12,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.geometry.Insets;
 
 public class LoseController implements FxController {
@@ -43,6 +44,11 @@ public class LoseController implements FxController {
 
     @FXML
     public void initialize() {
+
+        java.net.URL fontUrl = getClass().getResource("/fonts/GeistPixelRegular.ttf");
+        if (fontUrl != null) {
+        Font.loadFont(fontUrl.toExternalForm(), 28);
+    }
         if (lblGameOver != null) {
             lblGameOver.setText("Game Over : You Lost");
         }
