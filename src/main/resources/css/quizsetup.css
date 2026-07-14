@@ -87,3 +87,9 @@
     -fx-border-width: 3px;
     -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
 }
+
+#chooseFileButton:focused, #storyButton:focused, #generateButton:focused, #backButton:focused {
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
+}

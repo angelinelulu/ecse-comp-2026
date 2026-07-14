@@ -13,7 +13,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
+import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -43,7 +43,7 @@ public class QuizSetupController implements FxController {
   }
 
   @FXML
-  private void onChooseFile(MouseEvent event) {
+  private void onChooseFile(ActionEvent event) {
     musicManager.playSound("buttonClick", 0.5);
 
     FileChooser fileChooser = new FileChooser();
@@ -64,7 +64,7 @@ public class QuizSetupController implements FxController {
   }
 
   @FXML
-  private void onGenerateQuestions(MouseEvent event) {
+  private void onGenerateQuestions(ActionEvent event) {
     if (selectedPdf == null) {
       return;
     }
@@ -104,13 +104,13 @@ public class QuizSetupController implements FxController {
   }
 
   @FXML
-  private void onStoryButtonClicked(MouseEvent event) {
-    musicManager.playSound("buttonClick", 0.5);
-    manager.goToStory(); // 
+  private void onStoryButtonClicked(ActionEvent event) {
+      musicManager.playSound("buttonClick", 0.5);
+      manager.goToModeSelect();
   }
 
   @FXML
-  private void onBack(MouseEvent event) {
+  private void onBack(ActionEvent event) {
     musicManager.playSound("buttonClick", 0.5);
     QuizManager.getInstance().setQuizModeEnabled(false);
     manager.goToQuizModeSelect(); // 

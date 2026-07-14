@@ -79,7 +79,7 @@
     -fx-font-weight: bold;
 }
 
-.button:focused {
+#basicButton:focused, #intermediateButton:focused, #customPdfButton:focused, #backButton:focused {
     -fx-border-color: yellow;
     -fx-border-width: 3px;
     -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
