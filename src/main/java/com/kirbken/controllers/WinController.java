@@ -25,6 +25,10 @@ public class WinController implements FxController {
     
     @FXML
     public void initialize() {
+        java.net.URL fontUrl = getClass().getResource("/fonts/GeistPixelRegular.ttf");
+        if (fontUrl != null) {
+            javafx.scene.text.Font.loadFont(fontUrl.toExternalForm(), 28);
+        }
         javafx.application.Platform.runLater(() ->
             KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnPlayAgain, btnHome)
         );

@@ -19,7 +19,7 @@
             <Point3D />
          </rotationAxis>
       </ImageView>
-      <Label fx:id="lblVictory" alignment="CENTER" layoutX="0.0" layoutY="128.0" prefWidth="1280.0" styleClass="tekken-regular" text="Victory!" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="lblVictory" alignment="CENTER" layoutX="0.0" layoutY="128.0" prefWidth="1280.0" styleClass="geist-pixel" text="Victory!" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="48.0" />
          </font>
@@ -42,12 +42,12 @@
             <String fx:value="tekken-regular" />
          </styleClass>
       </Button>
-      <Label fx:id="lblRank" alignment="CENTER" layoutX="0.0" layoutY="195.0" prefWidth="1280.0" styleClass="tekken-regular" text="New Rank Achieved: Tier D" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="lblRank" alignment="CENTER" layoutX="0.0" layoutY="195.0" prefWidth="1280.0" styleClass="geist-pixel" text="New Rank Achieved: Tier D" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Label fx:id="lblCard" alignment="CENTER" layoutX="0.0" layoutY="301.0" prefWidth="1280.0" styleClass="tekken-regular" text="Unlocked Card Preview: Shadow Shinobi" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="lblCard" alignment="CENTER" layoutX="0.0" layoutY="301.0" prefWidth="1280.0" styleClass="geist-pixel" text="Unlocked Card Preview: Shadow Shinobi" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>
