@@ -46,7 +46,7 @@
       <!-- Styled Results & Database Statistics Box -->
       <TitledPane fx:id="paneResults" collapsible="false" layoutX="682.0" layoutY="205.0" prefHeight="314.0" prefWidth="503.0" text="RESULTS &amp; STATS">
          <styleClass>
-            <String fx:value="geist-pixel" />
+            <String fx:value="tekken-regular" />
             <String fx:value="arcade-titled-pane" />
          </styleClass>
          <content>
@@ -84,7 +84,7 @@
          </font>
          <styleClass>
             <String fx:value="kirby-tekken-btn" />
-            <String fx:value="geist-pixel" />
+            <String fx:value="tekken-regular" />
          </styleClass>
       </Button>
       
@@ -95,7 +95,7 @@
          </font>
          <styleClass>
             <String fx:value="kirby-tekken-btn" />
-            <String fx:value="geist-pixel" />
+            <String fx:value="tekken-regular" />
          </styleClass>
       </Button>
    </children>

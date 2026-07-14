@@ -22,7 +22,14 @@ public class WinController implements FxController {
         this.manager = manager;
     }
     
-    @FXML
+    @FXML 
+    public void initialize() {
+        java.net.URL fontUrl = getClass().getResource("/fonts/GeistPixelRegular.ttf");
+        if (fontUrl != null) {
+            javafx.scene.text.Font.loadFont(fontUrl.toExternalForm(), 28);
+        }
+    }
+    
     public void onPlayAgain(ActionEvent event) {
         // Play again should return to the arena to rematch
         manager.goToArena();
