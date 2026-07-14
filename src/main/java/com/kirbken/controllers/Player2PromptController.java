@@ -6,7 +6,6 @@ import com.kirbken.utils.KeyboardNavHelper;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 
 public class Player2PromptController implements FxController {
     private SceneManager manager;

@@ -3,7 +3,6 @@ package com.kirbken.controllers;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 import com.kirbken.utils.KeyboardNavHelper;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;

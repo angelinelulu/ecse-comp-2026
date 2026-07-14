@@ -4,6 +4,7 @@ import com.kirbken.SceneManager;
 import com.kirbken.utils.MusicManager;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 
@@ -15,6 +16,7 @@ public class SettingsController implements FxController {
     @FXML private Slider musicVolumeSlider;
     @FXML private Slider sfxVolumeSlider;
     @FXML private CheckBox fullscreenCheckBox;
+    @FXML private Button backButton;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -41,6 +43,13 @@ public class SettingsController implements FxController {
 
         fullscreenCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             manager.setFullscreen(newVal);
+        });
+
+        javafx.application.Platform.runLater(() -> {
+            var scene = backButton.getScene();
+            if (scene != null) {
+                backButton.requestFocus(); // ensures Enter works on Back immediately
+            }
         });
     }
 
