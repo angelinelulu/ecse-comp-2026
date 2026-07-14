@@ -1,0 +1,73 @@
+@font-face {
+    font-family: "Geist Pixel";
+    src: url("../fonts/GeistPixelRegular.ttf");
+}
+
+#playAgainButton{
+    -fx-font-size: 20px;
+    -fx-background-color: pink;
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-border-width: 1.25px;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
+    -fx-font-family: "Geist Pixel";
+}
+
+#playAgainButton:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 12, 0, 0, 6);
+}
+
+#playAgainButton:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+}
+
+#playAgainButton:focused {
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
+}
+
+#homeButton {
+    -fx-font-size: 20px;
+    -fx-background-color: rgb(197, 192, 193);
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-border-width: 1.25px;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 4);
+    -fx-font-family: "Geist Pixel";
+}
+
+#homeButton:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 12, 0, 0, 6);
+}
+
+#homeButton:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+}
+
+#homeButton:focused {
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
+}
+
+.lblVictory {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 80px;
+    -fx-text-fill: #196d11;
+    -fx-effect: dropshadow(three-pass-box, rgba(89, 227, 30, 0.85), 16, 0.2, 0, 0);
+    -fx-text-alignment: center;
+}
+
+.lblCard {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 30px;
+    -fx-text-fill: #000000;
+    -fx-text-alignment: center;
+}
