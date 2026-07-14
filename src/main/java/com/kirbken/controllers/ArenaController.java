@@ -66,7 +66,6 @@ public class ArenaController implements FxController {
   private final List<Projectile> projectiles = new ArrayList<>();
   private final Map<Character, String> projectileImages = new HashMap<>();
   private static final double CHARACTER_WIDTH = 150; // approximate hit-box width
-  private static final int PROJECTILE_DAMAGE = 8;
   private static final double PROJECTILE_SPEED = 4;
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
@@ -430,7 +429,7 @@ public class ArenaController implements FxController {
           500, 
           thrower.isFacingRight(),
           PROJECTILE_SPEED,
-          PROJECTILE_DAMAGE,
+          thrower.rollAttackDamage(),
           rootPane
       );
       projectiles.add(projectile);
