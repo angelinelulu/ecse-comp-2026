@@ -42,6 +42,13 @@ public class Character {
 
     private boolean justThrew = false;
 
+    // --- Melee attack gating ---
+    // Prevents a held attack key from registering multiple hits per frame in Fight.checkCollisions().
+    // Without this, isAttacking() being a held-key state meant every AnimationTimer tick (~60/sec)
+    // could independently call takeDamage(), effectively spamming damage far beyond intended pacing.
+    private long lastMeleeHitTime = 0;
+    private static final long MELEE_COOLDOWN_NS = 400_000_000L; // 0.4s between melee hits; tune to match ATTACK animation length
+
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
         this.sprite = sprite;
@@ -189,6 +196,22 @@ public class Character {
             return true;
         }
         return false;
+    }
+
+    /**
+     * True only if this character is currently holding attack AND enough time has
+     * passed since their last landed melee hit. Use this in Fight.checkCollisions()
+     * instead of isAttacking() directly, so a held key can't land a hit every frame.
+     */
+    public boolean canLandMeleeHit() {
+        if (!isAttacking) return false;
+        long now = System.nanoTime();
+        return (now - lastMeleeHitTime) >= MELEE_COOLDOWN_NS;
+    }
+
+    /** Call immediately after a melee hit actually lands, to restart the cooldown window. */
+    public void registerMeleeHitLanded() {
+        lastMeleeHitTime = System.nanoTime();
     }
 
     public int getHealth() { return health; }
