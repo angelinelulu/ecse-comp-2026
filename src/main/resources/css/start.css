@@ -122,3 +122,9 @@
 #singleplayer_button:hover, #multiplayer_button:hover {
     -fx-background-color: derive(white, -10%);
 }
+
+.button:focused {
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
+}

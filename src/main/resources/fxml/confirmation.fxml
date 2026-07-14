@@ -16,8 +16,8 @@
             <Label id="prompt_text" text="Are you sure you want to use this skin?" wrapText="true" />
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Button id="yes_button" onAction="#onConfirmClicked" text="Yes" />
-                  <Button id="no_button" onAction="#onCancelClicked" text="No" />
+                  <Button fx:id="yesButton" id="yes_button" onAction="#onConfirmClicked" text="Yes" />
+                  <Button fx:id="noButton" id="no_button" onAction="#onCancelClicked" text="No" />
                </children>
             </HBox>
          </children>

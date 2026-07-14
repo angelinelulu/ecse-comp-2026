@@ -2,6 +2,7 @@ package com.kirbken.controllers;
 
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.utils.KeyboardNavHelper;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +23,13 @@ public class WinController implements FxController {
         this.manager = manager;
     }
     
+    @FXML
+    public void initialize() {
+        javafx.application.Platform.runLater(() ->
+            KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnPlayAgain, btnHome)
+        );
+    }
+
     @FXML
     public void onPlayAgain(ActionEvent event) {
         // Play again should return to the arena to rematch

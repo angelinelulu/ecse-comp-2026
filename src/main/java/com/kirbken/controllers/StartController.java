@@ -2,6 +2,8 @@ package com.kirbken.controllers;
 
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.utils.KeyboardNavHelper;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +17,8 @@ public class StartController implements FxController {
     @FXML private AnchorPane startRootPane;
     @FXML private Button quiz_mode_button;
     @FXML private VBox modeSelectBox;
+    @FXML private Button singleplayerButton;
+    @FXML private Button multiplayerButton;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -25,6 +29,9 @@ public class StartController implements FxController {
     private void StartGame() {
         modeSelectBox.setVisible(true);
         modeSelectBox.setManaged(true);
+        javafx.application.Platform.runLater(() ->
+            KeyboardNavHelper.enableHorizontalNav(singleplayerButton, singleplayerButton, multiplayerButton)
+        );
     }
 
     @FXML

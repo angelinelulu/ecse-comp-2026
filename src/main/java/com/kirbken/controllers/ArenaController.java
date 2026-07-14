@@ -181,8 +181,15 @@ public class ArenaController implements FxController {
   }
 
   public void setupInput(Scene scene) {
-    scene.setOnKeyPressed(e -> activeKeys.add(e.getCode()));
-    scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
+      scene.setOnKeyPressed(e -> {
+          activeKeys.add(e.getCode());
+          if (e.getCode() == KeyCode.ESCAPE) {
+              onSetting(null);
+          } else if (e.getCode() == KeyCode.J) {
+              onMute(null);
+          }
+      });
+      scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode()));
   }
 
   private void startGameLoop() {
