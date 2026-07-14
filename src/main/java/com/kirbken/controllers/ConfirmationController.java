@@ -3,10 +3,14 @@ package com.kirbken.controllers;
 import com.kirbken.CharacterProfile;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.utils.KeyboardNavHelper;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 
 public class ConfirmationController implements FxController {
     private SceneManager manager;
@@ -15,6 +19,15 @@ public class ConfirmationController implements FxController {
 
     @FXML private ImageView previewImage;
     @FXML private Label characterNameLabel;
+    @FXML private Button yesButton;
+    @FXML private Button noButton;
+
+    @FXML
+    public void initialize() {
+        javafx.application.Platform.runLater(() ->
+            KeyboardNavHelper.enableHorizontalNav(yesButton, yesButton, noButton)
+        );
+    }
 
     @Override
     public void setSceneManager(SceneManager manager) {

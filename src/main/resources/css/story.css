@@ -74,3 +74,9 @@
 #no_button:hover {
     -fx-background-color: derive(rgb(90, 30, 120), -15%);
 }
+
+#yes_button:focused, #no_button:focused {
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
+}

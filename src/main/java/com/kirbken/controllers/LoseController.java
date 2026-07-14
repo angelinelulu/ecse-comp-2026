@@ -3,6 +3,7 @@ package com.kirbken.controllers;
 import com.kirbken.CharacterProfile;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
+import com.kirbken.utils.KeyboardNavHelper;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,6 +61,10 @@ public class LoseController implements FxController {
         if (paneResults != null) {
             paneResults.setContent(createResultsPlaceholder(null));
         }
+
+        javafx.application.Platform.runLater(() ->
+            KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnPlayAgain, btnHome)
+        );
     }
 
     public void setGameOverLabel(String text) {

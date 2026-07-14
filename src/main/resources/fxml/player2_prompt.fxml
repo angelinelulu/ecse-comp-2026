@@ -13,8 +13,8 @@
             <Label id="prompt_text" text="For Player 2, would you like to insert/scan your existing Kirby card?" wrapText="true" />
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Button id="yes_button" onAction="#onYesClicked" text="Yes" />
-                  <Button id="no_button" onAction="#onNoClicked" text="No" />
+                  <Button fx:id="yesButton" id="yes_button" onAction="#onYesClicked" text="Yes" />
+                  <Button fx:id="noButton" id="no_button" onAction="#onNoClicked" text="No" />
                </children>
             </HBox>
          </children>
