@@ -3,6 +3,7 @@ package com.kirbken.controllers;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 import com.kirbken.utils.KeyboardNavHelper;
+import com.kirbken.components.CardDispenser;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ public class WinController implements FxController {
     
     @FXML
     public void initialize() {
+        CardDispenser.getInstance().dispenseCard();
+
         javafx.application.Platform.runLater(() ->
             KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnPlayAgain, btnHome)
         );

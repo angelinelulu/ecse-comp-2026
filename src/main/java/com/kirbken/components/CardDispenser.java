@@ -1,9 +1,9 @@
-package com.kirbken.components; 
+package com.kirbken.components;
 
-import com.fazecast.jSerialComm.SerialPort; 
+import com.fazecast.jSerialComm.SerialPort;
 
-import java.util.concurrent.ExecutorService; 
-import java.util.concrrent.Executors; 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /*
  * Talks to the Arduino Uno card dispenser over USB serial.
@@ -19,91 +19,89 @@ import java.util.concrrent.Executors;
  * physical unit attached.
  */
 
-public class CardDispenser { 
-    private static CardDispenserService instance; 
+public class CardDispenser {
+    private static CardDispenser instance;
 
     // Used only if auto-detect below can't find the board
-    // Change it to match the USB port in the machine 
-    private static final String FALLBACK_PORT_NAME = "COM3"; 
-    private static final int BAUD_RATE = 9600; 
+    // Change it to match the USB port in the machine
+    private static final String FALLBACK_PORT_NAME = "COM7";
+    private static final int BAUD_RATE = 9600;
 
-    private final ExecutorService ioExecutor = Executors.newSingleThreadExecutor( r -> {
-        Thread t = new Thread(r, "card-dispener-io"); 
-        t.setDaemon(true); 
+    private final ExecutorService ioExecutor = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "card-dispenser-io");
+        t.setDaemon(true);
         return t;
     });
 
-    private SerialPort port; 
-    private boolean connectionAttempted = false; 
+    private SerialPort port;
+    private boolean connectionAttempted = false;
 
-    private CardDispenserService() { 
+    private CardDispenser() {
     }
 
-    public static synchronized CardDispenserService getInstance() { 
-        if (instance == null) { 
-            instance = new CardDispenserService(); 
+    public static synchronized CardDispenser getInstance() {
+        if (instance == null) {
+            instance = new CardDispenser();
         }
-        return instance; 
+        return instance;
     }
 
-    /** Sends the WIN command. Non-blobking - runs on a background IO thread */
-    public void dispenseCard() { 
-        ioExecutor.submit(() -> { 
-            ensureConnected(); 
-            if (port == null || !port.isOpen()) { 
-                System.out.println("[CardDispenser] No dispenser connected -- skipping dispense."); 
+    /** Sends the WIN command. Non-blocking - runs on a background IO thread */
+    public void dispenseCard() {
+        ioExecutor.submit(() -> {
+            ensureConnected();
+            if (port == null || !port.isOpen()) {
+                System.out.println("[CardDispenser] No dispenser connected -- skipping dispense.");
                 return;
             }
-            byte[] command = "WIN\n".getBytes(); 
-            port.writeBytes(command, command.length); 
-        }); 
+            byte[] command = "WIN\n".getBytes();
+            port.writeBytes(command, command.length);
+        });
     }
 
-    private void ensureConnected() { 
-        if (connectionAttempted) { 
+    private void ensureConnected() {
+        if (connectionAttempted) {
             return;
         }
-        connectedAttempted = true;
+        connectionAttempted = true;
 
-        SerialPort candidate = findArduinoPort(); 
-        if (candidate == null) { 
-            candidate = SerialPort.getCommPort(FALLBACK_PORT_NAME); 
+        SerialPort candidate = findArduinoPort();
+        if (candidate == null) {
+            candidate = SerialPort.getCommPort(FALLBACK_PORT_NAME);
         }
 
-        candidate.setBaudRate(BAUD_RATE); 
+        candidate.setBaudRate(BAUD_RATE);
         candidate.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 1000);
 
-        if (candidate.openPort()) { 
-            port = candidate; 
-            try { 
+        if (candidate.openPort()) {
+            port = candidate;
+            try {
                 Thread.sleep(2000);
-            } catch (InterruptedException e) { 
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
             System.out.println("[CardDispenser] Connected on " + candidate.getSystemPortName());
-        } else { 
-            System.out.println("[CardDispenser] could not open port " + candidate.getSystemPortName() + " -- is the Arduino plugge in?");
+        } else {
+            System.out.println("[CardDispenser] could not open port " + candidate.getSystemPortName() + " -- is the Arduino plugged in?");
         }
     }
 
     /** Looks for a serial port whose description suggests an Arduino Uno. */
-    private SerialPort findArduinoPort() { 
-        for (Serialport p : SerialPort.getCommPorts()) { 
-            String desc = p.getPortDescription().toLowerCase(); 
-            if (desc.contains("arduino") || desc.contains("ch340") || desc.contains("usb-serial")) { 
+    private SerialPort findArduinoPort() {
+        for (SerialPort p : SerialPort.getCommPorts()) {
+            String desc = p.getPortDescription().toLowerCase();
+            if (desc.contains("arduino") || desc.contains("ch340") || desc.contains("usb-serial")) {
                 return p;
             }
         }
-        return null; 
+        return null;
     }
 
-    
     /** Call on app shutdown to release the port cleanly. */
-    public void close() { 
-        if (port != ull && port.isOpen()) { 
+    public void close() {
+        if (port != null && port.isOpen()) {
             port.closePort();
         }
         ioExecutor.shutdown();
     }
-
 }
