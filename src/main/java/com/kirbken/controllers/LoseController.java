@@ -19,8 +19,7 @@ import javafx.geometry.Insets;
 public class LoseController implements FxController {
     private SceneManager manager;
 
-    @FXML private Label lblGameOver;
-    @FXML private Label lblLossReason;
+    @FXML private Label lblDefeat;
     @FXML private ImageView imgLoser;
     @FXML private TitledPane paneResults;
     @FXML private Button btnPlayAgain;
@@ -50,12 +49,8 @@ public class LoseController implements FxController {
         if (fontUrl != null) {
         Font.loadFont(fontUrl.toExternalForm(), 28);
     }
-        if (lblGameOver != null) {
-            lblGameOver.setText("Game Over : You Lost");
-        }
-
-        if (lblLossReason != null) {
-            lblLossReason.setText("Defeated in battle");
+        if (lblDefeat != null) {
+            lblDefeat.setText("Defeat");
         }
 
         if (paneResults != null) {
@@ -68,27 +63,17 @@ public class LoseController implements FxController {
     }
 
     public void setGameOverLabel(String text) {
-        if (lblGameOver != null) {
-            lblGameOver.setText(text == null || text.isBlank() ? "Game Over : You Lost" : text);
+        if (lblDefeat != null) {
+            lblDefeat.setText(text == null || text.isBlank() ? "Defeat" : text);
         }
     }
 
     public void setLoserProfile(CharacterProfile loserProfile) {
         if (loserProfile == null) {
-            setGameOverLabel("Game Over : You Lost");
-            if (lblLossReason != null) {
-                lblLossReason.setText("Defeated in battle");
-            }
             if (paneResults != null) {
                 paneResults.setContent(createResultsPlaceholder(null));
             }
             return;
-        }
-
-        setGameOverLabel("Game Over : " + loserProfile.getDisplayName() + " Lost");
-
-        if (lblLossReason != null) {
-            lblLossReason.setText("Defeated in battle");
         }
 
         if (imgLoser != null) {
