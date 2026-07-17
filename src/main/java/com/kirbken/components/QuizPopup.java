@@ -3,14 +3,14 @@ package com.kirbken.components;
 import com.kirbken.controllers.QuizPopupController;
 import com.kirbken.models.Question;
 import java.io.IOException;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 public class QuizPopup {
     private final StackPane overlay;
 
-    public QuizPopup(Question question, Consumer<Boolean> onAnswered) {
+    public QuizPopup(Question question, BiConsumer<Boolean, Integer> onAnswered) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/quiz_popup.fxml"));
             overlay = loader.load();
