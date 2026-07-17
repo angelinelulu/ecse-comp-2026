@@ -87,6 +87,8 @@ public class ArenaController implements FxController {
   private final List<Long> quizTriggerNanosList = new ArrayList<>();
   private int nextQuizIndex = 0;
   private int questionsAskedCount = 0;
+  private static final int QUIZ_WRONG_PENALTY = 10;
+  private static final int QUIZ_CORRECT_REWARD = 20;
 
   @FXML
   public void initialize() {
@@ -513,56 +515,60 @@ public class ArenaController implements FxController {
   // --- Quiz mode methods ---
 
   /**
-   * Schedules two quiz triggers at fixed points in the match:
-   *  - Question 1: random time between 0:10 and 1:30
-   *  - Question 2: random time between 1:40 and 3:00
+   * Schedules two quiz triggers at fixed points in the match
    */
   private void initQuizTiming() {
     quizTriggerNanosList.clear();
     Random random = new Random();
     long startNanos = System.nanoTime();
 
-    int q1MinSeconds = 10;
-    int q1MaxSeconds = 90;  // 1:30
-    int q2MinSeconds = 100; // 1:40
-    int q2MaxSeconds = 165; // stays ahead of the 15s-remaining fallback trigger (180 - 15)
+    int q1MinSeconds = 5;
+    int q1MaxSeconds = 20;  
+    int q2MinSeconds = 20; 
+    int q2MaxSeconds = 40;
 
     int q1DelaySeconds = q1MinSeconds + random.nextInt(q1MaxSeconds - q1MinSeconds + 1);
     int q2DelaySeconds = q2MinSeconds + random.nextInt(q2MaxSeconds - q2MinSeconds + 1);
 
     quizTriggerNanosList.add(startNanos + q1DelaySeconds * 1_000_000_000L);
     quizTriggerNanosList.add(startNanos + q2DelaySeconds * 1_000_000_000L);
-  }
+  } 
 
   private void triggerQuizPopup() {
-    timer.stop(); // pauses movement, health, AND the countdown, since they all live in handle()
+      timer.stop();
 
-    Question q = QuizManager.getInstance().getRandomQuestion();
-    if (q == null) {
-      // no questions available (e.g. PDF generation failed) — just resume the match.
-      // Count it anyway so the fallback doesn't loop trying to force a quiz forever.
-      questionsAskedCount++;
-      nextQuizIndex++;
-      timer.start();
-      return;
-    }
+      Question q = QuizManager.getInstance().getRandomQuestion();
+      if (q == null) {
+          questionsAskedCount++;
+          nextQuizIndex++;
+          timer.start();
+          return;
+      }
 
-    QuizPopup popup = new QuizPopup(q, this::onQuizAnswered);
-    rootPane.getChildren().add(popup.getOverlay()); // StackPane overlay, id="quizOverlay"
+      QuizPopup popup = new QuizPopup(q, this::onQuizAnswered);
+      rootPane.getChildren().add(popup.getOverlay());
   }
 
-  private void onQuizAnswered(boolean wasCorrect) {
-    rootPane.getChildren().removeIf(
-        node -> node instanceof StackPane && "quizOverlay".equals(node.getId()));
+  private void onQuizAnswered(boolean wasCorrect, int submittingPlayer) {
+      rootPane.getChildren().removeIf(
+          node -> node instanceof StackPane && "quizOverlay".equals(node.getId()));
 
-    questionsAskedCount++;
-    nextQuizIndex++;
+      questionsAskedCount++;
+      nextQuizIndex++;
 
-    // optional: apply a reward/penalty for correct/incorrect answers here
-    // e.g. if (wasCorrect) p1.heal(10); else p1.takeDamage(5);
+      if (wasCorrect) {
+          Character opponent = (submittingPlayer == 1) ? p2 : p1;
+          opponent.takeDamage(QUIZ_CORRECT_REWARD);
+      } else {
+          Character self = (submittingPlayer == 1) ? p1 : p2;
+          self.takeDamage(QUIZ_WRONG_PENALTY);
+      }
 
-    lastSecondTick = 0; // recalibrate countdown baseline so paused time isn't counted
-    timer.start();
+      activeKeys.clear();
+      setupInput(rootPane.getScene());
+
+      lastSecondTick = 0;
+      timer.start();
   }
 
   @FXML

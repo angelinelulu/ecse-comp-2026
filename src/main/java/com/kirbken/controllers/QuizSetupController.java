@@ -4,6 +4,7 @@ import com.kirbken.SceneManager;
 import com.kirbken.models.Question;
 import com.kirbken.service.PdfTextExtractor;
 import com.kirbken.service.QuestionGenerator;
+import com.kirbken.utils.KeyboardNavHelper;
 import com.kirbken.utils.MusicManager;
 import com.kirbken.utils.QuizManager;
 import java.io.File;
@@ -24,6 +25,7 @@ public class QuizSetupController implements FxController {
   @FXML private Button chooseFileButton;
   @FXML private Button generateButton;
   @FXML private Button storyButton;
+  @FXML private Button backButton;
 
   private SceneManager manager;
   private final MusicManager musicManager = MusicManager.getInstance();
@@ -35,6 +37,10 @@ public class QuizSetupController implements FxController {
     generateButton.setDisable(true);
     storyButton.setDisable(true);
     statusLabel.setText("Choose a PDF to generate quiz questions from.");
+
+    javafx.application.Platform.runLater(() ->
+        KeyboardNavHelper.enableHorizontalNav(chooseFileButton, chooseFileButton, generateButton, storyButton, backButton)
+    );
   }
 
   @Override

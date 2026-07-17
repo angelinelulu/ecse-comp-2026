@@ -2,7 +2,7 @@ package com.kirbken.controllers;
 
 import com.kirbken.SceneManager;
 import com.kirbken.models.Question;
-import com.kirbken.service.AlgebraCalcQuestionBank;
+import com.kirbken.service.AlgebraCalcGenerator;
 import com.kirbken.service.ArithmeticQuestionGenerator;
 import com.kirbken.utils.KeyboardNavHelper;
 import com.kirbken.utils.MusicManager;
@@ -49,13 +49,13 @@ public class QuizModeSelectController implements FxController {
 
   @FXML
   private void onIntermediateSelected(ActionEvent event) {
-    musicManager.playSound("buttonClick", 0.5);
+      musicManager.playSound("buttonClick", 0.5);
 
-    List<Question> questions = AlgebraCalcQuestionBank.getAll();
-    QuizManager.getInstance().setQuestions(questions);
-    QuizManager.getInstance().setQuizModeEnabled(true);
+      List<Question> questions = AlgebraCalcGenerator.generate(QUESTIONS_PER_MATCH);
+      QuizManager.getInstance().setQuestions(questions);
+      QuizManager.getInstance().setQuizModeEnabled(true);
 
-    manager.goToModeSelect();
+      manager.goToModeSelect();
   }
 
   @FXML
