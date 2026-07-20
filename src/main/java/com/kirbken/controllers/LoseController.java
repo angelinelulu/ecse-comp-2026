@@ -102,48 +102,70 @@ public class LoseController implements FxController {
 
         if (paneResults != null) {
             paneResults.setContent(createResultsPlaceholder(loserProfile, matchStats));
+            animateResultsIn(paneResults);
         }
+    }
+
+    private void animateResultsIn(TitledPane pane) {
+        pane.setOpacity(0.0);
+        pane.setTranslateX(30);
+
+        javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(450), pane);
+        fade.setFromValue(0.0);
+        fade.setToValue(1.0);
+
+        javafx.animation.TranslateTransition slide = new javafx.animation.TranslateTransition(javafx.util.Duration.millis(450), pane);
+        slide.setFromX(30);
+        slide.setToX(0);
+        slide.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+
+        javafx.animation.ParallelTransition entrance = new javafx.animation.ParallelTransition(fade, slide);
+        entrance.setDelay(javafx.util.Duration.millis(300)); // let "Defeat" register first
+        entrance.play();
     }
 
     private VBox createResultsPlaceholder(CharacterProfile profile, MatchStats stats) {
         VBox content = new VBox(8);
-        content.setPadding(new Insets(12, 14, 12, 14));
+        content.setPadding(new Insets(14, 16, 14, 16));
+        content.getStyleClass().add("arcade-pane-content"); // transparent — lets the TitledPane's own white/pink content styling show through
 
         Label header = new Label(profile == null ? "Results Preview" : profile.getDisplayName() + " — Match Results");
+        header.getStyleClass().add("results-subheader"); // see CSS note below
 
         java.util.List<Label> labels = new java.util.ArrayList<>();
-        labels.add(header);
 
         if (stats == null) {
             // No match stats available yet (e.g. initial placeholder before a match has run) —
             // fall back to the static base-stat preview so the panel is never blank.
-            Label line1 = new Label(profile == null ? "Character: --" : "Character: " + profile.getDisplayName());
-            Label line2 = new Label(profile == null ? "HP: --   Attack: --" : "HP: " + profile.getHp() + "   Attack: " + profile.getAttackPower());
-            Label line3 = new Label(profile == null ? "Defense: --   Speed: --" : "Defense: " + profile.getDefensePower() + "   Speed: " + profile.getSpeed());
-            Label footer = new Label(profile == null ? "Match results will be detailed here." : "Better luck next time!");
-            labels.add(line1);
-            labels.add(line2);
-            labels.add(line3);
-            labels.add(footer);
+            labels.add(new Label(profile == null ? "Character: --" : "Character: " + profile.getDisplayName()));
+            labels.add(new Label(profile == null ? "HP: --   Attack: --" : "HP: " + profile.getHp() + "   Attack: " + profile.getAttackPower()));
+            labels.add(new Label(profile == null ? "Defense: --   Speed: --" : "Defense: " + profile.getDefensePower() + "   Speed: " + profile.getSpeed()));
+            labels.add(new Label(profile == null ? "Match results will be detailed here." : "Better luck next time!"));
+            for (Label l : labels) l.getStyleClass().add("arcade-stat-label");
         } else {
-            labels.add(new Label("Damage Dealt: " + stats.getDamageDealt()));
-            labels.add(new Label("Damage Taken: " + stats.getDamageTaken()));
+            Label damageDealt = new Label("Damage Dealt: " + stats.getDamageDealt());
+            Label damageTaken = new Label("Damage Taken: " + stats.getDamageTaken());
+            damageDealt.getStyleClass().add("arcade-stat-highlight"); // pop the number the player will care about most
+            damageTaken.getStyleClass().add("arcade-stat-label");
+            labels.add(damageDealt);
+            labels.add(damageTaken);
+
             if (stats.getQuizCorrect() + stats.getQuizWrong() > 0) {
-                labels.add(new Label("Quiz: " + stats.getQuizCorrect() + " correct / " + stats.getQuizWrong() + " wrong"));
+                Label quiz = new Label("Quiz: " + stats.getQuizCorrect() + " correct / " + stats.getQuizWrong() + " wrong");
+                quiz.getStyleClass().add("arcade-stat-label");
+                labels.add(quiz);
             }
-            labels.add(new Label("Match Length: " + stats.getFormattedDuration()));
+
+            Label duration = new Label("Match Length: " + stats.getFormattedDuration());
+            duration.getStyleClass().add("arcade-stat-label");
+            labels.add(duration);
         }
 
         for (Label label : labels) {
-            label.getStyleClass().add("geist-pixel");
             label.setWrapText(true);
         }
 
-        header.setStyle("-fx-font-size: 22px; -fx-text-fill: #000000;");
-        for (int i = 1; i < labels.size(); i++) {
-            labels.get(i).setStyle("-fx-font-size: 18px; -fx-text-fill: #000000;");
-        }
-
+        content.getChildren().add(header);
         content.getChildren().addAll(labels);
         return content;
     }

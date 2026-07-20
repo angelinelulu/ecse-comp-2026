@@ -127,3 +127,13 @@
     -fx-effect: dropshadow(gaussian, rgba(57, 255, 20, 0.6), 8, 0, 0, 0);
 }
 
+/* Sub-header inside .arcade-titled-pane content (e.g. character name on the Lose results panel).
+   Darker pink than the title bar's "pink" fill, since this sits on the light
+   .arcade-titled-pane > *.content background (rgba(255,255,255,0.764)) rather than
+   the title bar's dark background — plain "pink" would wash out against white. */
+.results-subheader {
+    -fx-font-family: "Geist Pixel";
+    -fx-font-size: 20px;
+    -fx-text-fill: #d6006e;
+    -fx-effect: dropshadow(gaussian, rgba(255, 20, 147, 0.5), 6, 0, 0, 0);
+}
