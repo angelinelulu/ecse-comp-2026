@@ -2,6 +2,7 @@ package com.kirbken.controllers;
 
 import com.kirbken.CharacterProfile;
 import com.kirbken.GameState;
+import com.kirbken.MatchStats;
 import com.kirbken.SceneManager;
 import com.kirbken.utils.KeyboardNavHelper;
 
@@ -24,6 +25,9 @@ public class LoseController implements FxController {
     @FXML private TitledPane paneResults;
     @FXML private Button btnPlayAgain;
     @FXML private Button btnHome;
+
+    private CharacterProfile pendingLoserProfile;
+    private MatchStats pendingMatchStats;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -54,11 +58,11 @@ public class LoseController implements FxController {
         }
 
         if (paneResults != null) {
-            paneResults.setContent(createResultsPlaceholder(null));
+            paneResults.setContent(createResultsPlaceholder(null, null));
         }
 
         javafx.application.Platform.runLater(() ->
-            KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnPlayAgain, btnHome)
+            KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnHome)
         );
     }
 
@@ -68,10 +72,22 @@ public class LoseController implements FxController {
         }
     }
 
+    /**
+     * Sets the loser's profile only, with no match stats. Kept for backward compatibility
+     * with any existing callers of the single-arg SceneManager.goToLose(profile).
+     * Prefer setLoserProfile(profile, stats) so the results panel shows real match data.
+     */
     public void setLoserProfile(CharacterProfile loserProfile) {
+        setLoserProfile(loserProfile, null);
+    }
+
+    public void setLoserProfile(CharacterProfile loserProfile, MatchStats matchStats) {
+        this.pendingLoserProfile = loserProfile;
+        this.pendingMatchStats = matchStats;
+
         if (loserProfile == null) {
             if (paneResults != null) {
-                paneResults.setContent(createResultsPlaceholder(null));
+                paneResults.setContent(createResultsPlaceholder(null, null));
             }
             return;
         }
@@ -85,32 +101,50 @@ public class LoseController implements FxController {
         }
 
         if (paneResults != null) {
-            paneResults.setContent(createResultsPlaceholder(loserProfile));
+            paneResults.setContent(createResultsPlaceholder(loserProfile, matchStats));
         }
     }
 
-    private VBox createResultsPlaceholder(CharacterProfile profile) {
+    private VBox createResultsPlaceholder(CharacterProfile profile, MatchStats stats) {
         VBox content = new VBox(8);
         content.setPadding(new Insets(12, 14, 12, 14));
 
-        Label header = new Label(profile == null ? "Results Preview" : profile.getDisplayName() + " Stats Preview");
-        Label line1 = new Label(profile == null ? "Character: --" : "Character: " + profile.getDisplayName());
-        Label line2 = new Label(profile == null ? "HP: --   Attack: --" : "HP: " + profile.getHp() + "   Attack: " + profile.getAttackPower());
-        Label line3 = new Label(profile == null ? "Defense: --   Speed: --" : "Defense: " + profile.getDefensePower() + "   Speed: " + profile.getSpeed());
-        Label footer = new Label("Match results will be detailed here.");
+        Label header = new Label(profile == null ? "Results Preview" : profile.getDisplayName() + " — Match Results");
 
-        for (Label label : new Label[] {header, line1, line2, line3, footer}) {
+        java.util.List<Label> labels = new java.util.ArrayList<>();
+        labels.add(header);
+
+        if (stats == null) {
+            // No match stats available yet (e.g. initial placeholder before a match has run) —
+            // fall back to the static base-stat preview so the panel is never blank.
+            Label line1 = new Label(profile == null ? "Character: --" : "Character: " + profile.getDisplayName());
+            Label line2 = new Label(profile == null ? "HP: --   Attack: --" : "HP: " + profile.getHp() + "   Attack: " + profile.getAttackPower());
+            Label line3 = new Label(profile == null ? "Defense: --   Speed: --" : "Defense: " + profile.getDefensePower() + "   Speed: " + profile.getSpeed());
+            Label footer = new Label(profile == null ? "Match results will be detailed here." : "Better luck next time!");
+            labels.add(line1);
+            labels.add(line2);
+            labels.add(line3);
+            labels.add(footer);
+        } else {
+            labels.add(new Label("Damage Dealt: " + stats.getDamageDealt()));
+            labels.add(new Label("Damage Taken: " + stats.getDamageTaken()));
+            if (stats.getQuizCorrect() + stats.getQuizWrong() > 0) {
+                labels.add(new Label("Quiz: " + stats.getQuizCorrect() + " correct / " + stats.getQuizWrong() + " wrong"));
+            }
+            labels.add(new Label("Match Length: " + stats.getFormattedDuration()));
+        }
+
+        for (Label label : labels) {
             label.getStyleClass().add("geist-pixel");
             label.setWrapText(true);
         }
 
         header.setStyle("-fx-font-size: 22px; -fx-text-fill: #000000;");
-        line1.setStyle("-fx-font-size: 18px; -fx-text-fill: #000000;");
-        line2.setStyle("-fx-font-size: 18px; -fx-text-fill: #000000;");
-        line3.setStyle("-fx-font-size: 18px; -fx-text-fill: #000000;");
-        footer.setStyle("-fx-font-size: 16px; -fx-text-fill: #000000;");
+        for (int i = 1; i < labels.size(); i++) {
+            labels.get(i).setStyle("-fx-font-size: 18px; -fx-text-fill: #000000;");
+        }
 
-        content.getChildren().addAll(header, line1, line2, line3, footer);
+        content.getChildren().addAll(labels);
         return content;
     }
 
