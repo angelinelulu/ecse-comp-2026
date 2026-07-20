@@ -101,12 +101,28 @@ public class LoseController implements FxController {
         }
 
         if (paneResults != null) {
-            paneResults.setContent(createResultsPlaceholder(loserProfile, matchStats));
-            animateResultsIn(paneResults);
+            VBox resultsContent = createResultsPlaceholder(loserProfile, matchStats);
+            paneResults.setContent(resultsContent);
+            animateResultsIn(paneResults, resultsContent);
         }
     }
 
-    private void animateResultsIn(TitledPane pane) {
+    private static final double TYPEWRITER_CHAR_MS = 22;   // delay per character
+    private static final double TYPEWRITER_LINE_GAP_MS = 160; // pause between lines
+
+    private void animateResultsIn(TitledPane pane, VBox content) {
+        // Capture each label's full text and blank it out before the panel fades in,
+        // so the typewriter reveal has something to type once the panel is visible.
+        java.util.List<Label> textLabels = new java.util.ArrayList<>();
+        java.util.List<String> fullTexts = new java.util.ArrayList<>();
+        for (javafx.scene.Node node : content.getChildren()) {
+            if (node instanceof Label label) {
+                textLabels.add(label);
+                fullTexts.add(label.getText());
+                label.setText("");
+            }
+        }
+
         pane.setOpacity(0.0);
         pane.setTranslateX(30);
 
@@ -121,7 +137,38 @@ public class LoseController implements FxController {
 
         javafx.animation.ParallelTransition entrance = new javafx.animation.ParallelTransition(fade, slide);
         entrance.setDelay(javafx.util.Duration.millis(300)); // let "Defeat" register first
+        entrance.setOnFinished(e -> playTypewriter(textLabels, fullTexts));
         entrance.play();
+    }
+
+    /** Types out each label's text in sequence, one line finishing before the next starts. */
+    private void playTypewriter(java.util.List<Label> labels, java.util.List<String> fullTexts) {
+        javafx.animation.SequentialTransition sequence = new javafx.animation.SequentialTransition();
+
+        for (int i = 0; i < labels.size(); i++) {
+            sequence.getChildren().add(createTypewriterTimeline(labels.get(i), fullTexts.get(i)));
+            if (i < labels.size() - 1) {
+                sequence.getChildren().add(new javafx.animation.PauseTransition(javafx.util.Duration.millis(TYPEWRITER_LINE_GAP_MS)));
+            }
+        }
+
+        sequence.play();
+    }
+
+    /** Builds a Timeline that reveals fullText onto label one character at a time. */
+    private javafx.animation.Timeline createTypewriterTimeline(Label label, String fullText) {
+        javafx.animation.Timeline timeline = new javafx.animation.Timeline();
+
+        for (int i = 1; i <= fullText.length(); i++) {
+            String partial = fullText.substring(0, i);
+            javafx.animation.KeyFrame frame = new javafx.animation.KeyFrame(
+                javafx.util.Duration.millis(TYPEWRITER_CHAR_MS * i),
+                e -> label.setText(partial)
+            );
+            timeline.getKeyFrames().add(frame);
+        }
+
+        return timeline;
     }
 
     private VBox createResultsPlaceholder(CharacterProfile profile, MatchStats stats) {
