@@ -11,6 +11,7 @@ import java.util.Set;
 import com.kirbken.CharacterProfile;
 import com.kirbken.CharacterRegistry;
 import com.kirbken.GameState;
+import com.kirbken.MatchStats;
 import com.kirbken.SceneManager;
 import com.kirbken.models.Question;
 import com.kirbken.models.Character;
@@ -89,6 +90,12 @@ public class ArenaController implements FxController {
   private int questionsAskedCount = 0;
   private static final int QUIZ_WRONG_PENALTY = 10;
   private static final int QUIZ_CORRECT_REWARD = 20;
+
+  // Per-player quiz tallies, used to build MatchStats at the end of the match.
+  private int p1QuizCorrect = 0;
+  private int p1QuizWrong = 0;
+  private int p2QuizCorrect = 0;
+  private int p2QuizWrong = 0;
 
   @FXML
   public void initialize() {
@@ -479,10 +486,32 @@ public class ArenaController implements FxController {
     showWinner(winner);
   }
 
+  /** Elapsed match time in seconds, derived from the countdown timer. */
+  private int getElapsedSeconds() {
+      return ROUND_DURATION_SECONDS - timeRemaining;
+  }
+
+  /** Builds a MatchStats snapshot from the given character's perspective (their damage taken/dealt and quiz tally). */
+  private MatchStats buildMatchStats(Character subject, Character opponent,
+                                      int subjectQuizCorrect, int subjectQuizWrong) {
+      return new MatchStats(
+          opponent.getTotalDamageTaken(), // damage dealt BY subject = damage taken BY opponent
+          subject.getTotalDamageTaken(),  // damage taken BY subject
+          subjectQuizCorrect,
+          subjectQuizWrong,
+          getElapsedSeconds()
+      );
+  }
+
   private void showWinner(Character winner) {
       musicManager.stopSound("arena");
       CharacterProfile loserProfile = (winner == p2) ? p1Profile : p2Profile;
       boolean isMultiplayer = GameState.getGameMode() == GameState.GameMode.MULTIPLAYER;
+
+      Character loser = (winner == p2) ? p1 : p2;
+      int loserQuizCorrect = (winner == p2) ? p1QuizCorrect : p2QuizCorrect;
+      int loserQuizWrong = (winner == p2) ? p1QuizWrong : p2QuizWrong;
+      MatchStats loserStats = buildMatchStats(loser, winner, loserQuizCorrect, loserQuizWrong);
 
       if (isMultiplayer) {
           musicManager.playSound("win", 0.7); // always a win sound in multiplayer, regardless of which player wins
@@ -498,7 +527,8 @@ public class ArenaController implements FxController {
               int winningPlayerNumber = (winner == p1) ? 1 : 2;
               manager.goToWin("Victory to Player " + winningPlayerNumber + "!");
           } else if (winner == p2) {
-              manager.goToLose(loserProfile);
+              // NOTE: SceneManager.goToLose needs a second MatchStats parameter — see LoseController changes.
+              manager.goToLose(loserProfile, loserStats);
           } else if (GameState.getCurrentRound() == 1) {
               manager.goToRoundTransition();
           } else {
@@ -559,9 +589,11 @@ public class ArenaController implements FxController {
       if (wasCorrect) {
           Character opponent = (submittingPlayer == 1) ? p2 : p1;
           opponent.takeDamage(QUIZ_CORRECT_REWARD);
+          if (submittingPlayer == 1) p1QuizCorrect++; else p2QuizCorrect++;
       } else {
           Character self = (submittingPlayer == 1) ? p1 : p2;
           self.takeDamage(QUIZ_WRONG_PENALTY);
+          if (submittingPlayer == 1) p1QuizWrong++; else p2QuizWrong++;
       }
 
       activeKeys.clear();
