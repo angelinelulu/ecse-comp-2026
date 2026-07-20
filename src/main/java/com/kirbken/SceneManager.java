@@ -79,7 +79,12 @@ public class SceneManager {
         goToLose(CharacterRegistry.getDefault());
     }
 
+    /** Kept for backward compatibility with any caller that doesn't have MatchStats to pass. */
     public void goToLose(CharacterProfile loserProfile) {
+        goToLose(loserProfile, null);
+    }
+
+    public void goToLose(CharacterProfile loserProfile, MatchStats matchStats) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/lose.fxml"));
             Parent root = loader.load();
@@ -89,7 +94,7 @@ public class SceneManager {
                 fxController.setSceneManager(this);
             }
             if (controller instanceof LoseController loseController) {
-                loseController.setLoserProfile(loserProfile);
+                loseController.setLoserProfile(loserProfile, matchStats);
             }
 
             setRoot(root);
