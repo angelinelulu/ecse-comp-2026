@@ -59,10 +59,9 @@
 
 .lblVictory {
     -fx-font-family: "Geist Pixel";
-    -fx-font-size: 80px;
-    -fx-text-fill: #196d11;
-    -fx-effect: dropshadow(three-pass-box, rgba(89, 227, 30, 0.85), 16, 0.2, 0, 0);
-    -fx-text-alignment: center;
+    -fx-font-size: 100px;
+    -fx-text-fill: #ffff00;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 247, 0, 0.85), 16, 0.2, 0, 0);
 }
 
 .lblDefeat {
@@ -75,8 +74,9 @@
 
 .lblCard {
     -fx-font-family: "Geist Pixel";
-    -fx-font-size: 30px;
-    -fx-text-fill: #000000;
+    -fx-font-size: 50px;
+    -fx-text-fill: #ffff00;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 247, 0, 0.85), 16, 0.2, 0, 0);
     -fx-text-alignment: center;
 }
 

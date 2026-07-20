@@ -17,9 +17,9 @@
             <Point3D />
          </rotationAxis>
       </ImageView>
-      <Label fx:id="lblVictory" alignment="CENTER" layoutY="190.0" prefWidth="1280.0" styleClass="lblVictory" text="Victory!" textAlignment="CENTER" />
-      <Label fx:id="lblCard" alignment="CENTER" layoutY="338.0" prefWidth="1280.0" styleClass="lblCard" text="Congratulations! you have unlocked a new card!" textAlignment="CENTER" />
-      <Button id="playAgainButton" fx:id="btnPlayAgain" layoutX="659.0" layoutY="422.0" mnemonicParsing="false" onAction="#onPlayAgain" prefHeight="46.0" prefWidth="151.0" text="Play Again" />
-      <Button id="homeButton" fx:id="btnHome" layoutX="509.0" layoutY="422.0" mnemonicParsing="false" onAction="#onHome" prefHeight="35.0" prefWidth="121.0" text="Home" />
+      <Label fx:id="lblVictory" alignment="CENTER" layoutX="19.0" layoutY="199.0" prefWidth="1280.0" styleClass="lblVictory" text="VICTORY" textAlignment="CENTER" />
+      <Label fx:id="lblCard" alignment="CENTER" layoutY="347.0" prefWidth="1280.0" styleClass="lblCard" text="New card unlocked!" textAlignment="CENTER" />
+      <Button id="playAgainButton" fx:id="btnPlayAgain" layoutX="659.0" layoutY="443.0" mnemonicParsing="false" onAction="#onPlayAgain" prefHeight="46.0" prefWidth="151.0" text="Play Again" />
+      <Button id="homeButton" fx:id="btnHome" layoutX="488.0" layoutY="443.0" mnemonicParsing="false" onAction="#onHome" prefHeight="35.0" prefWidth="121.0" text="Home" />
    </children>
 </Pane>
