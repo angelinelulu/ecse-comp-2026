@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="overlay" id="quizOverlay" prefWidth="1280.0" prefHeight="720.0" style="-fx-background-color: rgba(0,0,0,0.75);" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.QuizPopupController">
+   <children>
+      <VBox fx:id="card" alignment="CENTER" maxWidth="600.0" maxHeight="500.0" spacing="20.0" style="-fx-background-color: #f2abe2; -fx-background-radius: 12; -fx-border-color: #f2abe2; -fx-border-width: 2; -fx-border-radius: 12;">
+         <padding>
+            <Insets top="40.0" right="40.0" bottom="40.0" left="40.0" />
+         </padding>
+         <children>
+            <Label fx:id="promptLabel" wrapText="true" maxWidth="520.0" alignment="CENTER" style="-fx-font-family: 'Geist Pixel'; -fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: black;" />
+            <VBox fx:id="optionsBox" alignment="CENTER" spacing="12.0" />
+            <Button fx:id="okButton" id="quizOkButton" text="OK" prefWidth="160.0" prefHeight="40.0" visible="false" managed="false" />
+         </children>
+      </VBox>
+   </children>
+</StackPane>

@@ -4,6 +4,7 @@ import com.kirbken.CharacterProfile;
 import com.kirbken.GameState;
 import com.kirbken.SceneManager;
 import com.kirbken.utils.KeyboardNavHelper;
+import com.kirbken.components.CardDispenser;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +30,8 @@ public class WinController implements FxController {
 
     @FXML
     public void initialize() {
+        CardDispenser.getInstance().dispenseCard();
+
         java.net.URL fontUrl = getClass().getResource("/fonts/GeistPixelRegular.ttf");
         if (fontUrl != null) {
             javafx.scene.text.Font.loadFont(fontUrl.toExternalForm(), 28);

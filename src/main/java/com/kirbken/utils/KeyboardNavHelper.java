@@ -39,4 +39,32 @@ public class KeyboardNavHelper {
             buttonsInOrder[0].requestFocus();
         }
     }
+
+    /** Same idea as enableHorizontalNav, but for up/down (and W/S) navigation through a vertical list. */
+    public static void enableVerticalNav(Node anchorNode, Button... buttonsInOrder) {
+        Scene scene = anchorNode.getScene();
+        if (scene == null) return;
+
+        scene.setOnKeyPressed(e -> {
+            int currentIndex = -1;
+            for (int i = 0; i < buttonsInOrder.length; i++) {
+                if (buttonsInOrder[i].isFocused()) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+
+            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP) {
+                int nextIndex = (currentIndex <= 0) ? 0 : currentIndex - 1;
+                buttonsInOrder[nextIndex].requestFocus();
+            } else if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN) {
+                int nextIndex = (currentIndex == -1) ? 0 : Math.min(currentIndex + 1, buttonsInOrder.length - 1);
+                buttonsInOrder[nextIndex].requestFocus();
+            }
+        });
+
+        if (buttonsInOrder.length > 0) {
+            buttonsInOrder[0].requestFocus();
+        }
+    }
 }
