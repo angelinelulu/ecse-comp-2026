@@ -49,6 +49,12 @@ public class Character {
     private long lastMeleeHitTime = 0;
     private static final long MELEE_COOLDOWN_NS = 400_000_000L; // 0.4s between melee hits; tune to match ATTACK animation length
 
+    // --- Match stats tracking ---
+    // Cumulative damage this character has taken across melee, projectile, and quiz-penalty
+    // sources, since all of them funnel through takeDamage(). Damage dealt BY this character
+    // is just the opponent's getTotalDamageTaken() — no separate bookkeeping needed.
+    private int totalDamageTaken = 0;
+
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
                       int maxHealth, int attackPower, int defensePower, int speed) {
         this.sprite = sprite;
@@ -176,11 +182,17 @@ public class Character {
     public void takeDamage(int rawAmount) {
         int mitigated = Math.max(1, rawAmount - defensePower / 2);
         health = Math.max(0, health - mitigated);
+        totalDamageTaken += mitigated;
         justHit = true;
 
         if (health <= 0) {
             animator.setState(SpriteAnimator.State.DEATH);
         }
+    }
+
+    /** Cumulative mitigated damage taken this match, across melee, projectile, and quiz penalties. */
+    public int getTotalDamageTaken() {
+        return totalDamageTaken;
     }
 
     public int rollAttackDamage() {
