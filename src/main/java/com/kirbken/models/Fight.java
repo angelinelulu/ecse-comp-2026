@@ -8,6 +8,7 @@ public class Fight {
     private final Character p2;
     private boolean isOver = false;
     private Character winner = null;
+    private static final double VERTICAL_HIT_TOLERANCE = 80;
 
     public Fight(Character p1, Character p2) {
         this.p1 = p1;
@@ -21,19 +22,14 @@ public class Fight {
     }
 
     private void checkCollisions() {
-        double distance = Math.abs(p1.getX() - p2.getX());
+        double horizontalDistance = Math.abs(p1.getCenterX() - p2.getCenterX());
+        double verticalDistance = Math.abs(p1.getCenterY() - p2.getCenterY());
 
-        if (distance < ATTACK_RANGE) {
-            // canLandMeleeHit() gates on both "attack key held" and "cooldown elapsed",
-            // so holding the attack key no longer lands a hit on every single frame.
-            if (p1.canLandMeleeHit()) {
-                p2.takeDamage(p1.rollAttackDamage());
-                p1.registerMeleeHitLanded();
-            }
-            if (p2.canLandMeleeHit()) {
-                p1.takeDamage(p2.rollAttackDamage());
-                p2.registerMeleeHitLanded();
-            }
+        boolean inRange = horizontalDistance < ATTACK_RANGE && verticalDistance < VERTICAL_HIT_TOLERANCE;
+
+        if (inRange) {
+            if (p1.isAttacking()) p2.takeDamage(p1.getAttackPower());
+            if (p2.isAttacking()) p1.takeDamage(p2.getAttackPower());
         }
     }
 
