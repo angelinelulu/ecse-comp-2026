@@ -23,9 +23,9 @@
               <children>
                   <Button fx:id="singleplayerButton" id="singleplayer_button" onAction="#onSingleplayerClicked" contentDisplay="TOP" text="Singleplayer">
                     <graphic>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" preserveRatio="true">
+                        <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
                           <image>
-                              <Image url="@../images/basic.png" />
+                              <Image url="@../images/singleplayer.png" />
                           </image>
                         </ImageView>
                     </graphic>
@@ -34,7 +34,7 @@
                     <graphic>
                         <ImageView fitHeight="120.0" fitWidth="120.0" preserveRatio="true">
                           <image>
-                              <Image url="@../images/basic.png" />
+                              <Image url="@../images/multiplayer.png" />
                           </image>
                         </ImageView>
                     </graphic>
