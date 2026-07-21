@@ -19,9 +19,9 @@ public class QuizPopupController {
     private static final String DEFAULT_STYLE =
         "-fx-background-color: #ffffff; -fx-text-fill: black; -fx-background-radius: 6; -fx-cursor: hand;";
     private static final String CORRECT_STYLE =
-        "-fx-background-color: #007b33; -fx-text-fill: black; -fx-background-radius: 6;";
+        "-fx-background-color: #007b33; -fx-text-fill: black; -fx-background-radius: 6; -fx-opacity: 0.7; -fx-font-size: 16px;";
     private static final String INCORRECT_STYLE =
-        "-fx-background-color: #8d0e00; -fx-text-fill: black; -fx-background-radius: 6;";
+        "-fx-background-color: #8d0e00; -fx-text-fill: black; -fx-background-radius: 6;-fx-opacity: 0.7; -fx-font-size: 16px;";
     private static final String OK_BUTTON_STYLE =
         "-fx-background-color: #ffffff; -fx-text-fill: black; -fx-background-radius: 6; -fx-cursor: hand;";
     private static final String OK_BUTTON_HOVER_STYLE =
