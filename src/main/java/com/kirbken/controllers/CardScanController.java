@@ -99,7 +99,11 @@ public class CardScanController implements FxController {
     @FXML
     private void onCancelClicked() {
         stopCamera();
-        manager.goToStory();
+        if (forPlayer2) {
+            manager.goToPlayer2Prompt();
+        } else {
+            manager.goToStory();
+        }
     }
 
     private void stopCamera() {
