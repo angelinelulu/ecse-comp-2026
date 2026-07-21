@@ -162,6 +162,14 @@ public class Character {
         return facingRight;
     }
 
+    public boolean isFacingToward(double targetCenterX) {
+        if (isFacingRight()) {
+            return targetCenterX >= getCenterX();
+        } else {
+            return targetCenterX <= getCenterX();
+        }
+    }
+
     public boolean isSpecialActive() {
         return specialActive || specialThrowing;
     }

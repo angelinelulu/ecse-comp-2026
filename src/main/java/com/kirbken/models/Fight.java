@@ -28,8 +28,12 @@ public class Fight {
         boolean inRange = horizontalDistance < ATTACK_RANGE && verticalDistance < VERTICAL_HIT_TOLERANCE;
 
         if (inRange) {
-            if (p1.isAttacking()) p2.takeDamage(p1.getAttackPower());
-            if (p2.isAttacking()) p1.takeDamage(p2.getAttackPower());
+            if (p1.isAttacking() && p1.isFacingToward(p2.getCenterX())) {
+                p2.takeDamage(p1.getAttackPower());
+            }
+            if (p2.isAttacking() && p2.isFacingToward(p1.getCenterX())) {
+                p1.takeDamage(p2.getAttackPower());
+            }
         }
     }
 
