@@ -89,7 +89,7 @@ public class ArenaController implements FxController {
   private int nextQuizIndex = 0;
   private int questionsAskedCount = 0;
   private static final int QUIZ_WRONG_PENALTY = 10;
-  private static final int QUIZ_CORRECT_REWARD = 20;
+  private static final int QUIZ_CORRECT_REWARD = 15;
 
   // Per-player quiz tallies, used to build MatchStats at the end of the match.
   private int p1QuizCorrect = 0;
