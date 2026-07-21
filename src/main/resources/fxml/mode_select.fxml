@@ -8,27 +8,27 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane id="mode_select_pane" fx:controller="com.kirbken.controllers.ModeSelectController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/start.css" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="mode_select_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/start.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.ModeSelectController">
    <children>
       <VBox id="card_prompt_box" alignment="CENTER" layoutX="340.0" layoutY="200.0" prefHeight="320.0" prefWidth="600.0" spacing="30.0">
          <children>
             <Label id="prompt_text" text="Choose your game mode" wrapText="true" />
             <HBox alignment="CENTER" spacing="40.0">
                <children>
-                  <Button fx:id="singleplayerButton" id="singleplayer_button" onAction="#onSingleplayerClicked" contentDisplay="TOP" text="Singleplayer">
+                  <Button id="singleplayer_button" fx:id="singleplayerButton" contentDisplay="TOP" onAction="#onSingleplayerClicked" text="Singleplayer">
                      <graphic>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" preserveRatio="true">
+                        <ImageView fitHeight="62.0" fitWidth="73.0" preserveRatio="true">
                            <image>
-                              <Image url="@../images/basic.png" />
+                              <Image url="@../images/singleplayer.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="multiplayerButton" id="multiplayer_button" onAction="#onMultiplayerClicked" contentDisplay="TOP" text="Multiplayer">
+                  <Button id="multiplayer_button" fx:id="multiplayerButton" contentDisplay="TOP" onAction="#onMultiplayerClicked" text="Multiplayer">
                      <graphic>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" preserveRatio="true">
+                        <ImageView fitHeight="73.0" fitWidth="135.0" preserveRatio="true">
                            <image>
-                              <Image url="@../images/basic.png" />
+                              <Image url="@../images/multiplayer.png" />
                            </image>
                         </ImageView>
                      </graphic>
