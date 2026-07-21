@@ -90,6 +90,7 @@ public class ArenaController implements FxController {
   private int questionsAskedCount = 0;
   private static final int QUIZ_WRONG_PENALTY = 10;
   private static final int QUIZ_CORRECT_REWARD = 15;
+  private long quizPauseStartNanos = 0;
 
   // Per-player quiz tallies, used to build MatchStats at the end of the match.
   private int p1QuizCorrect = 0;
@@ -566,6 +567,7 @@ public class ArenaController implements FxController {
 
   private void triggerQuizPopup() {
       timer.stop();
+      quizPauseStartNanos = System.nanoTime();
 
       Question q = QuizManager.getInstance().getRandomQuestion();
       if (q == null) {
@@ -594,6 +596,11 @@ public class ArenaController implements FxController {
           Character self = (submittingPlayer == 1) ? p1 : p2;
           self.takeDamage(QUIZ_WRONG_PENALTY);
           if (submittingPlayer == 1) p1QuizWrong++; else p2QuizWrong++;
+      }
+
+      long pauseDurationNanos = System.nanoTime() - quizPauseStartNanos;
+      for (int i = nextQuizIndex; i < quizTriggerNanosList.size(); i++) {
+          quizTriggerNanosList.set(i, quizTriggerNanosList.get(i) + pauseDurationNanos);
       }
 
       activeKeys.clear();
