@@ -17,6 +17,7 @@ public class SettingsController implements FxController {
     @FXML private Slider sfxVolumeSlider;
     @FXML private CheckBox fullscreenCheckBox;
     @FXML private Button backButton;
+    @FXML private Button btnQuit;
 
     @Override
     public void setSceneManager(SceneManager manager) {
@@ -66,5 +67,10 @@ public class SettingsController implements FxController {
     @FXML
     private void BackToStart() {
         manager.returnFromSettings();
+    }
+
+    @FXML
+    private void onQuitClicked() {
+        manager.goToQuitConfirmation();
     }
 }

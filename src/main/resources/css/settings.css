@@ -35,9 +35,39 @@
     -fx-background-insets: 0;
     -fx-border-insets: 0;
 }
+#quit_button {
+    -fx-font-family: "Geist Pixel";
+    -fx-background-color: rgb(125, 1, 82);
+    -fx-text-fill: white;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+#yes_button {
+    -fx-font-family: "Geist Pixel";
+    -fx-background-color: rgb(125, 1, 82);
+    -fx-text-fill: white;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+#no_button {
+    -fx-font-family: "Geist Pixel";
+    -fx-background-color: rgb(125, 1, 82);
+    -fx-text-fill: white;
+    -fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
 
 .button:focused {
     -fx-border-color: yellow;
     -fx-border-width: 3px;
     -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
 }
+
