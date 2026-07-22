@@ -14,14 +14,12 @@ public class RoundTransitionController implements FxController {
 
     @FXML
     private void onScanNewCard() {
-        GameState.advanceToNextRound();
         GameState.unlockForNewRound();
         manager.goToCardScanForRoundTransition();
     }
 
     @FXML
     private void onKeepCurrent() {
-        GameState.advanceToNextRound();
         manager.goToArena();
     }
 }

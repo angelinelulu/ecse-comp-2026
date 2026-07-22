@@ -58,7 +58,7 @@ public class ArenaController implements FxController {
   private Region[] p1Segments, p2Segments;
   private Rectangle p1HitboxDebug;
   private Rectangle p2HitboxDebug; 
-  private static final boolean SHOW_HITBOX_DEBUG = true; // flip to false to hide once tuned / delete
+  private static final boolean SHOW_HITBOX_DEBUG = false; // flip to false to hide once tuned / delete
 
   private final Set<KeyCode> activeKeys = new HashSet<>();
   private AnimationTimer timer;
@@ -543,6 +543,7 @@ public class ArenaController implements FxController {
               // NOTE: SceneManager.goToLose needs a second MatchStats parameter — see LoseController changes.
               manager.goToLose(loserProfile, loserStats);
           } else if (GameState.getCurrentRound() == 1) {
+              GameState.advanceToNextRound();
               manager.goToRoundTransition();
           } else {
               manager.goToWin();
