@@ -2,8 +2,6 @@ package com.kirbken.models;
 
 public class Fight {
 
-    private static final double ATTACK_RANGE = 120;
-
     private final Character p1;
     private final Character p2;
     private boolean isOver = false;
@@ -25,13 +23,13 @@ public class Fight {
         double horizontalDistance = Math.abs(p1.getCenterX() - p2.getCenterX());
         double verticalDistance = Math.abs(p1.getCenterY() - p2.getCenterY());
 
-        boolean inRange = horizontalDistance < ATTACK_RANGE && verticalDistance < VERTICAL_HIT_TOLERANCE;
-
-        if (inRange) {
-            if (p1.isAttacking() && p1.isFacingToward(p2.getCenterX())) {
+        if (verticalDistance < VERTICAL_HIT_TOLERANCE) {
+            if (p1.isAttacking() && p1.isFacingToward(p2.getCenterX())
+                && horizontalDistance < p1.getAttackRange()) {
                 p2.takeDamage(p1.getAttackPower());
             }
-            if (p2.isAttacking() && p2.isFacingToward(p1.getCenterX())) {
+            if (p2.isAttacking() && p2.isFacingToward(p1.getCenterX())
+                && horizontalDistance < p2.getAttackRange()) {
                 p1.takeDamage(p2.getAttackPower());
             }
         }
