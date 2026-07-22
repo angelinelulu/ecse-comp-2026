@@ -3,6 +3,10 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
+#settings_root {
+    -fx-background-color: pink;
+}
+
 #settings_panel {
     -fx-background-color: rgba(20, 20, 30, 0.9);
     -fx-background-radius: 20px;
