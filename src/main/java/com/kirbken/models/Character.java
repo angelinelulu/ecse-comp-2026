@@ -25,8 +25,8 @@ public class Character {
     private static final double JUMP_STRENGTH = -18;
 
     private static final double SPRITE_WIDTH = 350;
-    private static final double MARGIN = 10;
-    private static final double MIN_X = -350;
+    private static final double MARGIN = 75;
+    private static final double MIN_X = -335;
     private static final double MAX_X = 1280 - SPRITE_WIDTH - MARGIN;
     private static final double VISUAL_CENTER_OFFSET = 375;
     private static final double VISUAL_CENTER_Y_OFFSET = 200;

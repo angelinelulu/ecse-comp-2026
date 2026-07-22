@@ -35,8 +35,10 @@ public class SceneManager {
         container.setPrefSize(DESIGN_WIDTH, DESIGN_HEIGHT);
         container.setMinSize(DESIGN_WIDTH, DESIGN_HEIGHT);
         container.setMaxSize(DESIGN_WIDTH, DESIGN_HEIGHT);
+        container.setStyle("-fx-background-color: black;"); 
 
         scene = new Scene(container, DESIGN_WIDTH, DESIGN_HEIGHT);
+        scene.setFill(javafx.scene.paint.Color.BLACK);
         stage.setScene(scene);
         stage.show();
 
