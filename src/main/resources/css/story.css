@@ -62,7 +62,7 @@
 }
 
 #yes_button {
-    -fx-background-color: pink;
+    -fx-background-color: rgb(248, 135, 154);
     -fx-border-color: black;
     -fx-border-width: 1.5px;
 }
@@ -75,7 +75,7 @@
 }
 
 #yes_button:hover {
-    -fx-background-color: derive(rgb(203, 118, 134), -15%);
+    -fx-background-color: derive(rgb(248, 149, 167), -15%);
     -fx-text-fill: white;
 }
 
