@@ -3,7 +3,7 @@ package com.kirbken;
 public class CharacterRegistry {
     private static final CharacterProfile DEFAULT = new CharacterProfile(
         "kirby_base", "Classic Pink", "/images/basic.png",
-        100, 12, 6, 10,
+        100, 12, 7, 10,
         "F", "Standard Inhale", "Star Spit", "Warp Star Strike",
         "Standard pink spherical protagonist, unequipped base variant"
     );

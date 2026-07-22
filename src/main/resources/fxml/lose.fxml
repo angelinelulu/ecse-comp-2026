@@ -41,17 +41,17 @@
          <content>
             <Pane prefHeight="299.0" prefWidth="501.0" styleClass="arcade-pane-content">
                <children>
-                  <Label fx:id="lblCharacterUsed" layoutX="25.0" layoutY="30.0" styleClass="arcade-stat-label" text="CHARACTER: KIRBY_BASE" textFill="WHITE">
+                  <Label fx:id="lblCharacterUsed" layoutX="25.0" layoutY="30.0" styleClass="arcade-stat-label" text="CHARACTER: KIRBY_BASE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAccuracy" layoutX="25.0" layoutY="80.0" styleClass="arcade-stat-label" text="QUIZ ACCURACY: 40% (2/5)" textFill="WHITE">
+                  <Label fx:id="lblAccuracy" layoutX="25.0" layoutY="80.0" styleClass="arcade-stat-label" text="QUIZ ACCURACY: 40% (2/5)">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblDamageDealt" layoutX="25.0" layoutY="130.0" styleClass="arcade-stat-label" text="DAMAGE DEALT: 320 HP" textFill="WHITE">
+                  <Label fx:id="lblDamageDealt" layoutX="25.0" layoutY="130.0" styleClass="arcade-stat-label" text="DAMAGE DEALT: 320 HP">
                      <font>
                         <Font size="18.0" />
                      </font>

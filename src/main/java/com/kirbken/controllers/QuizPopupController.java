@@ -58,6 +58,7 @@ public class QuizPopupController {
         okButton.setOnMouseEntered(e -> okButton.setStyle(OK_BUTTON_HOVER_STYLE));
         okButton.setOnMouseExited(e -> okButton.setStyle(OK_BUTTON_STYLE));
         okButton.setOnAction(e -> onAnswered.accept(wasCorrectAnswer, submittingPlayer));
+        okButton.setFocusTraversable(false);
 
         var options = question.getOptions();
         for (int i = 0; i < options.size(); i++) {
@@ -68,6 +69,7 @@ public class QuizPopupController {
             optionButton.setPrefHeight(44);
             optionButton.setFont(Font.font("Geist Pixel", 16));
             optionButton.setStyle(DEFAULT_STYLE);
+            optionButton.setFocusTraversable(false);
 
             // Mouse click support (dev/testing convenience) — treated as Player 1 submitting directly
             optionButton.setOnAction(e -> submit(1, optionIndex));
@@ -105,11 +107,15 @@ public class QuizPopupController {
             p1Index = Math.min(optionCount - 1, p1Index + 1);
             renderHighlights();
         } else if (code == KeyCode.UP) {
+            System.out.println("UP received, p2Index was: " + p2Index);
             p2Index = Math.max(0, p2Index - 1);
             renderHighlights();
+            System.out.println("p2Index now: " + p2Index);
         } else if (code == KeyCode.DOWN) {
+            System.out.println("DOWN received, p2Index was: " + p2Index);
             p2Index = Math.min(optionCount - 1, p2Index + 1);
             renderHighlights();
+            System.out.println("p2Index now: " + p2Index);
         } else if (code == KeyCode.F) {
             submit(1, p1Index);
         } else if (code == KeyCode.L) {

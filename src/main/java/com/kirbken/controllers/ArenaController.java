@@ -58,7 +58,7 @@ public class ArenaController implements FxController {
   private Region[] p1Segments, p2Segments;
   private Rectangle p1HitboxDebug;
   private Rectangle p2HitboxDebug; 
-  private static final boolean SHOW_HITBOX_DEBUG = true; // flip to false to hide once tuned / delete
+  private static final boolean SHOW_HITBOX_DEBUG = false; // flip to false to hide once tuned / delete
 
   private final Set<KeyCode> activeKeys = new HashSet<>();
   private AnimationTimer timer;
@@ -71,6 +71,8 @@ public class ArenaController implements FxController {
   private static final int ROUND_DURATION_SECONDS = 180; // 3:00
   private int timeRemaining = ROUND_DURATION_SECONDS;
   private long lastSecondTick = 0;
+  private static final double DEFAULT_ATTACK_RANGE = 120;
+  private static final double EXTENDED_ATTACK_RANGE = 200; // for staff/long-arm characters
 
   // --- singleplayer mode fields ---
   private long lastAIDecisionTime = 0;
@@ -89,7 +91,8 @@ public class ArenaController implements FxController {
   private int nextQuizIndex = 0;
   private int questionsAskedCount = 0;
   private static final int QUIZ_WRONG_PENALTY = 10;
-  private static final int QUIZ_CORRECT_REWARD = 20;
+  private static final int QUIZ_CORRECT_REWARD = 15;
+  private long quizPauseStartNanos = 0;
 
   // Per-player quiz tallies, used to build MatchStats at the end of the match.
   private int p1QuizCorrect = 0;
@@ -145,10 +148,13 @@ public class ArenaController implements FxController {
     setSpriteImage(p1Sprite, p1Profile);
     setSpriteImage(p2Sprite, p2Profile);
 
+    double p1AttackRange = getAttackRangeFor(p1Profile.getId());
+    double p2AttackRange = getAttackRangeFor(p2Profile.getId());
+
     p1 = new Character(p1Sprite, -230, 300, true,
-        p1Profile.getHp(), p1Profile.getAttackPower(), p1Profile.getDefensePower(), p1Profile.getSpeed());
+        p1Profile.getHp(), p1Profile.getAttackPower(), p1Profile.getDefensePower(), p1Profile.getSpeed(), p1AttackRange);
     p2 = new Character(p2Sprite, 750, 300, false,
-        p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed());
+        p2Profile.getHp(), p2Profile.getAttackPower(), p2Profile.getDefensePower(), p2Profile.getSpeed(), p2AttackRange);
 
     applyAnimations(p1, p1Profile.getId());
     applyAnimations(p2, p2Profile.getId());
@@ -309,6 +315,13 @@ public class ArenaController implements FxController {
               p2.getAnimator().setState(SpriteAnimator.State.IDLE);
           }
       }
+  }
+
+  private double getAttackRangeFor(String characterId) {
+      return switch (characterId) {
+          case "kirby_angelic", "kirby_buff" -> EXTENDED_ATTACK_RANGE;
+          default -> DEFAULT_ATTACK_RANGE;
+      };
   }
 
   private void updateAI() {
@@ -530,6 +543,7 @@ public class ArenaController implements FxController {
               // NOTE: SceneManager.goToLose needs a second MatchStats parameter — see LoseController changes.
               manager.goToLose(loserProfile, loserStats);
           } else if (GameState.getCurrentRound() == 1) {
+              GameState.advanceToNextRound();
               manager.goToRoundTransition();
           } else {
               manager.goToWin();
@@ -566,6 +580,7 @@ public class ArenaController implements FxController {
 
   private void triggerQuizPopup() {
       timer.stop();
+      quizPauseStartNanos = System.nanoTime();
 
       Question q = QuizManager.getInstance().getRandomQuestion();
       if (q == null) {
@@ -594,6 +609,11 @@ public class ArenaController implements FxController {
           Character self = (submittingPlayer == 1) ? p1 : p2;
           self.takeDamage(QUIZ_WRONG_PENALTY);
           if (submittingPlayer == 1) p1QuizWrong++; else p2QuizWrong++;
+      }
+
+      long pauseDurationNanos = System.nanoTime() - quizPauseStartNanos;
+      for (int i = nextQuizIndex; i < quizTriggerNanosList.size(); i++) {
+          quizTriggerNanosList.set(i, quizTriggerNanosList.get(i) + pauseDurationNanos);
       }
 
       activeKeys.clear();

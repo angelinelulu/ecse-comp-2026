@@ -47,7 +47,8 @@ public class Character {
     // Without this, isAttacking() being a held-key state meant every AnimationTimer tick (~60/sec)
     // could independently call takeDamage(), effectively spamming damage far beyond intended pacing.
     private long lastMeleeHitTime = 0;
-    private static final long MELEE_COOLDOWN_NS = 400_000_000L; // 0.4s between melee hits; tune to match ATTACK animation length
+    private static final long MELEE_COOLDOWN_NS = 400_000_000L;
+    private final double attackRange;
 
     // --- Match stats tracking ---
     // Cumulative damage this character has taken across melee, projectile, and quiz-penalty
@@ -56,7 +57,7 @@ public class Character {
     private int totalDamageTaken = 0;
 
     public Character(ImageView sprite, double startX, double startY, boolean startsFacingRight,
-                      int maxHealth, int attackPower, int defensePower, int speed) {
+                      int maxHealth, int attackPower, int defensePower, int speed, double attackRange) {
         this.sprite = sprite;
         this.animator = new SpriteAnimator(sprite);
         this.x = startX;
@@ -68,6 +69,7 @@ public class Character {
         this.attackPower = attackPower;
         this.defensePower = defensePower;
         this.speed = speed;
+        this.attackRange = attackRange;
         sprite.setLayoutX(startX);
         sprite.setLayoutY(startY);
         updatePosition();
@@ -149,6 +151,10 @@ public class Character {
         }
     }
 
+    public double getAttackRange() {
+        return attackRange;
+    }
+
     /** Call once per frame from ArenaController; returns true exactly once per throw. */
     public boolean consumeJustThrew() {
         if (justThrew) {
@@ -160,6 +166,14 @@ public class Character {
 
     public boolean isFacingRight() {
         return facingRight;
+    }
+
+    public boolean isFacingToward(double targetCenterX) {
+        if (isFacingRight()) {
+            return targetCenterX >= getCenterX();
+        } else {
+            return targetCenterX <= getCenterX();
+        }
     }
 
     public boolean isSpecialActive() {

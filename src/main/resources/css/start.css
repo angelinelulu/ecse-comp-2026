@@ -125,6 +125,7 @@
 
 #singleplayer_button:focused, #multiplayer_button:focused, #start_button:focused, #settings_button:focused, #quiz_mode_button:focused {
     -fx-border-color: yellow;
+    -fx-border-radius: 16px;
     -fx-border-width: 3px;
     -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
 }

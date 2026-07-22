@@ -13,7 +13,6 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.awt.image.BufferedImage;
@@ -21,9 +20,11 @@ import java.awt.image.BufferedImage;
 public class CardScanController implements FxController {
     private SceneManager manager;
     private Webcam webcam;
-    private boolean forPlayer2 = false;
     private AnimationTimer scanLoop;
     private boolean scanned = false;
+
+    public enum ReturnDestination { STORY, PLAYER2_PROMPT, ROUND_TRANSITION }
+    private ReturnDestination returnDestination = ReturnDestination.STORY;
 
     @FXML private ImageView cameraView;
     @FXML private Label statusLabel;
@@ -74,13 +75,20 @@ public class CardScanController implements FxController {
         }
     }
 
+    public void setReturnDestination(ReturnDestination destination) {
+        this.returnDestination = destination;
+    }
+
+    /** Kept for backward compatibility with existing callers (e.g. SceneManager.goToCardScanP2). */
     public void setForPlayer2(boolean forPlayer2) {
-        this.forPlayer2 = forPlayer2;
+        this.returnDestination = forPlayer2 ? ReturnDestination.PLAYER2_PROMPT : ReturnDestination.STORY;
     }
 
     private void onCodeScanned(String qrCodeId) {
         stopCamera();
         statusLabel.setText("Loading character data...");
+
+        boolean forPlayer2 = (returnDestination == ReturnDestination.PLAYER2_PROMPT);
 
         new Thread(() -> {
             CharacterProfile profile = FirebaseCharacterService.fetchCharacter(qrCodeId);
@@ -99,7 +107,11 @@ public class CardScanController implements FxController {
     @FXML
     private void onCancelClicked() {
         stopCamera();
-        manager.goToStory();
+        switch (returnDestination) {
+            case PLAYER2_PROMPT -> manager.goToPlayer2Prompt();
+            case ROUND_TRANSITION -> manager.goToRoundTransition();
+            default -> manager.goToStory();
+        }
     }
 
     private void stopCamera() {

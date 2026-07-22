@@ -117,7 +117,7 @@
 .arcade-stat-label {
     -fx-font-family: "Geist Pixel";
     -fx-font-size: 18px;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .arcade-stat-highlight {
