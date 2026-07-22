@@ -16,7 +16,7 @@ public class RoundTransitionController implements FxController {
     private void onScanNewCard() {
         GameState.advanceToNextRound();
         GameState.unlockForNewRound();
-        manager.goToCardScan();
+        manager.goToCardScanForRoundTransition();
     }
 
     @FXML

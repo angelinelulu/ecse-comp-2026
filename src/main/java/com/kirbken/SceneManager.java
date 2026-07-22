@@ -149,6 +149,25 @@ public class SceneManager {
         }
     }
 
+    public void goToCardScanForRoundTransition() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/card_scan.fxml"));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof FxController fxController) {
+                fxController.setSceneManager(this);
+            }
+            if (controller instanceof CardScanController cardScanController) {
+                cardScanController.setReturnDestination(CardScanController.ReturnDestination.ROUND_TRANSITION);
+            }
+
+            setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void goToConfirmation(CharacterProfile profile, boolean forPlayer2) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/confirmation.fxml"));
