@@ -3,6 +3,14 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
+#confirmation_pane {
+    -fx-background-color: pink;
+}
+
+#player2_prompt_pane {
+    -fx-background-color: pink;
+}
+
 #story_pane {
     -fx-background-image: url("../images/intro.png");
     -fx-background-size: cover;
