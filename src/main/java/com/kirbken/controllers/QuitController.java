@@ -5,9 +5,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class QuitController {
-    @FXML Button btnYes;
-    @FXML Button btnNo;
-    @FXML Label lblConfirmation;
+    @FXML private Button btnYes;
+    @FXML private Button btnNo;
+    @FXML private Label lblConfirmation;
 
     @FXML
     private void onYesClicked() {

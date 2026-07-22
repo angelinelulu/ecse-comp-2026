@@ -71,6 +71,6 @@ public class SettingsController implements FxController {
 
     @FXML
     private void onQuitClicked() {
-        // manager.returnFromSettings();
+        manager.goToQuitConfirmation();
     }
 }

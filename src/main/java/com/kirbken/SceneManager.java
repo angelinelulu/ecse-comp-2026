@@ -56,6 +56,10 @@ public class SceneManager {
         loadFXML("/fxml/win.fxml");
     }
 
+    public void goToQuitConfirmation() {
+        loadFXML("/fxml/quit-screen.fxml");
+    }
+
     public void goToWin(String winLabelText) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/win.fxml"));
