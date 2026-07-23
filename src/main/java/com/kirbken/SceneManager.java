@@ -6,6 +6,7 @@ import com.kirbken.controllers.ConfirmationController;
 import com.kirbken.controllers.FxController;
 import com.kirbken.controllers.LoseController;
 import com.kirbken.controllers.WinController;
+import com.kirbken.utils.QuizManager;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
@@ -51,6 +52,8 @@ public class SceneManager {
     }
 
     public void goToStart() {
+        com.kirbken.utils.QuizManager.getInstance().setQuizModeEnabled(false);
+        com.kirbken.utils.QuizManager.getInstance().setQuestions(null);
         loadFXML("/fxml/start.fxml");
     }
 
