@@ -380,7 +380,7 @@ public class ArenaController implements FxController {
     for (int i = 0; i < p1Segments.length; i++) {
       p1Segments[i].setStyle(
           i < p1Lit
-              ? "-fx-background-color: #00d0ff; -fx-background-radius: 2;"
+              ? "-fx-background-color: #fb5dd4; -fx-background-radius: 2;"
               : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
     }
     for (int i = 0; i < p2Segments.length; i++) {

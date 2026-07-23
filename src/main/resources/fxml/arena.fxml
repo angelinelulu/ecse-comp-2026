@@ -32,14 +32,14 @@
         <StackPane alignment="CENTER_LEFT">
             <Region fx:id="p1HealthBg" prefHeight="24" prefWidth="300" style="-fx-background-color: #222; -fx-background-radius: 4; -fx-effect: innershadow(gaussian, rgba(0,0,0,0.6), 4, 0.3, 0, 1);" />
             <HBox fx:id="p1HealthSegments" prefHeight="24" prefWidth="300" spacing="3">
-                <Region fx:id="p1Seg0" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg1" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg2" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg3" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg4" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg5" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg6" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p1Seg7" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ff4444 50%, #cc2222 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg0" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg1" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg2" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg3" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg4" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg5" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg6" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p1Seg7" prefHeight="28" prefWidth="34" style="-fx-background-color: #fb5dd4; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
             </HBox>
         </StackPane>
 
@@ -47,23 +47,23 @@
         <StackPane alignment="CENTER_RIGHT">
             <Region fx:id="p2HealthBg" prefHeight="24" prefWidth="300" style="-fx-background-color: #222; -fx-background-radius: 4; -fx-effect: innershadow(gaussian, rgba(0,0,0,0.6), 4, 0.3, 0, 1);" />
             <HBox fx:id="p2HealthSegments" prefHeight="24" prefWidth="300" spacing="3">
-                <Region fx:id="p2Seg0" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg1" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg2" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg3" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg4" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg5" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg6" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
-                <Region fx:id="p2Seg7" prefHeight="28" prefWidth="34" style="-fx-background-color: linear-gradient(to bottom, #6bb8ff 0%, #4488ff 50%, #2255cc 100%); -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg0" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg1" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg2" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg3" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg4" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg5" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg6" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
+                <Region fx:id="p2Seg7" prefHeight="28" prefWidth="34" style="-fx-background-color: #8400ff; -fx-background-radius: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3, 0.2, 0, 1);" />
             </HBox>
         </StackPane>
 
       </HBox>
 
     <!-- Player labels -->
-    <Label fx:id="p1Label" layoutX="70.0" layoutY="31.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-family: 'Geist Pixel'; -fx-font-size: 18px; -fx-text-fill: #ff4444; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.6, 1, 1);" text="PLAYER 1" />
+    <Label fx:id="p1Label" layoutX="70.0" layoutY="31.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-family: 'Geist Pixel'; -fx-font-size: 18px; -fx-text-fill: #fb5dd4; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.6, 1, 1);" text="PLAYER 1" />
 
-    <Label fx:id="p2Label" alignment="CENTER_RIGHT" layoutX="1093.0" layoutY="31.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-family: 'Geist Pixel'; -fx-font-size: 18px; -fx-text-fill: #4488ff; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.6, 1, 1);" text="PLAYER 2" />
+    <Label fx:id="p2Label" alignment="CENTER_RIGHT" layoutX="1093.0" layoutY="31.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-family: 'Geist Pixel'; -fx-font-size: 18px; -fx-text-fill: #8400ff; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 2, 0.6, 1, 1);" text="PLAYER 2" />
 
     <!-- Timer Label -->
     <StackPane fx:id="timerContainer" layoutX="583.0" layoutY="8.0" prefHeight="100" prefWidth="130">
