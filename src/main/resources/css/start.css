@@ -3,6 +3,10 @@
     src: url("../fonts/GeistPixelRegular.ttf");
 }
 
+#mode_select_pane{
+    -fx-background-color: pink;
+}
+
 #start_pane {
     -fx-background-image: url("../images/start.png");
     -fx-background-size: stretch;
