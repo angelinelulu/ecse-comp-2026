@@ -283,39 +283,40 @@ public class LoseController implements FxController {
     return content;
   }
 
-  /** Builds a combined results panel showing both players' stats for a draw/timeout scenario. */
-  private VBox createDualResultsContent(
-      CharacterProfile p1Profile,
-      MatchStats p1Stats,
-      CharacterProfile p2Profile,
-      MatchStats p2Stats) {
-    VBox content = new VBox(6);
-    content.setPadding(new Insets(12, 16, 12, 16));
-    content.getStyleClass().add("arcade-pane-content");
+/** Builds a combined results panel showing both players' stats for a draw/timeout scenario. */
+private VBox createDualResultsContent(
+    CharacterProfile p1Profile,
+    MatchStats p1Stats,
+    CharacterProfile p2Profile,
+    MatchStats p2Stats) {
+  VBox content = new VBox(6);
+  content.setPadding(new Insets(12, 16, 12, 16));
+  content.getStyleClass().add("arcade-pane-content");
 
-    Label header = new Label("Time's Up — No Winner");
-    header.getStyleClass().add("results-subheader");
-    content.getChildren().add(header);
+  Label header = new Label("Time's Up — No Winner");
+  header.getStyleClass().add("results-subheader");
+  content.getChildren().add(header);
 
-    content.getChildren().add(buildPlayerStatsBlock("PLAYER 1", p1Profile, p1Stats));
-    content.getChildren().add(buildPlayerStatsBlock("PLAYER 2", p2Profile, p2Stats));
+  content.getChildren().add(buildPlayerStatsBlock("PLAYER 1", p1Profile, p1Stats, "#fb5dd4"));
+  content.getChildren().add(buildPlayerStatsBlock("PLAYER 2", p2Profile, p2Stats, "#8400ff"));
 
-    return content;
-  }
+  return content;
+}
 
-  private Label buildPlayerStatsBlock(
-      String playerLabel, CharacterProfile profile, MatchStats stats) {
-    String characterName = profile != null ? profile.getDisplayName() : "--";
-    String statsLine =
-        (stats != null)
-            ? String.format("Dealt: %d   Taken: %d", stats.getDamageDealt(), stats.getDamageTaken())
-            : "No stats available";
+private Label buildPlayerStatsBlock(
+    String playerLabel, CharacterProfile profile, MatchStats stats, String colorHex) {
+  String characterName = profile != null ? profile.getDisplayName() : "--";
+  String statsLine =
+      (stats != null)
+          ? String.format("Dealt: %d   Taken: %d", stats.getDamageDealt(), stats.getDamageTaken())
+          : "No stats available";
 
-    Label label = new Label(playerLabel + " (" + characterName + ")\n" + statsLine);
-    label.getStyleClass().add("arcade-stat-label");
-    label.setWrapText(true);
-    return label;
-  }
+  Label label = new Label(playerLabel + " (" + characterName + ")\n" + statsLine);
+  label.getStyleClass().add("arcade-stat-label");
+  label.setWrapText(true);
+  label.setStyle("-fx-text-fill: " + colorHex + "; -fx-font-weight: bold;");
+  return label;
+}
 
   private String resolveLoserImagePath(CharacterProfile profile) {
     String profileId = profile.getId();
