@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import com.kirbken.GameState;
 
 public class QuizPopupController {
 
@@ -44,11 +45,13 @@ public class QuizPopupController {
     private int p2Index = 0;
     private boolean locked = false;
     private boolean wasCorrectAnswer = false;
+    private boolean isMultiplayer;
     private int submittingPlayer = 0;
 
     public void setup(Question question, BiConsumer<Boolean, Integer> onAnswered) {
         this.question = question;
         this.onAnswered = onAnswered;
+        this.isMultiplayer = GameState.getGameMode() == GameState.GameMode.MULTIPLAYER;
 
         promptLabel.setText(question.getPrompt());
         promptLabel.setFont(Font.font("Geist Pixel", FontWeight.BOLD, 18));
@@ -90,8 +93,11 @@ public class QuizPopupController {
 
     private void handleKeyPress(javafx.scene.input.KeyEvent e) {
         if (locked) {
-            if (e.getCode() == KeyCode.F || e.getCode() == KeyCode.L
-                || e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+            boolean submitKeyPressed = e.getCode() == KeyCode.F
+                || (isMultiplayer && e.getCode() == KeyCode.L)
+                || e.getCode() == KeyCode.ENTER
+                || e.getCode() == KeyCode.SPACE;
+            if (submitKeyPressed) {
                 okButton.fire();
             }
             return;
@@ -106,19 +112,15 @@ public class QuizPopupController {
         } else if (code == KeyCode.S) {
             p1Index = Math.min(optionCount - 1, p1Index + 1);
             renderHighlights();
-        } else if (code == KeyCode.UP) {
-            System.out.println("UP received, p2Index was: " + p2Index);
+        } else if (isMultiplayer && code == KeyCode.UP) {
             p2Index = Math.max(0, p2Index - 1);
             renderHighlights();
-            System.out.println("p2Index now: " + p2Index);
-        } else if (code == KeyCode.DOWN) {
-            System.out.println("DOWN received, p2Index was: " + p2Index);
+        } else if (isMultiplayer && code == KeyCode.DOWN) {
             p2Index = Math.min(optionCount - 1, p2Index + 1);
             renderHighlights();
-            System.out.println("p2Index now: " + p2Index);
         } else if (code == KeyCode.F) {
             submit(1, p1Index);
-        } else if (code == KeyCode.L) {
+        } else if (isMultiplayer && code == KeyCode.L) {
             submit(2, p2Index);
         }
     }
@@ -126,7 +128,7 @@ public class QuizPopupController {
     private void renderHighlights() {
         for (int i = 0; i < allButtons.size(); i++) {
             boolean isP1 = (p1Index == i);
-            boolean isP2 = (p2Index == i);
+            boolean isP2 = isMultiplayer && (p2Index == i);
 
             String style = DEFAULT_STYLE;
             if (isP1 && isP2) {
