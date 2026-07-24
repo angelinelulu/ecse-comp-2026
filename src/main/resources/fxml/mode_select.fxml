@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane id="mode_select_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/start.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.ModeSelectController">
+<Pane id="mode_select_pane" fx:id="modeSelectRootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/start.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirbken.controllers.ModeSelectController">
    <children>
       <VBox id="card_prompt_box" alignment="CENTER" layoutX="340.0" layoutY="200.0" prefHeight="320.0" prefWidth="600.0" spacing="30.0">
          <children>
