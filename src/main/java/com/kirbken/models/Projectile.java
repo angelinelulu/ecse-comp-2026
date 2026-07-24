@@ -11,14 +11,17 @@ public class Projectile {
     private final int damage;
     private boolean active = true;
     public static final double VERTICAL_HIT_TOLERANCE = 50;
+    private final Character thrower;
 
     public Projectile(String imagePath, double startX, double startY, boolean movingRight,
-                      double speed, int damage, javafx.scene.layout.Pane parent) {
+                      double speed, int damage, javafx.scene.layout.Pane parent, Character thrower) {
         this.x = startX;
         this.y = startY;
         this.movingRight = movingRight;
         this.speed = speed;
         this.damage = damage;
+        this.thrower = thrower;
+
 
         this.view = new ImageView();
         var url = getClass().getResource(imagePath);
@@ -82,5 +85,9 @@ public class Projectile {
 
     public boolean isMovingRight() {
         return movingRight;
+    }
+
+    public Character getThrower() {
+        return thrower;
     }
 }
