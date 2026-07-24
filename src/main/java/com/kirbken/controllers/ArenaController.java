@@ -448,11 +448,12 @@ public class ArenaController implements FxController {
       Projectile projectile = new Projectile(
           stickImage,
           thrower.getX() + 400,
-          500, 
+          500,
           thrower.isFacingRight(),
           PROJECTILE_SPEED,
           thrower.rollAttackDamage(),
-          rootPane
+          rootPane,
+          thrower
       );
       projectiles.add(projectile);
   }
@@ -464,7 +465,7 @@ public class ArenaController implements FxController {
           boolean stillActive = p.update();
 
           if (stillActive) {
-              Character target = p.isMovingRight() ? p2 : p1;
+              Character target = (p.getThrower() == p1) ? p2 : p1;
               if (p.checkHit(target, CHARACTER_WIDTH)) {
                   target.takeDamage(p.getDamage());
                   p.deactivate();

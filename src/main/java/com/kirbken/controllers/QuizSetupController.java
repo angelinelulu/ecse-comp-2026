@@ -112,7 +112,15 @@ public class QuizSetupController implements FxController {
   @FXML
   private void onStoryButtonClicked(ActionEvent event) {
       musicManager.playSound("buttonClick", 0.5);
-      manager.goToModeSelect();
+      showComingSoonPopup();
+  }
+
+  private void showComingSoonPopup() {
+      javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+      alert.setTitle("Custom Quiz Questions");
+      alert.setHeaderText(null);
+      alert.setContentText("Coming Soon!");
+      alert.showAndWait();
   }
 
   @FXML
