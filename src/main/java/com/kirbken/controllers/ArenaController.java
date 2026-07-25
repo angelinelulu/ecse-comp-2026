@@ -479,32 +479,33 @@ public class ArenaController implements FxController {
       return;
     }
 
-    Projectile projectile =
-        new Projectile(
-            stickImage,
-            thrower.getX() + 400,
-            500,
-            thrower.isFacingRight(),
-            PROJECTILE_SPEED,
-            thrower.rollAttackDamage(),
-            rootPane);
-    projectiles.add(projectile);
+      Projectile projectile = new Projectile(
+          stickImage,
+          thrower.getX() + 400,
+          500,
+          thrower.isFacingRight(),
+          PROJECTILE_SPEED,
+          thrower.rollAttackDamage(),
+          rootPane,
+          thrower
+      );
+      projectiles.add(projectile);
   }
 
   private void updateProjectiles() {
-    Iterator<Projectile> it = projectiles.iterator();
-    while (it.hasNext()) {
-      Projectile p = it.next();
-      boolean stillActive = p.update();
+      Iterator<Projectile> it = projectiles.iterator();
+      while (it.hasNext()) {
+          Projectile p = it.next();
+          boolean stillActive = p.update();
 
-      if (stillActive) {
-        Character target = p.isMovingRight() ? p2 : p1;
-        if (p.checkHit(target, CHARACTER_WIDTH)) {
-          target.takeDamage(p.getDamage());
-          p.deactivate();
-          stillActive = false;
-        }
-      }
+          if (stillActive) {
+              Character target = (p.getThrower() == p1) ? p2 : p1;
+              if (p.checkHit(target, CHARACTER_WIDTH)) {
+                  target.takeDamage(p.getDamage());
+                  p.deactivate();
+                  stillActive = false;
+              }
+          }
 
       if (!stillActive) {
         rootPane.getChildren().remove(p.getView());
