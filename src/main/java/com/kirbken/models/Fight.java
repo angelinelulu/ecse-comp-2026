@@ -24,13 +24,15 @@ public class Fight {
         double verticalDistance = Math.abs(p1.getCenterY() - p2.getCenterY());
 
         if (verticalDistance < VERTICAL_HIT_TOLERANCE) {
-            if (p1.isAttacking() && p1.isFacingToward(p2.getCenterX())
+            if (p1.canLandMeleeHit() && p1.isFacingToward(p2.getCenterX())
                 && horizontalDistance < p1.getAttackRange()) {
                 p2.takeDamage(p1.getAttackPower());
+                p1.registerMeleeHitLanded();
             }
-            if (p2.isAttacking() && p2.isFacingToward(p1.getCenterX())
+            if (p2.canLandMeleeHit() && p2.isFacingToward(p1.getCenterX())
                 && horizontalDistance < p2.getAttackRange()) {
                 p1.takeDamage(p2.getAttackPower());
+                p2.registerMeleeHitLanded();
             }
         }
     }
