@@ -54,7 +54,7 @@
             "ranking_tier": "B",
             "stats": {
                 "health_points": 150,
-                "attack_power": 30,
+                "attack_power": 25,
                 "defense_rating": 14,
                 "speed_velocity": 15
             },
