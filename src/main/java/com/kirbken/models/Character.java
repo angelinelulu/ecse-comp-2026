@@ -47,7 +47,7 @@ public class Character {
     // Without this, isAttacking() being a held-key state meant every AnimationTimer tick (~60/sec)
     // could independently call takeDamage(), effectively spamming damage far beyond intended pacing.
     private long lastMeleeHitTime = 0;
-    private static final long MELEE_COOLDOWN_NS = 400_000_000L;
+    private static final long MELEE_COOLDOWN_NS = 1_000_000_000L;
     private final double attackRange;
 
     // --- Match stats tracking ---

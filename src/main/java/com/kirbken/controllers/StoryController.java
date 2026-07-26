@@ -90,7 +90,7 @@ public class StoryController implements FxController {
         cardPromptBox.setManaged(true);
 
         String playerLabel = (GameState.getGameMode() == GameState.GameMode.MULTIPLAYER) ? "Player 1" : " ";
-        cardPromptLabel.setText(playerLabel + " would you like to insert/scan your existing Kirby card?");
+        cardPromptLabel.setText(playerLabel + " would you like to scan your existing Kirby card?");
     }
 
     private void finishTyping() {
