@@ -88,3 +88,7 @@
     -fx-border-width: 3px;
     -fx-effect: dropshadow(gaussian, gold, 10, 0.6, 0, 0);
 }
+
+#round_transition_pane {
+  -fx-background-color: pink;
+}
