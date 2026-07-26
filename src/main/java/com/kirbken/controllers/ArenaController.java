@@ -100,6 +100,8 @@ public class ArenaController implements FxController {
   private static final int QUIZ_WRONG_PENALTY = 10;
   private static final int QUIZ_CORRECT_REWARD = 15;
   private long quizPauseStartNanos = 0;
+  private static final java.util.Set<String> STRONG_MATCHUP_IDS =
+      java.util.Set.of("kirby_angelic", "kirby_buff");
 
   // Per-player quiz tallies, used to build MatchStats at the end of the match.
   private int p1QuizCorrect = 0;
@@ -134,10 +136,15 @@ public class ArenaController implements FxController {
     boolean isSingleplayer = GameState.getGameMode() == GameState.GameMode.SINGLEPLAYER;
 
     if (isSingleplayer) {
-      p2Profile =
-          (GameState.getCurrentRound() == 1)
-              ? CharacterRegistry.getVexthorn()
-              : CharacterRegistry.getVexthornBoss();
+      if (GameState.getCurrentRound() == 1) {
+        p2Profile = CharacterRegistry.getVexthorn();
+      } else {
+        boolean playerIsStrong = STRONG_MATCHUP_IDS.contains(p1Profile.getId());
+        p2Profile =
+            playerIsStrong
+                ? CharacterRegistry.getVexthornBossStrong()
+                : CharacterRegistry.getVexthornBoss();
+      }
 
       if (GameState.getCurrentRound() == 2) {
         var bgUrl = getClass().getResource("/images/arena2.png");
@@ -148,8 +155,6 @@ public class ArenaController implements FxController {
         }
       }
     } else {
-      // Multiplayer: P2 is a real player who scanned their own card — Kirby vs Kirby, no Vexthorn,
-      // no rounds
       p2Profile = GameState.getSelectedCharacterP2();
       System.out.println(
           "ARENA LOADED CHARACTER P2: "
@@ -479,33 +484,33 @@ public class ArenaController implements FxController {
       return;
     }
 
-      Projectile projectile = new Projectile(
-          stickImage,
-          thrower.getX() + 400,
-          500,
-          thrower.isFacingRight(),
-          PROJECTILE_SPEED,
-          thrower.rollAttackDamage(),
-          rootPane,
-          thrower
-      );
-      projectiles.add(projectile);
+    Projectile projectile =
+        new Projectile(
+            stickImage,
+            thrower.getX() + 400,
+            500,
+            thrower.isFacingRight(),
+            PROJECTILE_SPEED,
+            thrower.rollAttackDamage(),
+            rootPane,
+            thrower);
+    projectiles.add(projectile);
   }
 
   private void updateProjectiles() {
-      Iterator<Projectile> it = projectiles.iterator();
-      while (it.hasNext()) {
-          Projectile p = it.next();
-          boolean stillActive = p.update();
+    Iterator<Projectile> it = projectiles.iterator();
+    while (it.hasNext()) {
+      Projectile p = it.next();
+      boolean stillActive = p.update();
 
-          if (stillActive) {
-              Character target = (p.getThrower() == p1) ? p2 : p1;
-              if (p.checkHit(target, CHARACTER_WIDTH)) {
-                  target.takeDamage(p.getDamage());
-                  p.deactivate();
-                  stillActive = false;
-              }
-          }
+      if (stillActive) {
+        Character target = (p.getThrower() == p1) ? p2 : p1;
+        if (p.checkHit(target, CHARACTER_WIDTH)) {
+          target.takeDamage(p.getDamage());
+          p.deactivate();
+          stillActive = false;
+        }
+      }
 
       if (!stillActive) {
         rootPane.getChildren().remove(p.getView());
@@ -529,7 +534,7 @@ public class ArenaController implements FxController {
     return rect;
   }
 
-private void handleTimeUp() {
+  private void handleTimeUp() {
     musicManager.stopSound("arena");
     musicManager.playSound("lose", 0.7);
     boolean isMultiplayer = GameState.getGameMode() == GameState.GameMode.MULTIPLAYER;
@@ -540,15 +545,16 @@ private void handleTimeUp() {
         new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.2));
 
     if (isMultiplayer) {
-        MatchStats p2Stats = buildMatchStats(p2, p1, p2QuizCorrect, p2QuizWrong);
-        pause.setOnFinished(e -> manager.goToLose(p1Profile, p1Stats, p2Profile, p2Stats));
+      MatchStats p2Stats = buildMatchStats(p2, p1, p2QuizCorrect, p2QuizWrong);
+      pause.setOnFinished(e -> manager.goToLose(p1Profile, p1Stats, p2Profile, p2Stats));
     } else {
-        // Singleplayer: surviving to time limit against the boss still counts as a loss for the player
-        pause.setOnFinished(e -> manager.goToLose(p1Profile, p1Stats));
+      // Singleplayer: surviving to time limit against the boss still counts as a loss for the
+      // player
+      pause.setOnFinished(e -> manager.goToLose(p1Profile, p1Stats));
     }
 
     pause.play();
-}
+  }
 
   /** Elapsed match time in seconds, derived from the countdown timer. */
   private int getElapsedSeconds() {
