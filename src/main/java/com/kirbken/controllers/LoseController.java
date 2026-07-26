@@ -60,7 +60,7 @@ public class LoseController implements FxController {
     }
 
     javafx.application.Platform.runLater(
-        () -> KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnHome));
+        () -> KeyboardNavHelper.enableHorizontalNav(btnHome, btnHome, btnPlayAgain));
   }
 
   public void setGameOverLabel(String text) {
