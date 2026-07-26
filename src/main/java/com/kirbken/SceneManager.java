@@ -112,6 +112,26 @@ public class SceneManager {
         }
     }
 
+    public void goToLose(CharacterProfile p1Profile, MatchStats p1Stats,
+                      CharacterProfile p2Profile, MatchStats p2Stats) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/lose.fxml"));
+        Parent root = loader.load();
+
+        Object controller = loader.getController();
+        if (controller instanceof FxController fxController) {
+            fxController.setSceneManager(this);
+        }
+        if (controller instanceof LoseController loseController) {
+            loseController.setBothLosers(p1Profile, p1Stats, p2Profile, p2Stats);
+        }
+
+        setRoot(root);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
     public void goToSettings() {
         loadFXML("/fxml/settings.fxml");
     }

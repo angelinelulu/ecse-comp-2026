@@ -1,6 +1,8 @@
 package com.kirbken.controllers;
 
 import com.kirbken.SceneManager;
+import com.kirbken.utils.QuizManager;
+
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,6 +29,8 @@ public class StartController implements FxController {
             return;
         }
         isTransitioning = true;
+
+        QuizManager.getInstance().setQuizModeEnabled(false);
 
         FadeTransition fadeOut = new FadeTransition(Duration.millis(400), startRootPane);
         fadeOut.setFromValue(1.0);
