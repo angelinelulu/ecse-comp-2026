@@ -407,21 +407,21 @@ public class ArenaController implements FxController {
   }
 
   private void updateHealthBars() {
-    int p1Lit = (int) Math.ceil((p1.getHealth() / (double) p1.getMaxHealth()) * 8);
-    int p2Lit = (int) Math.ceil((p2.getHealth() / (double) p2.getMaxHealth()) * 8);
+      int p1Lit = (int) Math.ceil((p1.getHealth() / (double) p1.getMaxHealth()) * 8);
+      int p2Lit = (int) Math.ceil((p2.getHealth() / (double) p2.getMaxHealth()) * 8);
 
-    for (int i = 0; i < p1Segments.length; i++) {
-      p1Segments[i].setStyle(
-          i < p1Lit
-              ? "-fx-background-color: #fb5dd4; -fx-background-radius: 2;"
-              : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
-    }
-    for (int i = 0; i < p2Segments.length; i++) {
-      p2Segments[i].setStyle(
-          i < p2Lit
-              ? "-fx-background-color: #8400ff; -fx-background-radius: 2;"
-              : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
-    }
+      for (int i = 0; i < p1Segments.length; i++) {
+          p1Segments[i].setStyle(
+              i < p1Lit
+                  ? "-fx-background-color: #fb5dd4; -fx-background-radius: 2;"
+                  : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
+      }
+      for (int i = 0; i < p2Segments.length; i++) {
+          p2Segments[i].setStyle(
+              i < p2Lit
+                  ? "-fx-background-color: #8400ff; -fx-background-radius: 2;"
+                  : "-fx-background-color: #1a1a1a; -fx-background-radius: 2;");
+      }
   }
 
   private String formatTime(int totalSeconds) {
@@ -659,7 +659,9 @@ private void handleTimeUp() {
 
     if (wasCorrect) {
       Character opponent = (submittingPlayer == 1) ? p2 : p1;
+      System.out.println("BEFORE quiz damage - opponent health: " + opponent.getHealth());
       opponent.takeDamage(QUIZ_CORRECT_REWARD);
+      System.out.println("AFTER quiz damage - opponent health: " + opponent.getHealth());
       if (submittingPlayer == 1) p1QuizCorrect++;
       else p2QuizCorrect++;
     } else {
