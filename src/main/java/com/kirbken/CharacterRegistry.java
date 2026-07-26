@@ -38,7 +38,7 @@ public class CharacterRegistry {
 
     private static final CharacterProfile VEXTHORN = new CharacterProfile(
         "vexthorn_basic", "Vexthorn", "/images/vexthorn_basic.png",
-        100, 11, 7, 3,
+        100, 8, 6, 3,
         "B", "Shadow Claw", "Dark Pulse", "Abyssal Ruin",
         "Menacing horned entity born from the crack beneath the Starwell"
     );
