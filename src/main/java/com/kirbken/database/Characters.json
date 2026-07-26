@@ -38,9 +38,9 @@
             "ranking_tier": "C",
             "stats": {
                 "health_points": 130,
-                "attack_power": 24,
+                "attack_power": 18,
                 "defense_rating": 10,
-                "speed_velocity": 12
+                "speed_velocity": 9
             },
             "combat_mechanics": {
                 "primary_action": "Spark Discharge",
