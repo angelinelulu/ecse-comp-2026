@@ -37,7 +37,7 @@ public class WinController implements FxController {
             javafx.scene.text.Font.loadFont(fontUrl.toExternalForm(), 28);
         }
         javafx.application.Platform.runLater(() -> {
-            KeyboardNavHelper.enableHorizontalNav(btnPlayAgain, btnPlayAgain, btnHome);
+            KeyboardNavHelper.enableHorizontalNav(btnHome, btnHome, btnPlayAgain);
         });
     }
 

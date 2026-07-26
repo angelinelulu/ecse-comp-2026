@@ -7,44 +7,32 @@ import javafx.scene.input.KeyCode;
 
 public class KeyboardNavHelper {
 
-    /**
-     * Enables left/right (and A/D) arrow-key focus traversal between a horizontal
-     * row of buttons, plus lets Tab/Shift+Tab work as usual. Call once per screen,
-     * after the scene is available (e.g. inside Platform.runLater in initialize()).
-     */
     public static void enableHorizontalNav(Node anchorNode, Button... buttonsInOrder) {
-        Scene scene = anchorNode.getScene();
-        if (scene == null) return;
-
-        scene.setOnKeyPressed(e -> {
-            int currentIndex = -1;
-            for (int i = 0; i < buttonsInOrder.length; i++) {
-                if (buttonsInOrder[i].isFocused()) {
-                    currentIndex = i;
-                    break;
-                }
-            }
-
-            if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT) {
-                int nextIndex = (currentIndex <= 0) ? 0 : currentIndex - 1;
-                buttonsInOrder[nextIndex].requestFocus();
-            } else if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) {
-                int nextIndex = (currentIndex == -1) ? 0 : Math.min(currentIndex + 1, buttonsInOrder.length - 1);
-                buttonsInOrder[nextIndex].requestFocus();
-            }
-        });
-
-        // Ensure something is focused by default so arrow keys work immediately
-        if (buttonsInOrder.length > 0) {
-            buttonsInOrder[0].requestFocus();
-        }
+        runWhenSceneReady(anchorNode, scene -> wireNav(scene, KeyCode.A, KeyCode.LEFT, KeyCode.D, KeyCode.RIGHT, buttonsInOrder));
     }
 
-    /** Same idea as enableHorizontalNav, but for up/down (and W/S) navigation through a vertical list. */
     public static void enableVerticalNav(Node anchorNode, Button... buttonsInOrder) {
-        Scene scene = anchorNode.getScene();
-        if (scene == null) return;
+        runWhenSceneReady(anchorNode, scene -> wireNav(scene, KeyCode.W, KeyCode.UP, KeyCode.S, KeyCode.DOWN, buttonsInOrder));
+    }
 
+    private static void runWhenSceneReady(Node anchorNode, java.util.function.Consumer<Scene> onReady) {
+        Scene existing = anchorNode.getScene();
+        if (existing != null) {
+            onReady.accept(existing);
+            return;
+        }
+        anchorNode.sceneProperty().addListener(new javafx.beans.value.ChangeListener<>() {
+            @Override
+            public void changed(javafx.beans.value.ObservableValue<? extends Scene> obs, Scene oldScene, Scene newScene) {
+                if (newScene != null) {
+                    anchorNode.sceneProperty().removeListener(this);
+                    onReady.accept(newScene);
+                }
+            }
+        });
+    }
+
+    private static void wireNav(Scene scene, KeyCode backA, KeyCode backB, KeyCode fwdA, KeyCode fwdB, Button... buttonsInOrder) {
         scene.setOnKeyPressed(e -> {
             int currentIndex = -1;
             for (int i = 0; i < buttonsInOrder.length; i++) {
@@ -54,10 +42,10 @@ public class KeyboardNavHelper {
                 }
             }
 
-            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP) {
+            if (e.getCode() == backA || e.getCode() == backB) {
                 int nextIndex = (currentIndex <= 0) ? 0 : currentIndex - 1;
                 buttonsInOrder[nextIndex].requestFocus();
-            } else if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN) {
+            } else if (e.getCode() == fwdA || e.getCode() == fwdB) {
                 int nextIndex = (currentIndex == -1) ? 0 : Math.min(currentIndex + 1, buttonsInOrder.length - 1);
                 buttonsInOrder[nextIndex].requestFocus();
             }
