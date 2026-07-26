@@ -45,7 +45,7 @@ public class CharacterRegistry {
 
     private static final CharacterProfile VEXTHORN_BOSS = new CharacterProfile(
         "vexthorn_boss", "Vexthorn (Boss Form)", "/images/vexthorn_boss.png",
-        200, 22, 14, 7,
+        200, 14, 10, 7,
         "S", "Shadow Claw", "Dark Pulse", "Abyssal Ruin",
         "Vexthorn's true, unleashed form — larger, faster, and far more dangerous"
     );
