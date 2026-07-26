@@ -407,8 +407,8 @@ public class ArenaController implements FxController {
   }
 
   private void updateHealthBars() {
-      int p1Lit = (int) Math.floor((p1.getHealth() / (double) p1.getMaxHealth()) * 8);
-      int p2Lit = (int) Math.floor((p2.getHealth() / (double) p2.getMaxHealth()) * 8);
+      int p1Lit = (int) Math.ceil((p1.getHealth() / (double) p1.getMaxHealth()) * 8);
+      int p2Lit = (int) Math.ceil((p2.getHealth() / (double) p2.getMaxHealth()) * 8);
 
       for (int i = 0; i < p1Segments.length; i++) {
           p1Segments[i].setStyle(
